@@ -1,10 +1,12 @@
 @extends('layouts.app')
 
 @section('head')
-    <link rel="stylesheet" href="{{ asset('css/register.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/auth/user/register.css') }}">
 @endsection
 
 @section('content')
+
+<div class="register-wrapper">
 
     <h1 class="title">会員登録</h1>
 
@@ -13,7 +15,7 @@
 
         {{-- 名前 --}}
         <div class="form-group">
-            <label>名前</label>
+            <label for="name">名前</label>
             <input type="text" name="name" value="{{ old('name') }}">
 
             @error('name')
@@ -59,5 +61,5 @@
     <div class="login-link">
         <a href="{{ route('login') }}">ログインはこちら</a>
     </div>
-
+</div>
 @endsection
