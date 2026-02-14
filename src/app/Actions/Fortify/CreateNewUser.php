@@ -2,7 +2,7 @@
 
 namespace App\Actions\Fortify;
 
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\User\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\Contracts\CreatesNewUsers;

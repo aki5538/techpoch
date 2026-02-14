@@ -13,28 +13,29 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
 
+use App\Http\Requests\User\LoginRequest;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
 class FortifyServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
+        // プロフィール更新・パスワード更新・リセット
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
+        // ログイン試行のレート制限
         RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
-
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
             return Limit::perMinute(5)->by($throttleKey);
         });
 
@@ -42,7 +43,7 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
-        // 一般ユーザー専用 guard を使用
+        // 一般ユーザー専用 guard
         config(['fortify.guard' => 'user']);
 
         // 会員登録画面
@@ -50,22 +51,50 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.user.register');
         });
 
-        Fortify::createUsersUsing(\App\Actions\Fortify\CreateNewUser::class);
+        // 登録処理
+        Fortify::createUsersUsing(CreateNewUser::class);
 
-        // ログイン画面（US002 で使うが、ここで定義しておく）
+        // 登録後の遷移先（仕様書 FN005）
+        Fortify::redirects('register', '/clock');
+
+        // ログイン画面
         Fortify::loginView(function () {
             return view('auth.user.login');
         });
 
-        // 認証処理（一般ユーザー専用）
-        Fortify::authenticateUsing(function ($request) {
-            $user = User::where('email', $request->email)->first();
+        // ログイン処理を LoginRequest に差し替え（仕様書 FN006〜FN009） ★★★
+        app()->bind(
+            AuthenticatedSessionController::class,
+            function () {
+                return new class extends AuthenticatedSessionController {
+                    public function store(LoginRequest $request)
+                    {
+                        // 認証試行
+                        if (! auth()->guard('user')->attempt($request->only('email', 'password'))) {
+                            return back()
+                                ->withInput()
+                                ->with('status', 'login-error'); // 仕様書 FN009
+                        }
 
-            if ($user && Hash::check($request->password, $user->password)) {
-                return $user;
+                        // メール認証チェック（仕様書 FN011）
+                        if (! auth()->user()->hasVerifiedEmail()) {
+                            auth()->logout();
+                            return redirect('/email/verify');
+                        }
+
+                        $request->session()->regenerate();
+                        return redirect()->intended(config('fortify.home'));
+                    }
+                };
             }
+        );
 
-            return null;
+        // メール認証誘導画面（仕様書 FN011） ★★★
+        Fortify::verifyEmailView(function () {
+            return view('auth.user.verify-email');
         });
+
+        // 認証メール再送（仕様書 FN012） ★★★
+        // Fortify の verification.send が自動で動くので追加コード不要
     }
 }
