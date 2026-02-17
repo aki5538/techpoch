@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ログイン</title>
+@extends('layouts.app')
+
+@section('head')
     <link rel="stylesheet" href="{{ asset('css/auth/user/login.css') }}">
-</head>
-<body>
+@endsection
+
+@section('content')
 
 <div class="register-wrapper">
 
@@ -41,7 +39,6 @@
             <a href="{{ route('register') }}">会員登録はこちら</a>
         </p>
 
-        <!-- 認証エラー（ログイン情報が登録されていません） -->
         @if(session('status') === 'login-error')
             <p class="error-message">ログイン情報が登録されていません</p>
         @endif
@@ -50,6 +47,5 @@
 
 </div>
 
-</body>
-</html>
+@endsection
 

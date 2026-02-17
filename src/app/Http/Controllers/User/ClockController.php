@@ -4,6 +4,10 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use App\Models\Attendance;
+use App\Models\BreakTime;
 
 class ClockController extends Controller
 {
@@ -46,7 +50,7 @@ class ClockController extends Controller
             ->first();
 
         if ($attendance) {
-            return redirect()->route('user.clock');
+            return redirect()->route('user.attendance');
         }
 
         // 勤怠レコード作成
@@ -57,7 +61,36 @@ class ClockController extends Controller
             'status'    => '出勤中',
         ]);
 
-        return redirect()->route('user.clock');
+        return redirect()->route('user.attendance');
+    }
+
+    public function breakIn(Request $request)
+    {
+        $user = Auth::user();
+        $todayDate = Carbon::today()->toDateString();
+
+        // 今日の勤怠を取得
+        $attendance = Attendance::where('user_id', $user->id)
+            ->where('work_date', $todayDate)
+            ->first();
+
+        // 出勤中でなければ休憩入できない
+        if (!$attendance || $attendance->status !== '出勤中') {
+            return redirect()->route('user.attendance');
+        }
+
+        // 休憩レコードを作成（何回でもOK）
+        BreakTime::create([
+            'attendance_id' => $attendance->id,
+            'break_in'      => Carbon::now(),
+        ]);
+
+        // ステータスを休憩中に変更
+        $attendance->update([
+            'status' => '休憩中',
+        ]);
+
+        return redirect()->route('user.attendance');
     }
 
     public function breakOut(Request $request)
@@ -72,7 +105,7 @@ class ClockController extends Controller
 
         // 勤怠が無い or 出勤中でない場合は戻す
         if (!$attendance || $attendance->status !== '休憩中') {
-            return redirect()->route('user.clock');
+            return redirect()->route('user.attendance');
         }
 
         // break_out が null の最新レコードを取得
@@ -83,7 +116,7 @@ class ClockController extends Controller
 
         // 念のため break レコードが無い場合のガード
         if (!$break) {
-            return redirect()->route('user.clock');
+            return redirect()->route('user.attendance');
         }
 
         // break_out を保存
@@ -96,7 +129,7 @@ class ClockController extends Controller
             'status' => '出勤中',
         ]);
 
-        return redirect()->route('user.clock');
+        return redirect()->route('user.attendance');
     }
 
     public function clockOut(Request $request)
@@ -111,7 +144,7 @@ class ClockController extends Controller
 
         // 出勤中でなければ退勤できない
         if (!$attendance || $attendance->status !== '出勤中') {
-            return redirect()->route('user.clock');
+            return redirect()->route('user.attendance');
         }
 
         // 退勤時刻を保存
@@ -120,6 +153,6 @@ class ClockController extends Controller
             'status'    => '退勤済',
         ]);
 
-        return redirect()->route('user.clock');
+        return redirect()->route('user.attendance');
     }
 }

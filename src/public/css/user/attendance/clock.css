@@ -1,0 +1,203 @@
+/* 画面全体の背景 */
+.attendance-container {
+    background-color: #F0EFF2;
+    min-height: calc(100vh - 80px); /* ヘッダーを除いた高さ（仮） */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 120px; /* Figma の top:289px を調整して自然に */
+}
+
+/* この画面専用：ヘッダー右上メニュー */
+.attendance-header-menu {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 40px;
+}
+
+/* メニュー共通スタイル */
+.attendance-header-menu a,
+.attendance-header-menu button {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: #FFFFFF;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    padding: 5px 0;
+    line-height: 1;
+}
+
+.attendance-header-menu a:hover,
+.attendance-header-menu button:hover {
+    opacity: 0.7;
+}
+
+/* ステータス全体のタグ */
+.status-badge {
+    width: 100px;
+    height: 40px;
+    background-color: #C8C8C8;
+    border-radius: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 auto; /* 中央寄せ（Figma の left/top は無視して中央寄せにする） */
+}
+
+/* ステータス文字 */
+.status-badge span {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #696969;
+    letter-spacing: 0.15em; /* 15% = 0.15em */
+    line-height: 1;
+}
+
+/* 日付表示 */
+.attendance-date {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 40px;
+    color: #000000;
+    line-height: 1;
+    letter-spacing: 0;
+
+    margin-top: 40px; /* Figma の top:361px を自然な距離に調整 */
+    text-align: center;
+}
+
+/* 時刻表示 */
+.attendance-time {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 80px;
+    color: #000000;
+    line-height: 1;
+    letter-spacing: 0;
+
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* 出勤ボタン */
+.clockin-btn {
+    width: 221px;
+    height: 77px;
+    background-color: #000000;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 40px;
+}
+
+/* 出勤ボタンの文字 */
+.clockin-btn span {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: #FFFFFF;
+    letter-spacing: 0.15em;
+    line-height: 1;
+}
+
+/* 出勤後：退勤ボタン（黒） */
+.clockout-btn {
+    width: 221px;
+    height: 77px;
+    background-color: #000000;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 40px;
+}
+
+.clockout-btn span {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: #FFFFFF;
+    letter-spacing: 0.15em;
+    line-height: 1;
+}
+
+/* 出勤後：休憩入ボタン（白） */
+.breakin-btn {
+    width: 221px;
+    height: 77px;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 40px;
+}
+
+.breakin-btn span {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: #000000;
+    letter-spacing: 0.15em;
+    line-height: 1;
+}
+
+/* 休憩中：休憩戻ボタン（白） */
+.breakout-btn {
+    width: 221px;
+    height: 77px;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 40px;
+}
+
+.breakout-btn span {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: #000000;
+    letter-spacing: 0.15em;
+    line-height: 1;
+}
+
+/* 退勤済：メッセージ表示 */
+.finished-message {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: #000000;
+    letter-spacing: 0.15em;
+    line-height: 1;
+    text-align: center;
+
+    margin-top: 40px;
+}

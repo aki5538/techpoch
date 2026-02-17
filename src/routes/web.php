@@ -16,20 +16,28 @@ use App\Http\Controllers\User\ClockController;
 
 Route::middleware(['auth:user'])->group(function () {
 
-    // 打刻画面
-    Route::get('/clock', [ClockController::class, 'index'])->name('user.clock');
+    // 打刻画面（仕様書 PG03）
+    Route::get('/attendance', [ClockController::class, 'index'])->name('user.attendance');
 
     // 出勤
-    Route::post('/clock/in', [ClockController::class, 'clockIn'])->name('user.clock.in');
+    Route::post('/attendance/clock-in', [ClockController::class, 'clockIn'])->name('user.clock.in');
 
     // 休憩入
-    Route::post('/break/in', [ClockController::class, 'breakIn'])->name('user.break.in');
+    Route::post('/attendance/break-in', [ClockController::class, 'breakIn'])->name('user.break.in');
 
     // 休憩戻
-    Route::post('/break/out', [ClockController::class, 'breakOut'])->name('user.break.out');
+    Route::post('/attendance/break-out', [ClockController::class, 'breakOut'])->name('user.break.out');
 
     // 退勤
-    Route::post('/clock/out', [ClockController::class, 'clockOut'])->name('user.clock.out');
+    Route::post('/attendance/clock-out', [ClockController::class, 'clockOut'])->name('user.clock.out');
+
+    // 勤怠一覧（PG04）
+    Route::get('/attendance/list', [AttendanceController::class, 'list'])
+        ->name('user.attendance.list');
+
+    // 勤怠詳細（PG05）
+    Route::get('/attendance/detail/{id}', [AttendanceController::class, 'detail'])
+        ->name('user.attendance.detail');
 });
 
 

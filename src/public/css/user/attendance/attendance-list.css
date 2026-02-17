@@ -1,0 +1,229 @@
+.attendance-list-container {
+    width: 1512px;
+    min-height: 1980px;
+    background-color: #F0EFF2;
+    margin: 0 auto;
+    padding-top: 40px;
+}
+
+/* タイトルブロック全体（縦線＋タイトル） */
+.attendance-list-title {
+    display: flex;
+    align-items: center;
+    margin: 40px 0 20px 300px;
+}
+
+/* 左の黒い縦線 */
+.attendance-list-title-line {
+    width: 0;
+    height: 40px;
+    border-left: 8px solid #000000;
+    margin-right: 20px;
+}
+
+/* タイトル文字「勤怠一覧」 */
+.attendance-list-title-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    color: #000000;
+    letter-spacing: 0;
+    line-height: 1;
+}
+
+/* 日付バー */
+.attendance-list-date-bar {
+    width: 900px;
+    height: 60px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin: 20px auto;
+    padding: 0 30px;
+}
+
+.attendance-list-arrow-left {
+    width: 20px;
+    height: 15px;
+    opacity: 0.3; /* 30% */
+    cursor: pointer;
+}
+
+/* 左側の「前月」テキスト */
+.attendance-list-prev-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #737373;
+    letter-spacing: 0.15em;
+    line-height: 1;
+
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+/* 日付バー中央ブロック（カレンダーアイコン＋年月） */
+.attendance-list-date-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 123px;
+    height: 25px;
+}
+
+.attendance-list-calendar-icon {
+    width: 25px;
+    height: 25px;
+    opacity: 1;
+    cursor: pointer;
+}
+
+/* 「2023/06」テキスト */
+.attendance-list-date-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #000000;
+    letter-spacing: 0;
+    line-height: 1;
+
+    margin-left: 8px;
+}
+
+/* 右側の「翌月」テキスト */
+.attendance-list-next-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #737373;
+    letter-spacing: 0.15em;
+    line-height: 1;
+
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.attendance-list-arrow-right {
+    width: 20px;
+    height: 15px;
+    opacity: 0.3;
+    cursor: pointer;
+    transform: scaleX(-1);
+}
+
+/* 打刻履歴一覧の白い大枠 */
+.attendance-list-table-container {
+    width: 900px;
+    min-height: 1506px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+
+    margin: 40px auto 80px;
+    padding: 40px 50px;
+}
+
+/* テーブルヘッダー全体 */
+.attendance-list-table-header {
+    width: 900px;
+    height: 31px;
+    border: 3px solid #E1E1E1;
+    border-radius: 5px;
+
+    display: flex;
+    align-items: center;
+
+    margin: 0 auto;
+    padding-left: 40px;
+}
+
+.attendance-list-header-date {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #737373;
+    letter-spacing: 0.15em;
+    line-height: 1;
+
+    width: 35px;
+}
+
+/* テーブルヘッダーの共通スタイル */
+.attendance-list-header-item {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #737373;
+    letter-spacing: 0.15em;
+    line-height: 1;
+}
+
+/* テーブルヘッダー共通 */
+.attendance-list-header-item {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #737373;
+    letter-spacing: 0.15em;
+    line-height: 1;
+}
+
+/* カラム幅（Figma の left 差分から算出） */
+.attendance-list-header-date {
+    width: 189px;
+}
+
+.attendance-list-header-start {
+    width: 133px;
+}
+
+.attendance-list-header-end {
+    width: 133px;
+}
+
+.attendance-list-header-break {
+    width: 133px;
+}
+
+.attendance-list-header-total {
+    width: 133px;
+}
+
+.attendance-list-header-detail {
+    width: 133px;
+}
+
+/* テーブル1行分（共通） */
+.attendance-list-row {
+    width: 900px;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #E1E1E1;
+    margin: 0 auto;
+    padding-left: 40px;
+}
+
+.attendance-list-row-item {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.15em;
+    line-height: 1;
+    color: #000000;
+}
+
+.attendance-list-row-date {
+    width: 189px; 
+}
+
+.attendance-list-row-start,
+.attendance-list-row-end,
+.attendance-list-row-break,
+.attendance-list-row-total,
+.attendance-list-row-detail {
+    width: 133px;
+}
