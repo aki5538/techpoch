@@ -7,7 +7,7 @@
     {{-- この画面専用ヘッダー（ロゴ＋黒帯は共通レイアウト側） --}}
     <div class="attendance-header-menu">
         <a href="{{ route('user.attendance') }}">勤怠</a>
-        <a href="#">勤怠一覧</a>
+        <a href="{{ route('user.attendance.list') }}">勤怠一覧</a>
         <a href="#">申請</a>
 
         <form method="POST" action="{{ route('logout') }}">
