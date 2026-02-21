@@ -155,4 +155,18 @@ class ClockController extends Controller
 
         return redirect()->route('user.attendance');
     }
+
+    public function show($id)
+    {
+        // 勤怠データを1件取得
+        $attendance = Attendance::where('id', $id)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        // Blade に渡す
+        return view('user.attendance.detail', [
+            'attendance' => $attendance,
+            'user' => auth()->user(),
+        ]);
+    }
 }

@@ -36,7 +36,7 @@ Route::middleware(['auth:user'])->group(function () {
         ->name('user.attendance.list');
 
     // 勤怠詳細（PG05）
-    Route::get('/attendance/detail/{id}', [AttendanceController::class, 'detail'])
+    Route::get('/attendance/detail/{id}', [AttendanceController::class, 'show'])
         ->name('user.attendance.detail');
 });
 
