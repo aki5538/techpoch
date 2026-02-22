@@ -1,6 +1,6 @@
 .detail-container {
     width: 1512px;
-    min-height: 982px; /* Figma の height */
+    min-height: calc(100vh - 80px);
     background-color: #F0EFF2;
     margin: 0 auto;
     padding-top: 40px;
@@ -532,4 +532,31 @@
     line-height: 100%;
 }
 
+.detail-wrapper {
+    position: absolute;
+    top: 306px;
+    left: 306px;
 
+    width: 900px;
+    height: 449px;
+
+    background-color: #FFFFFF;
+    border: 1px solid #E1E1E1;
+    border-radius: 10px;
+}
+
+.detail-pending-message {
+    position: absolute;
+    top: 780px;
+    left: 865px;
+
+    width: 355px;
+    height: 21px;
+
+    font-family: Inter, sans-serif;
+    font-weight: 800; /* Extra Bold */
+    font-size: 18px;
+    color: #FF000080; /* 半透明の赤 */
+    letter-spacing: 0.15em;
+    line-height: 100%;
+}

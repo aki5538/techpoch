@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COACHTECH</title>
 
+    {{-- 画面ごとの追加ヘッダー（必要なら） --}}
     @yield('head')
-    
+
+    {{-- 画面ごとのCSS --}}
+    @yield('css')
+
     <style>
         header {
             width: 1512px;
@@ -24,11 +28,16 @@
 </head>
 <body>
 
-    <!-- 黒帯ヘッダー -->
+    <!-- 黒帯ヘッダー（ロゴのみ） -->
     <header>
         <img src="{{ asset('images/COACHTECHヘッダーロゴ (1).png') }}" alt="COACHTECH">
     </header>
 
+    {{-- 各画面の内容 --}}
     @yield('content')
+
+    {{-- 画面ごとのJS --}}
+    @yield('script')
+
 </body>
 </html>

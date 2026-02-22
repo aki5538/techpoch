@@ -38,6 +38,10 @@ Route::middleware(['auth:user'])->group(function () {
     // 勤怠詳細（PG05）
     Route::get('/attendance/detail/{id}', [AttendanceController::class, 'show'])
         ->name('user.attendance.detail');
+
+    // 申請一覧（PG06）
+    Route::get('/stamp_correction_request/list', [App\Http\Controllers\User\StampCorrectionRequestController::class, 'index'])
+        ->name('stamp_correction_request.list');
 });
 
 

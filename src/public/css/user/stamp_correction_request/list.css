@@ -1,0 +1,206 @@
+/* 画面全体の背景 */
+.page-bg {
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    background-color: #F0EFF2;
+    padding-top: 40px;
+}
+
+.page-container {
+    width: 1512px;
+    margin: 0 auto;
+}
+
+/* この画面専用：ヘッダー右上メニュー */
+.attendance-header-menu {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 40px;
+}
+
+/* メニュー共通スタイル */
+.attendance-header-menu a,
+.attendance-header-menu button {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: #FFFFFF;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    padding: 5px 0;
+    line-height: 1;
+}
+
+.attendance-header-menu a:hover,
+.attendance-header-menu button:hover {
+    opacity: 0.7;
+}
+
+.page-title-wrapper {
+    display: flex;
+    align-items: center;
+    margin-top: 158px;
+    margin-left: 314px;
+}
+
+.title-line {
+    width: 40px;
+    height: 0;
+    border: 8px solid #000000;
+    transform: rotate(90deg);
+}
+
+.page-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    color: #000000;
+    margin-left: 15px; /* Figma の left:335px - line の left:314px の差分 */
+}
+
+/* タブ全体の位置（タイトルの下に配置） */
+.tabs {
+    display: flex;
+    gap: 178px; /* Figma: 537px - 359px */
+    margin-top: 101px; /* Figma: 259px - タイトル158px */
+    margin-left: 359px; /* Figma の left に合わせる */
+}
+
+/* タブ共通 */
+.tab {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.15em; /* Figma の 15% */
+    color: #000000;
+    text-decoration: none;
+    font-weight: 400; /* デフォルトは通常 */
+}
+
+/* アクティブ（表示中）＝太字 */
+.tab.active {
+    font-weight: 700;
+}
+
+.request-list-line {
+    width: 900px;
+    height: 0;
+    border-top: 1px solid #000000;
+    margin-top: 36px;
+    margin-left: 302px;
+}
+
+.request-table-wrapper {
+    width: 900px;
+    min-height: 472px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    margin-top: 45px;
+    margin-left: 302px;
+    padding: 20px 0;
+}
+
+/* テーブルヘッダー全体（Figma の帯） */
+.request-table thead {
+    width: 900px;
+    height: 32px;
+    border-bottom: 3px solid #E1E1E1;
+}
+
+/* ヘッダー共通 */
+.request-table th {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.15em; /* 15% */
+    color: #737373;
+    text-align: left;
+}
+
+/* 各列の幅（Figma の width をそのまま反映） */
+.request-table th:nth-child(1) { width: 72px; } /* 状態 */
+.request-table th:nth-child(2) { width: 53px; } /* 名前 */
+.request-table th:nth-child(3) { width: 95px; } /* 対象日時 */
+.request-table th:nth-child(4) { width: 90px; } /* 申請理由 */
+.request-table th:nth-child(5) { width: 97px; } /* 申請日時 */
+.request-table th:nth-child(6) { width: 35px; } /* 詳細 */
+
+.request-table-divider {
+    width: 900px;
+    height: 0;
+    border-top: 3px solid #E1E1E1;
+    margin-top: 32px;
+    margin-left: 0;
+}
+
+/* ▼ 表示部分（1行分）Group 12 */
+.request-table tbody tr {
+    width: 900px;
+    height: 33px;
+    border-bottom: 2px solid #E1E1E1;
+}
+
+/* 1：状態 */
+.request-table td:nth-child(1) {
+    width: 72px;
+    font-family: 'Inter';
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #737373;
+}
+
+/* 2：名前（例：西伶奈） */
+.request-table td:nth-child(2) {
+    width: 53px;
+    font-family: 'Inter';
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #737373;
+}
+
+/* 3：対象日時（例：2023/06/01） */
+.request-table td:nth-child(3) {
+    width: 95px;
+    font-family: 'Inter';
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0em; /* Figma: 0% */
+    color: #737373;
+}
+
+/* 4：申請理由（例：遅延のため） */
+.request-table td:nth-child(4) {
+    width: 90px;
+    font-family: 'Inter';
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #737373;
+}
+
+/* 5：申請日時（例：2023/06/02） */
+.request-table td:nth-child(5) {
+    width: 97px;
+    font-family: 'Inter';
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0em; /* Figma: 0% */
+    color: #737373;
+}
+
+/* 6：詳細（ここだけ黒） */
+.request-table td:nth-child(6) {
+    width: 35px;
+    font-family: 'Inter';
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #000000;
+}
+
