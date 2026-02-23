@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\ClockController;
+use App\Http\Controllers\Admin\AdminLoginController;
+use App\Http\Controllers\Admin\AdminAttendanceController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -38,10 +41,18 @@ Route::middleware(['auth:user'])->group(function () {
     // 勤怠詳細（PG05）
     Route::get('/attendance/detail/{id}', [AttendanceController::class, 'show'])
         ->name('user.attendance.detail');
-
+    Route::post('/attendance/detail/{id}/correction',[StampCorrectionRequestController::class, 'store'])
+        ->name('stamp_correction_request.store');
     // 申請一覧（PG06）
     Route::get('/stamp_correction_request/list', [App\Http\Controllers\User\StampCorrectionRequestController::class, 'index'])
         ->name('stamp_correction_request.list');
 });
 
+Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm']);
+Route::post('/admin/login', [AdminLoginController::class, 'login']);
+
+Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/admin/attendance/list', [AdminAttendanceController::class, 'index'])
+        ->name('admin.attendance.list');
+});
 

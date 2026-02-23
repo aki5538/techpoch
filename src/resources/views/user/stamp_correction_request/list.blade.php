@@ -57,9 +57,9 @@
                             <tr>
                                 <td>承認待ち</td>
                                 <td>{{ $item->user->name }}</td>
-                                <td>{{ $item->attendance->work_date }}</td>
+                                <td>{{ $item->attendance->work_date->format('Y年n月j日') }}</td>
                                 <td>{{ $item->reason }}</td>
-                                <td>{{ $item->created_at->format('Y/m/d') }}</td>
+                                <td>{{ $item->created_at->format('Y年n月j日') }}</td>
                                 <td>
                                     <a href="{{ route('attendance.detail', ['id' => $item->attendance_id]) }}" class="detail-link">
                                         詳細
@@ -97,9 +97,9 @@
                             <tr>
                                 <td>承認済み</td>
                                 <td>{{ $item->user->name }}</td>
-                                <td>{{ $item->attendance->work_date }}</td>
+                                <td>{{ $item->attendance->work_date->format('Y年n月j日') }}</td>
                                 <td>{{ $item->reason }}</td>
-                                <td>{{ $item->created_at->format('Y/m/d') }}</td>
+                                <td>{{ $item->created_at->format('Y年n月j日') }}</td>
                                 <td>
                                     <a href="{{ route('attendance.detail', ['id' => $item->attendance_id]) }}" class="detail-link">
                                         詳細

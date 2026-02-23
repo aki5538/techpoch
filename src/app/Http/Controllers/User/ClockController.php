@@ -159,9 +159,10 @@ class ClockController extends Controller
     public function show($id)
     {
         // 勤怠データを1件取得
-        $attendance = Attendance::where('id', $id)
-            ->where('user_id', auth()->id())
-            ->firstOrFail();
+        $attendance = Attendance::with('correctionRequest', 'breakTimes')
+        ->where('id', $id)
+        ->where('user_id', auth()->id())
+        ->firstOrFail();
 
         // Blade に渡す
         return view('user.attendance.detail', [

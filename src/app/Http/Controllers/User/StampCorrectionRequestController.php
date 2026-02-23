@@ -26,4 +26,16 @@ class StampCorrectionRequestController extends Controller
 
         return view('user.stamp_correction_request.list', compact('pending', 'approved'));
     }
+
+    public function store($attendanceId)
+    {
+        StampCorrectionRequest::create([
+            'user_id' => Auth::id(),
+            'attendance_id' => $attendanceId,
+            'reason' => 'ユーザーによる修正申請',
+            'status' => 'pending',
+        ]);
+
+        return redirect()->route('stamp_correction_request.list');
+    }
 }

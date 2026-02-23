@@ -1,0 +1,147 @@
+/* ログイン画面全体の枠 */
+.admin-login-wrapper {
+    position: relative;
+    width: 1512px;
+    height: 982px;
+    background-color: #FFFFFF;
+    margin: 0 auto;
+}
+
+/* タイトル：管理者ログイン */
+.admin-login-title {
+    position: absolute;
+    top: 188px;
+    left: 630px;
+
+    width: 252px;
+    height: 44px;
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 100%;
+    letter-spacing: 0;
+
+    text-align: center;
+    color: #000000;
+}
+
+.admin-login-label-email {
+    position: absolute;
+    top: 304px;
+    left: 416px;
+
+    width: 205px;
+    height: 36px;
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0;
+    color: #000000;
+}
+
+.admin-login-input-email {
+    position: absolute;
+    top: 340px;
+    left: 416px;
+
+    width: 680px;
+    height: 60px;
+
+    border: 1px solid #000000;
+    border-radius: 4px;
+
+    font-size: 20px;
+    padding: 0 12px;
+}
+
+.admin-login-label-password {
+    position: absolute;
+    top: 470px;
+    left: 416px;
+
+    width: 205px;
+    height: 36px;
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0;
+    color: #000000;
+}
+
+.admin-login-input-password {
+    position: absolute;
+    top: 505px;
+    left: 416px;
+
+    width: 680px;
+    height: 60px;
+
+    border: 1px solid #000000;
+    border-radius: 4px;
+
+    font-size: 20px;
+    padding: 0 12px;
+}
+
+.admin-login-button {
+    position: absolute;
+    top: 670px;
+    left: 416px;
+
+    width: 680px;
+    height: 60px;
+
+    background-color: #000000;
+    border-radius: 5px;
+    border: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+}
+
+.admin-login-button-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 100%;
+    letter-spacing: 0;
+
+    color: #FFFFFF;
+}
+
+.error-message {
+    margin-top: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    color: red;
+}
+
+.admin-login-error-email {
+    position: absolute;
+    top: 410px;
+    left: 416px;
+}
+
+.admin-login-error-password {
+    position: absolute;
+    top: 575px;
+    left: 416px;
+}
+
+.admin-login-error-login {
+    position: absolute;
+    top: 250px;  /* タイトルの下に自然に配置 */
+    left: 416px;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    color: red;
+}
