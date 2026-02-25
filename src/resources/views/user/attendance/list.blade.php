@@ -40,7 +40,7 @@
         </a>
 
         {{-- →（画像） --}}
-        <img src="{{ asset('images/user/attendance/arrow-right.png') }}" class="date-next-icon">
+        <img src="{{ asset('images/user/attendance/arrow-left.png') }}" class="date-next-icon">
 
     </div>
 

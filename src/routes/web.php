@@ -52,7 +52,25 @@ Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm']);
 Route::post('/admin/login', [AdminLoginController::class, 'login']);
 
 Route::middleware(['auth:admin'])->group(function () {
+    
+     // PG11：スタッフ別月次勤怠一覧
+    Route::get('/admin/attendance/staff/{id}', [AdminAttendanceController::class, 'staffMonthly'])
+        ->name('admin.attendance.staff.monthly');
+    // PG08：勤怠一覧
     Route::get('/admin/attendance/list', [AdminAttendanceController::class, 'index'])
         ->name('admin.attendance.list');
+    // PG09：勤怠詳細（表示）
+    Route::get('/admin/attendance/{id}', [AdminAttendanceController::class, 'show'])
+        ->name('admin.attendance.detail');
+
+    // PG09：勤怠詳細（修正）
+    Route::post('/admin/attendance/{id}', [AdminAttendanceController::class, 'update'])
+        ->name('admin.attendance.update');
+
+    // PG10
+    Route::get('/admin/staff/list', [AdminStaffController::class, 'list'])
+    ->name('admin.staff.list');
 });
+
+
 

@@ -1,17 +1,17 @@
 /* 黒帯（header）の上に重ねるナビ */
 .admin-nav {
     position: absolute;
-    top: 0;      /* 黒帯の中に重ねる */
+    top: 0;
     left: 0;
     width: 100%;
-    height: 80px; /* 黒帯と同じ高さ */
+    height: 80px;
 }
 
 /* 共通スタイル（4つとも同じ） */
 .admin-nav a,
 .admin-nav button {
     position: absolute;
-    top: 26px; /* Figma 値 */
+    top: 26px;
 
     font-family: 'Inter', sans-serif;
     font-weight: 700;
@@ -49,18 +49,18 @@
 /* タイトルブロック全体（位置合わせ用） */
 .page-title-block {
     position: absolute;
-    top: 171px;   /* Figma 値 */
-    left: 306px;  /* Figma 値（棒の left） */
-    height: 36px; /* タイトル高さに合わせる */
+    top: 171px;
+    left: 306px;
+    height: 36px;
 }
 
 /* 左の黒い棒（Line 2） */
 .title-line {
     position: absolute;
-    width: 40px;       /* Figma */
-    height: 0px;       /* Figma */
-    border: 8px solid #000000; /* Figma */
-    transform: rotate(90deg);  /* angle: 90deg */
+    width: 40px;
+    height: 0px;
+    border: 8px solid #000000;
+    transform: rotate(90deg);
     top: 0;
     left: 0;
 }
@@ -108,8 +108,8 @@
 /* 「前日」テキスト */
 .date-prev-text {
     position: absolute;
-    top: 21px;   /* 275 - 254 */
-    left: 52px;  /* 358 - 306 */
+    top: 21px;
+    left: 52px;
     width: 35px;
     height: 19px;
 
@@ -129,8 +129,8 @@
     position: absolute;
     width: 25px;
     height: 25px;
-    top: 14px;    /* 268 - 254 */
-    left: 372px;  /* 678 - 306 */
+    top: 14px;
+    left: 372px;
 }
 
 
@@ -194,7 +194,7 @@
 /* テーブルヘッダー行 */
 .attendance-list-table thead tr {
     position: absolute;
-    top: 15px; /* 375 - 360 */
+    top: 15px;
     left: 0;
     width: 900px;
     height: 31px;

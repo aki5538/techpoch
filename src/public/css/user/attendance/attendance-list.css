@@ -61,7 +61,7 @@
     line-height: 1;
 }
 
-/* 日付バー */
+/* ▼ 日付バー（全体） */
 .attendance-list-date-bar {
     width: 900px;
     height: 60px;
@@ -76,27 +76,27 @@
     padding: 0 30px;
 }
 
-.attendance-list-arrow-left {
+/* ←アイコン */
+.date-prev-icon {
     width: 20px;
     height: 15px;
-    opacity: 0.3; /* 30% */
+    opacity: 0.3;
     cursor: pointer;
 }
 
-/* 左側の「前月」テキスト */
-.attendance-list-prev-text {
+/* 前月テキスト */
+.date-prev-text {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 16px;
     color: #737373;
     letter-spacing: 0.15em;
     line-height: 1;
-
     margin-left: 10px;
     cursor: pointer;
 }
 
-/* 日付バー中央ブロック（カレンダーアイコン＋年月） */
+/* カレンダー＋年月の中央ブロック */
 .attendance-list-date-center {
     display: flex;
     align-items: center;
@@ -105,39 +105,38 @@
     height: 25px;
 }
 
-.attendance-list-calendar-icon {
+/* カレンダー画像 */
+.date-calendar-icon {
     width: 25px;
     height: 25px;
     opacity: 1;
-    cursor: pointer;
 }
 
-/* 「2023/06」テキスト */
-.attendance-list-date-text {
+/* 年月（例：2023/06） */
+.date-current {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 20px;
     color: #000000;
     letter-spacing: 0;
     line-height: 1;
-
     margin-left: 8px;
 }
 
-/* 右側の「翌月」テキスト */
-.attendance-list-next-text {
+/* 翌月テキスト */
+.date-next-text {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 16px;
     color: #737373;
     letter-spacing: 0.15em;
     line-height: 1;
-
     margin-right: 10px;
     cursor: pointer;
 }
 
-.attendance-list-arrow-right {
+/* →アイコン（←を反転） */
+.date-next-icon {
     width: 20px;
     height: 15px;
     opacity: 0.3;

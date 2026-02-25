@@ -1,23 +1,25 @@
-.detail-container {
-    width: 1512px;
-    min-height: calc(100vh - 80px);
-    background-color: #F0EFF2;
-    margin: 0 auto;
-    padding-top: 40px;
+/* 画面全体 */
+body {
+    margin: 0;
+    padding: 0;
+    background: #F0EFF2;
+    font-family: 'Inter', sans-serif;
 }
 
-/* この画面専用：ヘッダー右上メニュー */
-.attendance-header-menu {
-    display: flex;
-    gap: 40px;
-    align-items: center;
-    margin-left: auto;
-    margin-right: 40px;
+/* 管理者ヘッダー */
+.admin-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
 }
 
-/* メニュー共通スタイル */
-.attendance-header-menu a,
-.attendance-header-menu button {
+.admin-nav a,
+.admin-nav button {
+    position: absolute;
+    top: 26px;
+
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 24px;
@@ -26,454 +28,336 @@
     background: none;
     border: none;
     cursor: pointer;
-
-    padding: 5px 0;
-    line-height: 1;
 }
 
-.attendance-header-menu a:hover,
-.attendance-header-menu button:hover {
-    opacity: 0.7;
-}
+/* 個別 left 値（Figma 通り） */
+.nav-attendance { left: 857px; width: 96px; }
+.nav-staff      { left: 996px; width: 144px; }
+.nav-request    { left: 1195px; width: 96px; }
+.nav-logout     { left: 1346px; width: 120px; }
 
+/* タイトル（棒 + 勤怠詳細） */
 .detail-header {
     display: flex;
     align-items: center;
-    margin-top: 158px;   /* Figma の top に合わせる */
-    margin-left: 314px;  /* Figma の left に合わせる */
+    position: absolute;
+    top: 158px;
+    left: 314px;
 }
 
-/* 黒縦棒 */
 .detail-header .bar {
     width: 40px;
     height: 0;
     border: 8px solid #000000;
     transform: rotate(90deg);
-    margin-right: 15px; /* Figma の left 差分 335 - 314 = 21px → 少し調整 */
+    margin-right: 15px;
 }
 
-/* タイトル文字 */
 .detail-header .title {
     font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 30px;
     color: #000000;
-    line-height: 100%;
 }
 
+/* 白い大枠 */
+.detail-wrapper {
+    position: absolute;
+    top: 306px;
+    left: 306px;
+    width: 900px;
+    height: 449px;
+    background-color: #FFFFFF;
+    border: 1px solid #E1E1E1;
+    border-radius: 10px;
+}
+
+/* 名前 */
 .detail-name-label {
     position: absolute;
     top: 300px;
     left: 370px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
     color: #737373;
     letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
 .detail-name-value {
     position: absolute;
     top: 300px;
     left: 663px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
     color: #737373;
     letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
 .detail-line-1 {
     position: absolute;
     top: 343px;
     left: 305px;
-
     width: 900px;
-    height: 0;
     border-top: 2px solid #E1E1E1;
 }
 
+/* 日付 */
 .detail-date-label {
     position: absolute;
     top: 378px;
     left: 370px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
     color: #737373;
     letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
 .detail-date-year {
     position: absolute;
     top: 378px;
     left: 663px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
     color: #000000;
     letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
 .detail-date-day {
     position: absolute;
     top: 378px;
     left: 873px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
     color: #000000;
     letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
 .detail-line-2 {
     position: absolute;
     top: 432px;
     left: 306px;
-
     width: 900px;
-    height: 0;
     border-top: 2px solid #E1E1E1;
 }
 
-.detail-worktime-box {
-    position: absolute;
-    top: 463px;
-    left: 370px;
-
-    width: 561px;
-    height: 28px;
-
-    border: 1px solid #E1E1E1;
-    border-radius: 4px;
-}
-
-/* ラベル：出勤・退勤 */
+/* 出勤・退勤 */
 .detail-worktime-label {
     position: absolute;
     top: 468px;
     left: 370px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
     color: #737373;
     letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
-/* 出勤時刻枠 */
 .detail-start-box {
     position: absolute;
     top: 463px;
     left: 639px;
-
     width: 103px;
     height: 28px;
-
     border: 1px solid #E1E1E1;
     border-radius: 4px;
 }
 
-/* 出勤時刻（例：09:00） */
 .detail-start-time {
     position: absolute;
     top: 468px;
     left: 663px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
-    color: #000000;
-    letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
-/* ～ 記号 */
 .detail-tilde {
     position: absolute;
     top: 468px;
     left: 793px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
-    color: #000000;
-    letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
-/* 退勤時刻枠 */
 .detail-end-box {
     position: absolute;
     top: 463px;
     left: 852px;
-
     width: 103px;
     height: 28px;
-
     border: 1px solid #E1E1E1;
     border-radius: 4px;
 }
 
-/* 退勤時刻（例：18:00） */
 .detail-end-time {
     position: absolute;
     top: 468px;
     left: 876px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
-    color: #000000;
-    letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
-/* 下の区切り線（Line 5） */
 .detail-line-3 {
     position: absolute;
     top: 523px;
     left: 306px;
-
     width: 900px;
-    height: 0;
     border-top: 2px solid #E1E1E1;
 }
 
-/* ===========================
-   PG05：休憩＋休憩2 全体枠
-   =========================== */
+/* 休憩1・休憩2 */
 .detail-break-box {
     position: absolute;
     top: 563px;
     left: 370px;
-
     width: 561px;
     height: 110px;
-
     border: 1px solid #E1E1E1;
     border-radius: 4px;
     background-color: #FFFFFF;
 }
 
-/* ラベル：休憩 */
+/* 休憩1 */
 .detail-break1-label {
     position: absolute;
     top: 563px;
     left: 370px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
     color: #737373;
     letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
-/* 休憩開始枠 */
 .detail-break1-start-box {
     position: absolute;
     top: 562px;
     left: 639px;
-
     width: 103px;
     height: 29px;
-
     border: 1px solid #E1E1E1;
     border-radius: 4px;
 }
 
-/* 休憩開始時間（例：12:00） */
 .detail-break1-start-time {
     position: absolute;
     top: 567px;
     left: 663px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
-    color: #000000;
-    letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
-/* ～ 記号 */
 .detail-break1-tilde {
     position: absolute;
     top: 567px;
     left: 793px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
-    color: #000000;
-    letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
-/* 休憩終了枠 */
 .detail-break1-end-box {
     position: absolute;
     top: 562px;
     left: 852px;
-
     width: 103px;
     height: 29px;
-
     border: 1px solid #E1E1E1;
     border-radius: 4px;
 }
 
-/* 休憩終了時間（例：13:00） */
 .detail-break1-end-time {
     position: absolute;
     top: 567px;
     left: 876px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
-    color: #000000;
-    letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
-/* 休憩1 の下線（Line 6） */
 .detail-line-4 {
     position: absolute;
     top: 618px;
     left: 306px;
-
     width: 900px;
-    height: 0;
     border-top: 2px solid #E1E1E1;
 }
 
-/* ラベル：休憩2（休憩と同じ位置ルール） */
+/* 休憩2 */
 .detail-break2-label {
     position: absolute;
     top: 618px;
     left: 370px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
     color: #737373;
     letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
-/* 休憩2 開始枠 */
 .detail-break2-start-box {
     position: absolute;
     top: 617px;
     left: 639px;
-
     width: 103px;
     height: 29px;
-
     border: 1px solid #E1E1E1;
     border-radius: 4px;
 }
 
-/* 休憩2 開始時間（空欄） */
 .detail-break2-start-time {
     position: absolute;
     top: 622px;
     left: 663px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
-    color: #000000;
-    letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
-/* ～ 記号（休憩1 と同じ位置ルール） */
 .detail-break2-tilde {
     position: absolute;
     top: 622px;
     left: 793px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
-    color: #000000;
-    letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
-/* 休憩2 終了枠 */
 .detail-break2-end-box {
     position: absolute;
     top: 617px;
     left: 852px;
-
     width: 103px;
     height: 29px;
-
     border: 1px solid #E1E1E1;
     border-radius: 4px;
 }
 
-/* 休憩2 終了時間（空欄） */
 .detail-break2-end-time {
     position: absolute;
     top: 622px;
     left: 876px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
-    color: #000000;
-    letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
-/* 休憩2 の下線（Line 7） */
 .detail-line-5 {
     position: absolute;
     top: 713px;
     left: 306px;
-
     width: 900px;
-    height: 0;
     border-top: 2px solid #E1E1E1;
 }
 
+/* 備考 */
 .detail-note-label {
     position: absolute;
     top: 753px;
     left: 370px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
     color: #737373;
     letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
 .detail-note-box {
     position: absolute;
     top: 727px;
     left: 639px;
-
     width: 316px;
     height: 72px;
-
     border: 1px solid #D9D9D9;
     border-radius: 4px;
     background-color: #FFFFFF;
@@ -483,69 +367,40 @@
     position: absolute;
     top: 736px;
     left: 652px;
-
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 14px;
-    color: #000000;
-    letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
+/* 修正ボタン */
 .detail-edit-button {
     position: absolute;
     top: 855px;
     left: 1075px;
-
     width: 130px;
     height: 50px;
-
     background-color: #000000;
     border-radius: 5px;
     border: none;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     cursor: pointer;
 }
 
-/* ボタン内テキスト「修正」 */
 .detail-edit-button-text {
-    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 22px;
     color: #FFFFFF;
     letter-spacing: 0.15em;
-    line-height: 100%;
 }
 
-.detail-wrapper {
-    position: absolute;
-    top: 306px;
-    left: 306px;
-
-    width: 900px;
-    height: 449px;
-
-    background-color: #FFFFFF;
-    border: 1px solid #E1E1E1;
-    border-radius: 10px;
-}
-
+/* 承認待ちメッセージ */
 .detail-pending-message {
     position: absolute;
     top: 780px;
     left: 865px;
-
-    width: 355px;
-    height: 21px;
-
-    font-family: Inter, sans-serif;
-    font-weight: 800; /* Extra Bold */
+    font-weight: 800;
     font-size: 18px;
-    color: #FF000080; /* 半透明の赤 */
+    color: #FF000080;
     letter-spacing: 0.15em;
-    line-height: 100%;
 }

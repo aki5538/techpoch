@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/auth/admin/attendance-list.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin/attendance/list.css') }}">
 @endsection
 
 @section('content')
@@ -74,9 +74,8 @@
         </thead>
 
         <tbody>
-            @foreach ($attendances as $attendance)
+            @foreach ($attendances as $index => $attendance)
                 <tr class="attendance-row" style="top: {{ 60 + ($index * 33) }}px;">
-
                     <td class="attendance-row-item row-name">
                         {{ $attendance->user->name }}</td>
                     <td class="attendance-row-item row-start">
