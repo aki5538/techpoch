@@ -84,8 +84,8 @@ class AdminAttendanceController extends Controller
 
         // 3. 勤怠データ取得（その月の全日分）
         $attendances = Attendance::where('user_id', $id)
-            ->whereBetween('date', [$startOfMonth, $endOfMonth])
-            ->orderBy('date', 'asc')
+            ->whereBetween('work_date', [$startOfMonth, $endOfMonth])
+            ->orderBy('work_date', 'asc')
             ->get();
 
         // 4. Blade に渡す
@@ -97,6 +97,59 @@ class AdminAttendanceController extends Controller
             'nextMonth'     => Carbon::parse($currentMonth)->addMonth()->format('Y-m'),
         ]);
     }
+
+    public function staffMonthlyCsv(Request $request, $id)
+{
+    // 対象ユーザー
+    $user = User::findOrFail($id);
+
+    // 対象月
+    $currentMonth = $request->query('month', now()->format('Y-m'));
+    $startOfMonth = Carbon::parse($currentMonth)->startOfMonth();
+    $endOfMonth   = Carbon::parse($currentMonth)->endOfMonth();
+
+    // 勤怠データ取得（カラム名を DB に合わせて修正）
+    $attendances = Attendance::where('user_id', $id)
+        ->whereBetween('work_date', [$startOfMonth, $endOfMonth])
+        ->orderBy('work_date', 'asc')
+        ->get();
+
+    // CSV のヘッダー行
+    $csvHeader = [
+        '日付', '出勤', '退勤', '休憩', '実働'
+    ];
+
+    // CSV 本体
+    $csvData = [];
+    foreach ($attendances as $attendance) {
+        $csvData[] = [
+            $attendance->work_date,
+            $attendance->clock_in ?? '',
+            $attendance->clock_out ?? '',
+            $attendance->break_time ?? '',
+            $attendance->working_time ?? '',
+        ];
+    }
+
+    // ファイル名
+    $fileName = "{$user->name}_{$currentMonth}_attendance.csv";
+
+    // ダウンロード
+    return response()->streamDownload(function () use ($csvHeader, $csvData) {
+        $stream = fopen('php://output', 'w');
+
+        // 文字化け防止（Excel 用）
+        fprintf($stream, chr(0xEF).chr(0xBB).chr(0xBF));
+
+        fputcsv($stream, $csvHeader);
+
+        foreach ($csvData as $row) {
+            fputcsv($stream, $row);
+        }
+
+        fclose($stream);
+    }, $fileName);
+}
 }
 
 

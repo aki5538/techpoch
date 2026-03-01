@@ -1,4 +1,4 @@
-@extends('layouts.app') {{-- あなたの管理者レイアウトに合わせて変更 --}}
+@extends('layouts.app')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/admin/attendance/staff_monthly.css') }}">
@@ -6,55 +6,83 @@
 
 @section('content')
 
-<div class="monthly-wrapper">
+<div class="admin-attendance-monthly-container">
 
-    {{-- タイトル --}}
-    <h2>{{ $user->name }} さんの勤怠</h2>
-
-    {{-- 月移動 --}}
-    <div class="month-nav">
-        <a href="{{ route('admin.attendance.staff.monthly', ['id' => $user->id, 'month' => $prevMonth]) }}">◀ 前月</a>
-        <span>{{ $currentMonth }}</span>
-        <a href="{{ route('admin.attendance.staff.monthly', ['id' => $user->id, 'month' => $nextMonth]) }}">翌月 ▶</a>
+    {{-- ▼ タイトル（縦線＋◯◯さんの勤怠） --}}
+    <div class="admin-attendance-monthly-title">
+        <div class="admin-attendance-monthly-title-line"></div>
+        <div class="admin-attendance-monthly-title-text">
+            {{ $user->name }} さんの勤怠
+        </div>
     </div>
 
-    {{-- CSV 出力 --}}
-    <div class="csv-area">
-        <a href="{{ route('admin.attendance.staff.csv', ['id' => $user->id, 'month' => $currentMonth]) }}" class="csv-btn">
+    {{-- ▼ 月移動バー --}}
+    <div class="admin-attendance-monthly-date-bar">
+
+        {{-- ← 前月 --}}
+        <div style="display:flex; align-items:center;">
+            <img src="{{ asset('images/user/attendance/arrow-left.png') }}" class="admin-prev-icon">
+            <a href="{{ route('admin.attendance.staff.monthly', ['id' => $user->id, 'month' => $prevMonth]) }}"
+               class="admin-prev-text">
+                前月
+            </a>
+        </div>
+
+        {{-- カレンダー＋年月 --}}
+        <div class="admin-attendance-monthly-date-center">
+            <img src="{{ asset('images/user/attendance/calendar.png') }}" class="admin-calendar-icon">
+            <span class="admin-current-month">{{ $currentMonth }}</span>
+        </div>
+
+        {{-- 翌月 → --}}
+        <div style="display:flex; align-items:center;">
+            <a href="{{ route('admin.attendance.staff.monthly', ['id' => $user->id, 'month' => $nextMonth]) }}"
+               class="admin-next-text">
+                翌月
+            </a>
+            <img src="{{ asset('images/user/attendance/arrow-right.png') }}" class="admin-next-icon">
+        </div>
+
+    </div>
+
+    {{-- ▼ CSV 出力 --}}
+    <div class="admin-csv-area">
+        <a href="{{ route('admin.attendance.staff.csv', ['id' => $user->id, 'month' => $currentMonth]) }}"
+           class="admin-csv-btn">
             CSV出力
         </a>
     </div>
 
-    {{-- 勤怠一覧テーブル --}}
-    <table class="attendance-table">
-        <thead>
-            <tr>
-                <th>日付</th>
-                <th>出勤</th>
-                <th>退勤</th>
-                <th>休憩</th>
-                <th>実働</th>
-                <th>備考</th>
-            </tr>
-        </thead>
+    {{-- ▼ 白い大枠 --}}
+    <div class="admin-attendance-monthly-table-container">
 
-        <tbody>
-            @foreach ($attendances as $attendance)
-                <tr>
-                    <td>{{ $attendance->date }}</td>
-                    <td>{{ $attendance->start_time ?? '' }}</td>
-                    <td>{{ $attendance->end_time ?? '' }}</td>
-                    <td>{{ $attendance->break_time ?? '' }}</td>
-                    <td>{{ $attendance->working_time ?? '' }}</td>
-                    <td>
-                        <a href="{{ route('admin.attendance.detail', ['id' => $attendance->id]) }}">
-                            詳細
-                        </a>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+        {{-- ▼ テーブルヘッダー --}}
+        <div class="admin-attendance-monthly-table-header">
+            <div class="admin-header-item admin-header-date">日付</div>
+            <div class="admin-header-item admin-header-start">出勤</div>
+            <div class="admin-header-item admin-header-end">退勤</div>
+            <div class="admin-header-item admin-header-break">休憩</div>
+            <div class="admin-header-item admin-header-total">実働</div>
+            <div class="admin-header-item admin-header-detail">備考</div>
+        </div>
+
+        {{-- ▼ テーブル行 --}}
+        @foreach ($attendances as $attendance)
+            <div class="admin-attendance-monthly-row">
+                <div class="admin-row-item admin-row-date">{{ $attendance->work_date }}</div>
+                <div class="admin-row-item admin-row-start">{{ $attendance->clock_in ?? '' }}</div>
+                <div class="admin-row-item admin-row-end">{{ $attendance->clock_out ?? '' }}</div>
+                <div class="admin-row-item admin-row-break">{{ $attendance->break_time ?? '' }}</div>
+                <div class="admin-row-item admin-row-total">{{ $attendance->working_time ?? '' }}</div>
+                <div class="admin-row-item admin-row-detail">
+                    <a href="{{ route('admin.attendance.detail', ['id' => $attendance->id]) }}">
+                        詳細
+                    </a>
+                </div>
+            </div>
+        @endforeach
+
+    </div>
 
 </div>
 

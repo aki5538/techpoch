@@ -1,0 +1,196 @@
+/* 画面全体 */
+.admin-attendance-monthly-container {
+    width: 1512px;
+    min-height: 1980px;
+    background-color: #F0EFF2;
+    margin: 0 auto;
+    padding-top: 40px;
+}
+
+/* タイトル（縦線＋◯◯さんの勤怠） */
+.admin-attendance-monthly-title {
+    display: flex;
+    align-items: center;
+    margin: 40px 0 20px 300px;
+}
+
+.admin-attendance-monthly-title-line {
+    width: 0;
+    height: 40px;
+    border-left: 8px solid #000000;
+    margin-right: 20px;
+}
+
+.admin-attendance-monthly-title-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    color: #000000;
+    line-height: 1;
+}
+
+/* ▼ 月移動バー */
+.admin-attendance-monthly-date-bar {
+    width: 900px;
+    height: 60px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin: 20px auto;
+    padding: 0 30px;
+}
+
+/* ←アイコン */
+.admin-prev-icon {
+    width: 20px;
+    height: 15px;
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+.admin-prev-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #737373;
+    letter-spacing: 0.15em;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+/* 中央：カレンダー＋年月 */
+.admin-attendance-monthly-date-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 123px;
+    height: 25px;
+}
+
+.admin-calendar-icon {
+    width: 25px;
+    height: 25px;
+}
+
+.admin-current-month {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #000000;
+    margin-left: 8px;
+}
+
+/* 翌月 */
+.admin-next-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #737373;
+    letter-spacing: 0.15em;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.admin-next-icon {
+    width: 20px;
+    height: 15px;
+    opacity: 0.3;
+    cursor: pointer;
+    transform: scaleX(-1);
+}
+
+/* CSV 出力ボタン */
+.admin-csv-area {
+    width: 900px;
+    margin: 10px auto 0;
+    text-align: right;
+}
+
+.admin-csv-btn {
+    display: inline-block;
+    background-color: #4A90E2;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.admin-csv-btn:hover {
+    opacity: 0.8;
+}
+
+/* 白い大枠 */
+.admin-attendance-monthly-table-container {
+    width: 900px;
+    min-height: 1506px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+
+    margin: 40px auto 80px;
+    padding: 40px 50px;
+}
+
+/* テーブルヘッダー */
+.admin-attendance-monthly-table-header {
+    width: 900px;
+    height: 31px;
+    border: 3px solid #E1E1E1;
+    border-radius: 5px;
+
+    display: flex;
+    align-items: center;
+
+    margin: 0 auto;
+    padding-left: 40px;
+}
+
+.admin-header-item {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #737373;
+    letter-spacing: 0.15em;
+}
+
+/* カラム幅 */
+.admin-header-date { width: 189px; }
+.admin-header-start { width: 133px; }
+.admin-header-end { width: 133px; }
+.admin-header-break { width: 133px; }
+.admin-header-total { width: 133px; }
+.admin-header-detail { width: 133px; }
+
+/* テーブル行 */
+.admin-attendance-monthly-row {
+    width: 900px;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #E1E1E1;
+    margin: 0 auto;
+    padding-left: 40px;
+}
+
+.admin-row-item {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.15em;
+    color: #000000;
+}
+
+.admin-row-date { width: 189px; }
+.admin-row-start,
+.admin-row-end,
+.admin-row-break,
+.admin-row-total,
+.admin-row-detail {
+    width: 133px;
+}

@@ -56,7 +56,11 @@ Route::middleware(['auth:admin'])->group(function () {
      // PG11：スタッフ別月次勤怠一覧
     Route::get('/admin/attendance/staff/{id}', [AdminAttendanceController::class, 'staffMonthly'])
         ->name('admin.attendance.staff.monthly');
-    // PG08：勤怠一覧
+    Route::get('/admin/attendance/staff/{id}/csv', 
+        [AdminAttendanceController::class, 'staffMonthlyCsv'])
+        ->name('admin.attendance.staff.csv');
+        
+        // PG08：勤怠一覧
     Route::get('/admin/attendance/list', [AdminAttendanceController::class, 'index'])
         ->name('admin.attendance.list');
     // PG09：勤怠詳細（表示）
@@ -70,6 +74,12 @@ Route::middleware(['auth:admin'])->group(function () {
     // PG10
     Route::get('/admin/staff/list', [AdminStaffController::class, 'list'])
     ->name('admin.staff.list');
+    
+    //PG12
+    Route::get('/stamp_correction_request/approve/{id}', [AdminStampCorrectionRequestController::class, 'approve']);
+    
+    //PG13
+    Route::post('/stamp_correction_request/approve/{id}', [AdminStampCorrectionRequestController::class, 'approvePost']);
 });
 
 
