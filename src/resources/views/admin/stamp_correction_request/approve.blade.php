@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/admin/stamp_correction_request/detail.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin/stamp_correction_request/approve.css') }}">
 @endsection
 
 
@@ -21,7 +21,7 @@
 
 <div class="correction-detail-container">
 
-    <h2>修正申請詳細</h2>
+    <h2>修正申請詳細（承認）</h2>
 
     <div class="detail-box">
         <div class="row">
@@ -61,9 +61,11 @@
         </div>
     </div>
 
-    <div class="approved-label">
-        承認済み
-    </div>
+    {{-- 承認ボタン --}}
+    <form action="{{ route('stamp_correction_request.approvePost', $request->id) }}" method="POST">
+        @csrf
+        <button type="submit" class="approve-btn">承認</button>
+    </form>
 
 </div>
 @endsection

@@ -1,4 +1,12 @@
-/* 黒帯（header）の上に重ねるナビ */
+/* 画面全体 */
+body {
+    margin: 0;
+    padding: 0;
+    background: #F0EFF2;
+    font-family: 'Inter', sans-serif;
+}
+
+/* 管理者ヘッダー */
 .admin-nav {
     position: absolute;
     top: 0;
@@ -7,7 +15,6 @@
     height: 80px;
 }
 
-/* 共通スタイル（4つとも同じ） */
 .admin-nav a,
 .admin-nav button {
     position: absolute;
@@ -16,35 +23,19 @@
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 24px;
-    line-height: 100%;
     color: #FFFFFF;
-
     text-decoration: none;
     background: none;
     border: none;
     cursor: pointer;
 }
 
-/* 個別の left 値（Figma そのまま） */
-.nav-attendance {
-    left: 857px;
-    width: 96px;
-}
+/* 個別 left 値（Figma 通り） */
+.nav-attendance { left: 857px; width: 96px; }
+.nav-staff      { left: 996px; width: 144px; }
+.nav-request    { left: 1195px; width: 96px; }
+.nav-logout     { left: 1346px; width: 120px; }
 
-.nav-staff {
-    left: 996px;
-    width: 144px;
-}
-
-.nav-request {
-    left: 1195px;
-    width: 96px;
-}
-
-.nav-logout {
-    left: 1346px;
-    width: 120px;
-}
 
 /* タイトルブロック全体（位置合わせ用） */
 .page-title-block {

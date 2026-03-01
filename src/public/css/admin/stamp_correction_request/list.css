@@ -1,0 +1,174 @@
+/* 画面全体 */
+body {
+    margin: 0;
+    padding: 0;
+    background: #F0EFF2;
+    font-family: 'Inter', sans-serif;
+}
+
+/* 管理者ヘッダー */
+.admin-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+}
+
+.admin-nav a,
+.admin-nav button {
+    position: absolute;
+    top: 26px;
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: #FFFFFF;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* 個別 left 値（Figma 通り） */
+.nav-attendance { left: 857px; width: 96px; }
+.nav-staff      { left: 996px; width: 144px; }
+.nav-request    { left: 1195px; width: 96px; }
+.nav-logout     { left: 1346px; width: 120px; }
+
+
+/* タイトル（黒棒＋申請一覧）も共通なので省略 */
+
+/* --- タブ（承認待ち / 承認済み） --- */
+.section-title {
+    position: absolute;
+    top: 259px;
+    font-family: Inter;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #000000;
+}
+
+/* 選択中（太字） */
+.section-title.active {
+    font-weight: 700;
+}
+
+/* 未選択（細字） */
+.section-title.inactive {
+    font-weight: 400;
+}
+
+/* タブ下の線 */
+.tab-line {
+    position: absolute;
+    width: 900px;
+    top: 295px;
+    left: 302px;
+    border-bottom: 1px solid #000000;
+}
+
+/* --- テーブル外枠 --- */
+.pg12-table {
+    position: absolute;
+    width: 900px;
+    height: auto;
+    top: 340px;
+    left: 302px;
+    background: #FFFFFF;
+    border-radius: 10px;
+}
+
+/* --- ヘッダー行 --- */
+.pg12-header {
+    position: absolute;
+    width: 900px;
+    height: 31px;
+    top: 353.63px;
+    left: 302px;
+    background: #737373;
+    border: 3px solid #E1E1E1;
+}
+
+/* ヘッダー文字共通 */
+.pg12-th {
+    position: absolute;
+    top: 353.63px;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #737373;
+}
+
+/* 各ヘッダー位置 */
+.pg12-th-status { left: 357px; width: 35px; }
+.pg12-th-name { left: 482px; width: 35px; }
+.pg12-th-date { left: 607px; width: 72px; }
+.pg12-th-reason { left: 770px; width: 72px; }
+.pg12-th-created { left: 925px; width: 72px; }
+.pg12-th-detail { left: 1080px; width: 35px; }
+
+/* ヘッダー下の線 */
+.pg12-header-line {
+    position: absolute;
+    width: 900px;
+    top: 384.79px;
+    left: 302px;
+    border-bottom: 3px solid #E1E1E1;
+}
+
+/* --- tbody（1行目〜）--- */
+
+/* 行の高さは 32.13px、行間は 45.76px で一定 */
+.pg12-row {
+    position: absolute;
+    width: 900px;
+    height: 32.13px;
+    left: 302px;
+    border: 2px solid #E1E1E1;
+    background: #FFFFFF;
+}
+
+/* 1行目 */
+.pg12-row-1 { top: 398.42px; }
+/* 2行目 */
+.pg12-row-2 { top: 444.18px; }
+/* 3行目 */
+.pg12-row-3 { top: 489.95px; }
+
+/* tbody の文字共通（詳細以外） */
+.pg12-td {
+    position: absolute;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #737373;
+}
+
+/* 各カラム位置（1行目と同じでOK） */
+.pg12-td-status { left: 357px; width: 72px; height: 18.5px; }
+.pg12-td-name { left: 482px; width: 53px; height: 18.5px; }
+.pg12-td-date { left: 609px; width: 95px; height: 18.5px; letter-spacing: 0%; }
+.pg12-td-reason { left: 773px; width: 90px; height: 18.5px; }
+.pg12-td-created { left: 925px; width: 97px; height: 18.5px; letter-spacing: 0%; }
+
+/* 詳細だけ黒 */
+.pg12-td-detail {
+    left: 1081px;
+    width: 35px;
+    height: 18.5px;
+    color: #000000;
+}
+
+/* 行の下線 */
+.pg12-row-line {
+    position: absolute;
+    width: 900px;
+    left: 302px;
+    border-bottom: 2px solid #E1E1E1;
+}

@@ -1,0 +1,324 @@
+/* 画面全体 */
+body {
+    margin: 0;
+    padding: 0;
+    background: #F0EFF2;
+    font-family: 'Inter', sans-serif;
+}
+
+/* 管理者ヘッダー */
+.admin-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+}
+
+.admin-nav a,
+.admin-nav button {
+    position: absolute;
+    top: 26px;
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: #FFFFFF;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* 個別 left 値（Figma 通り） */
+.nav-attendance { left: 857px; width: 96px; }
+.nav-staff      { left: 996px; width: 144px; }
+.nav-request    { left: 1195px; width: 96px; }
+.nav-logout     { left: 1346px; width: 120px; }
+
+/* テーブル全体（白背景の箱） */
+.pg13-table {
+    position: absolute;
+    width: 900px;
+    height: 555px;
+    top: 264px;
+    left: 306px;
+    background: #FFFFFF;
+    border-radius: 10px;
+}
+
+/* 1段目：名前 */
+.pg13-label-name {
+    position: absolute;
+    top: 300px;
+    left: 370px;
+    width: 35px;
+    height: 19px;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #737373;
+}
+
+.pg13-value-name {
+    position: absolute;
+    top: 300px;
+    left: 663px;
+    width: 72px;
+    height: 19px;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #000000;
+}
+
+/* 2段目：日付（年 + 月日） */
+.pg13-label-date {
+    position: absolute;
+    top: 378px;
+    left: 370px;
+    width: 35px;
+    height: 19px;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #737373;
+}
+
+.pg13-value-date-year {
+    position: absolute;
+    top: 378px;
+    left: 663px;
+    width: 68px;
+    height: 19px;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #000000;
+}
+
+.pg13-value-date-day {
+    position: absolute;
+    top: 378px;
+    left: 873px;
+    width: 58px;
+    height: 19px;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #000000;
+}
+
+/* 3段目：出勤・退勤 */
+.pg13-label-worktime {
+    position: absolute;
+    top: 468px;
+    left: 370px;
+    width: 90px;
+    height: 19px;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #737373;
+}
+
+.pg13-value-worktime-start {
+    position: absolute;
+    top: 468px;
+    left: 663px;
+    width: 58px;
+    height: 19px;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #000000;
+}
+
+.pg13-value-worktime-tilde {
+    position: absolute;
+    top: 468px;
+    left: 793px;
+    width: 16px;
+    height: 19px;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #000000;
+}
+
+.pg13-value-worktime-end {
+    position: absolute;
+    top: 468px;
+    left: 876px;
+    width: 55px;
+    height: 19px;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #000000;
+}
+
+/* 4段目：休憩 */
+.pg13-label-break1 {
+    position: absolute;
+    top: 563px;
+    left: 370px;
+    width: 35px;
+    height: 19px;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #737373;
+}
+
+.pg13-value-break1-start {
+    position: absolute;
+    top: 567px;
+    left: 663px;
+    width: 55px;
+    height: 19px;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #000000;
+}
+
+.pg13-value-break1-tilde {
+    position: absolute;
+    top: 567px;
+    left: 793px;
+    width: 16px;
+    height: 19px;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #000000;
+}
+
+.pg13-value-break1-end {
+    position: absolute;
+    top: 563px;
+    left: 876px;
+    width: 55px;
+    height: 19px;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #000000;
+}
+
+/* 5段目：休憩2 */
+.pg13-label-break2 {
+    position: absolute;
+    top: 654px;
+    left: 370px;
+    width: 47px;
+    height: 19px;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #737373;
+}
+
+/* 6段目：備考 */
+.pg13-label-note {
+    position: absolute;
+    top: 753px;
+    left: 370px;
+    width: 35px;
+    height: 19px;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #737373;
+}
+
+.pg13-value-note {
+    position: absolute;
+    top: 755px;
+    left: 663px;
+    width: 282px;
+    height: 17px;
+    font-family: Inter;
+    font-weight: 700;
+    font-size: 14px; /* 備考だけ14px */
+    line-height: 100%;
+    letter-spacing: 15%;
+    color: #000000;
+}
+
+/* 区切りライン（5本） */
+.pg13-line-1 {
+    position: absolute;
+    width: 900px;
+    height: 0px;
+    top: 343px;
+    left: 305px;
+    border-top: 2px solid #E1E1E1;
+}
+
+.pg13-line-2 {
+    position: absolute;
+    width: 900px;
+    height: 0px;
+    top: 432px;
+    left: 306px;
+    border-top: 2px solid #E1E1E1;
+}
+
+.pg13-line-3 {
+    position: absolute;
+    width: 900px;
+    height: 0px;
+    top: 523px;
+    left: 306px;
+    border-top: 2px solid #E1E1E1;
+}
+
+.pg13-line-4 {
+    position: absolute;
+    width: 900px;
+    height: 0px;
+    top: 618px;
+    left: 306px;
+    border-top: 2px solid #E1E1E1;
+}
+
+.pg13-line-5 {
+    position: absolute;
+    width: 900px;
+    height: 0px;
+    top: 713px;
+    left: 306px;
+    border-top: 2px solid #E1E1E1;
+}

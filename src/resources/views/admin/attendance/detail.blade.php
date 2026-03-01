@@ -1,10 +1,22 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/admin/attendance/detail.css') }}">
 @endsection
 
 @section('content')
+
+{{-- 管理者ナビ（各画面ごとに実装） --}}
+<div class="admin-nav">
+    <a href="/admin/attendance/list">勤怠一覧</a>
+    <a href="/admin/staff/list">スタッフ一覧</a>
+    <a href="/admin/stamp_correction_request/list">申請一覧</a>
+
+    <form method="POST" action="/admin/logout" class="admin-logout-form">
+        @csrf
+        <button type="submit">ログアウト</button>
+    </form>
+</div>
 
 {{-- タイトル（棒 + 勤怠詳細） --}}
 <div class="detail-header">

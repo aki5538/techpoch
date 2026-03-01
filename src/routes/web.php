@@ -75,11 +75,18 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/admin/staff/list', [AdminStaffController::class, 'list'])
     ->name('admin.staff.list');
     
-    //PG12
-    Route::get('/stamp_correction_request/approve/{id}', [AdminStampCorrectionRequestController::class, 'approve']);
+    // PG12：申請一覧画面（管理者）
+    Route::get('/stamp_correction_request/list',
+        [AdminStampCorrectionRequestController::class, 'list']
+    )->name('stamp_correction_request.list');
     
-    //PG13
-    Route::post('/stamp_correction_request/approve/{id}', [AdminStampCorrectionRequestController::class, 'approvePost']);
+    // PG13：修正申請承認画面（管理者）
+    Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}',
+        [AdminStampCorrectionRequestController::class, 'approve']
+    )->name('stamp_correction_request.approve');
+    Route::post('/stamp_correction_request/approve/{attendance_correct_request_id}',
+        [AdminStampCorrectionRequestController::class, 'approvePost']
+    )->name('stamp_correction_request.approvePost');
 });
 
 
