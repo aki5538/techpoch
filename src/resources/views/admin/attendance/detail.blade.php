@@ -34,8 +34,8 @@
 
 {{-- 日付（表示） --}}
 <div class="detail-date-label">日付</div>
-<div class="detail-date-year">{{ \Carbon\Carbon::parse($attendance->date)->format('Y年') }}</div>
-<div class="detail-date-day">{{ \Carbon\Carbon::parse($attendance->date)->format('n月j日') }}</div>
+<div class="detail-date-year">{{ \Carbon\Carbon::parse($attendance->work_date)->format('Y年') }}</div>
+<div class="detail-date-day">{{ \Carbon\Carbon::parse($attendance->work_date)->format('n月j日') }}</div>
 <div class="detail-line-2"></div>
 
 {{-- 出勤・退勤（表示） --}}

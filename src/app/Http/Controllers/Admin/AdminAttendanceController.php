@@ -17,7 +17,7 @@ class AdminAttendanceController extends Controller
 
         // その日の勤怠を全ユーザー分取得
         $attendances = Attendance::with('user')
-            ->whereDate('date', $date)
+            ->whereDate('work_date', $date)
             ->get();
 
         return view('admin.attendance.list', compact('date', 'attendances'));
@@ -40,16 +40,16 @@ class AdminAttendanceController extends Controller
     {
         $attendance = Attendance::with('breakTimes')->findOrFail($id);
 
-        // ① 出勤・退勤・備考の更新
+        // 出勤・退勤・備考の更新
         $attendance->clock_in  = $attendance->work_date . ' ' . $request->clock_in;
         $attendance->clock_out = $attendance->work_date . ' ' . $request->clock_out;
         $attendance->note      = $request->note;
         $attendance->save();
 
-        // ② 既存の休憩時間を削除
+        // 既存の休憩時間を削除
         $attendance->breakTimes()->delete();
 
-        // ③ 新しい休憩時間を登録（複数対応）
+        // 新しい休憩時間を登録
         if ($request->break_start) {
             foreach ($request->break_start as $index => $start) {
 
@@ -66,6 +66,26 @@ class AdminAttendanceController extends Controller
                 ]);
             }
         }
+
+        // 休憩合計
+        $breakSeconds = 0;
+        foreach ($attendance->breakTimes as $break) {
+            if ($break->break_in && $break->break_out) {
+                $breakSeconds += Carbon::parse($break->break_out)
+                    ->diffInSeconds(Carbon::parse($break->break_in));
+            }
+        }
+        $attendance->break_time = floor($breakSeconds / 60);
+
+        // 実働
+        if ($attendance->clock_in && $attendance->clock_out) {
+            $workSeconds = Carbon::parse($attendance->clock_out)
+                ->diffInSeconds(Carbon::parse($attendance->clock_in));
+
+            $attendance->working_time = floor(($workSeconds - $breakSeconds) / 60);
+        }
+
+        $attendance->save();
 
         return back()->with('success', '修正しました');
     }
@@ -99,57 +119,57 @@ class AdminAttendanceController extends Controller
     }
 
     public function staffMonthlyCsv(Request $request, $id)
-{
-    // 対象ユーザー
-    $user = User::findOrFail($id);
+    {
+        // 対象ユーザー
+        $user = User::findOrFail($id);
 
-    // 対象月
-    $currentMonth = $request->query('month', now()->format('Y-m'));
-    $startOfMonth = Carbon::parse($currentMonth)->startOfMonth();
-    $endOfMonth   = Carbon::parse($currentMonth)->endOfMonth();
+        // 対象月
+        $currentMonth = $request->query('month', now()->format('Y-m'));
+        $startOfMonth = Carbon::parse($currentMonth)->startOfMonth();
+        $endOfMonth   = Carbon::parse($currentMonth)->endOfMonth();
 
-    // 勤怠データ取得（カラム名を DB に合わせて修正）
-    $attendances = Attendance::where('user_id', $id)
-        ->whereBetween('work_date', [$startOfMonth, $endOfMonth])
-        ->orderBy('work_date', 'asc')
-        ->get();
+        // 勤怠データ取得（カラム名を DB に合わせて修正）
+        $attendances = Attendance::where('user_id', $id)
+            ->whereBetween('work_date', [$startOfMonth, $endOfMonth])
+            ->orderBy('work_date', 'asc')
+            ->get();
 
-    // CSV のヘッダー行
-    $csvHeader = [
-        '日付', '出勤', '退勤', '休憩', '実働'
-    ];
-
-    // CSV 本体
-    $csvData = [];
-    foreach ($attendances as $attendance) {
-        $csvData[] = [
-            $attendance->work_date,
-            $attendance->clock_in ?? '',
-            $attendance->clock_out ?? '',
-            $attendance->break_time ?? '',
-            $attendance->working_time ?? '',
+        // CSV のヘッダー行
+        $csvHeader = [
+            '日付', '出勤', '退勤', '休憩', '実働'
         ];
-    }
 
-    // ファイル名
-    $fileName = "{$user->name}_{$currentMonth}_attendance.csv";
-
-    // ダウンロード
-    return response()->streamDownload(function () use ($csvHeader, $csvData) {
-        $stream = fopen('php://output', 'w');
-
-        // 文字化け防止（Excel 用）
-        fprintf($stream, chr(0xEF).chr(0xBB).chr(0xBF));
-
-        fputcsv($stream, $csvHeader);
-
-        foreach ($csvData as $row) {
-            fputcsv($stream, $row);
+        // CSV 本体
+        $csvData = [];
+        foreach ($attendances as $attendance) {
+            $csvData[] = [
+                $attendance->work_date,
+                $attendance->clock_in ?? '',
+                $attendance->clock_out ?? '',
+                $attendance->break_time ?? '',
+                $attendance->working_time ?? '',
+            ];
         }
 
-        fclose($stream);
-    }, $fileName);
-}
+        // ファイル名
+        $fileName = "{$user->name}_{$currentMonth}_attendance.csv";
+
+        // ダウンロード
+        return response()->streamDownload(function () use ($csvHeader, $csvData) {
+            $stream = fopen('php://output', 'w');
+
+            // 文字化け防止（Excel 用）
+            fprintf($stream, chr(0xEF).chr(0xBB).chr(0xBF));
+
+            fputcsv($stream, $csvHeader);
+
+            foreach ($csvData as $row) {
+                fputcsv($stream, $row);
+            }
+
+            fclose($stream);
+        }, $fileName);
+    }
 }
 
 

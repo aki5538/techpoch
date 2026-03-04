@@ -322,3 +322,26 @@ body {
     left: 306px;
     border-top: 2px solid #E1E1E1;
 }
+
+/* 承認済みラベル（PG13 詳細画面） */
+.approved-label {
+    position: absolute;
+    top: 875px;
+    left: 1076px;
+    width: 130px;
+    height: 50px;
+
+    background: #696969;
+    border-radius: 5px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 100%;
+    letter-spacing: 0.15em;
+    color: #FFFFFF;
+}
