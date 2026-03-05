@@ -11,13 +11,14 @@ class CreateNewUser implements CreatesNewUsers
 {
     public function create(array $input)
     {
-        // RegisterRequest を使って仕様書どおりのバリデーションを実行
-        app(RegisterRequest::class)->validate($input);
+        $validated = app(RegisterRequest::class)->validated();
 
         return User::create([
-            'name' => $input['name'],
-            'email' => $input['email'],
-            'password' => Hash::make($input['password']),
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
         ]);
+
+
     }
 }
