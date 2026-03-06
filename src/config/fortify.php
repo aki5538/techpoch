@@ -157,4 +157,8 @@ return [
         ]),
     ],
 
+    'redirects' => [
+        'login' => '/clock',
+        'register' => '/email/verify',
+    ],
 ];

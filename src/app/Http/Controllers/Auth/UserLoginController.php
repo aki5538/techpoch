@@ -22,8 +22,9 @@ class UserLoginController extends AuthenticatedSessionController
         }
 
         // メール未認証（仕様書 FN011）
-        if (! Auth::user()->hasVerifiedEmail()) {
-            Auth::logout();
+        if (! Auth::guard('user')->user()->hasVerifiedEmail()) {
+            Auth::guard('web')->login(Auth::guard('user')->user());
+
             return redirect('/email/verify');
         }
 

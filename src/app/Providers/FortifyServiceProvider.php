@@ -12,14 +12,13 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Features;
 
 use App\Http\Requests\User\LoginRequest;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-
-// ★ ここで use する（boot の外）
 use App\Http\Controllers\Auth\UserLoginController;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -28,6 +27,8 @@ class FortifyServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        config(['auth.defaults.guard' => 'user']);
+
         // プロフィール更新・パスワード更新・リセット
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
@@ -48,12 +49,12 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::createUsersUsing(CreateNewUser::class);
 
         // 登録後の遷移先
-        Fortify::redirects('register', '/clock');
+        Fortify::redirects('register', '/email/verify');
 
         // ログイン画面
         Fortify::loginView(fn() => view('auth.user.login'));
 
-        // ★★★ ここで Fortify のログイン処理を差し替える ★★★
+        // ログイン処理を差し替える
         app()->bind(
             AuthenticatedSessionController::class,
             UserLoginController::class
@@ -61,5 +62,10 @@ class FortifyServiceProvider extends ServiceProvider
 
         // メール認証誘導画面
         Fortify::verifyEmailView(fn() => view('auth.user.verify-email'));
+        Fortify::authenticateUsing(function ($request) {
+            return Auth::guard('user')->getProvider()->retrieveByCredentials([
+                'email' => $request->email,
+            ]);
+        });
     }
 }
