@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'guard' => 'web',
+    'guard' => 'user',
 
     /*
     |--------------------------------------------------------------------------
@@ -160,5 +160,6 @@ return [
     'redirects' => [
         'login' => '/clock',
         'register' => '/email/verify',
+        'email-verification' => '/login',
     ],
 ];

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\ClockController;
 use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\AdminAttendanceController;
-
+use App\Http\Controllers\User\AttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ Route::middleware(['auth:user'])->group(function () {
         ->name('user.attendance.list');
 
     // 勤怠詳細（PG05）
-    Route::get('/attendance/detail/{id}', [AttendanceController::class, 'show'])
+    Route::get('/attendance/detail/{id}', [AttendanceController::class, 'detail'])
         ->name('user.attendance.detail');
     Route::post('/attendance/detail/{id}/correction',[StampCorrectionRequestController::class, 'store'])
         ->name('stamp_correction_request.store');
@@ -47,6 +47,10 @@ Route::middleware(['auth:user'])->group(function () {
     Route::get('/stamp_correction_request/list', [App\Http\Controllers\User\StampCorrectionRequestController::class, 'index'])
         ->name('stamp_correction_request.list');
 });
+
+Route::get('/email/verify', function () {
+    return view('auth.user.verify-email');
+})->middleware(['auth:user'])->name('verification.notice');
 
 Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm']);
 Route::post('/admin/login', [AdminLoginController::class, 'login']);

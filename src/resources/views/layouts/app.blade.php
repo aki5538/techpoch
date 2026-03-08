@@ -13,24 +13,37 @@
 
     <style>
         header {
-            width: 1512px;
-            height: 80px;
-            background-color: #000000;
-        }
+    width: 100%;
+    max-width: 1260px;
+    height: 80px;
+    background-color: #000000;
+
+    margin: 0 auto;           /* ★ 中央寄せ */
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 40px;          /* Figma の左右余白 */
+}
+
+
         header img {
             width: 370px;
             height: 36px;
-            position: absolute;
-            top: 22px;
-            left: 25px;
         }
     </style>
 </head>
 <body>
 
     <!-- 黒帯ヘッダー（ロゴのみ） -->
-    <header>
+    <header class="global-header">
         <img src="{{ asset('images/COACHTECHヘッダーロゴ (1).png') }}" alt="COACHTECH">
+    
+        <nav class="header-menu">
+            @yield('header-menu')
+        </nav>
     </header>
 
     {{-- 各画面の内容 --}}

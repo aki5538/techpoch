@@ -4,44 +4,51 @@
 <link rel="stylesheet" href="{{ asset('css/user/attendance/attendance-list.css') }}">
 @endsection
 
-@section('content')
+@section('header-menu')
 
     {{-- ▼ 黒帯の右上メニュー --}}
     <nav class="attendance-header-menu">
-        <a href="{{ route('attendance.index') }}">勤怠</a>
-        <a href="{{ route('attendance.list') }}">勤怠一覧</a>
+        <a href="{{ route('user.attendance') }}">勤怠</a>
+        <a href="{{ route('user.attendance.list') }}">勤怠一覧</a>
         <a href="{{ route('stamp_correction_request.list') }}">申請</a>
         <a href="{{ route('logout') }}">ログアウト</a>
     </nav>
+@endsection
 
+@section('content')
 
-    {{-- ▼ 日付バー（←画像 / カレンダー画像 / →画像） --}}
+<div class="attendance-list-container">
+
+    {{-- ▼ タイトル（縦線＋勤怠一覧） --}}
+    <div class="attendance-list-title">
+        <div class="attendance-list-title-line"></div>
+        <div class="attendance-list-title-text">勤怠一覧</div>
+    </div>
+
+    {{-- 日付バー（←画像 / カレンダー画像 / →画像） --}}
     <div class="attendance-list-date-bar">
 
-        {{-- ←（画像） --}}
-        <img src="{{ asset('images/user/attendance/arrow-left.png') }}" class="date-prev-icon">
+        {{-- 左ブロック：← ＋ 前月 --}}
+        <div class="date-left">
+            <img src="{{ asset('images/user/attendance/arrow-left.png') }}" class="date-prev-icon">
+            <a href="{{ route('user.attendance.list', ['month' => $prevMonth]) }}" class="date-prev-text">
+                前月
+            </a>
+        </div>
 
-        {{-- 前月 --}}
-        <a href="{{ route('attendance.list', ['month' => $prevMonth]) }}" class="date-prev-text">
-            前月
-        </a>
+        {{-- 中央ブロック：カレンダー ＋ 2026/03 --}}
+        <div class="date-center">
+            <img src="{{ asset('images/user/attendance/calendar.png') }}" class="date-calendar-icon">
+            <span class="date-current">{{ $currentMonthLabel }}</span>
+        </div>
 
-        {{-- カレンダー画像 --}}
-        <img src="{{ asset('images/user/attendance/calendar.png') }}" class="date-calendar-icon">
-
-        {{-- 年月（例：2023/06） --}}
-        <span class="date-current">
-            {{ $currentMonthLabel }}
-        </span>
-
-        {{-- 翌月 --}}
-        <a href="{{ route('attendance.list', ['month' => $nextMonth]) }}" class="date-next-text">
-            翌月
-        </a>
-
-        {{-- →（画像） --}}
-        <img src="{{ asset('images/user/attendance/arrow-left.png') }}" class="date-next-icon">
-
+        {{-- 右ブロック：翌月 ＋ → --}}
+        <div class="date-right">
+            <a href="{{ route('user.attendance.list', ['month' => $nextMonth]) }}" class="date-next-text">
+                翌月
+            </a>
+            <img src="{{ asset('images/user/attendance/arrow-left.png') }}" class="date-next-icon">
+        </div>
     </div>
 
 
@@ -81,7 +88,6 @@
                 </div>
             </div>
         @endforeach
-
     </div>
-
+</div>
 @endsection

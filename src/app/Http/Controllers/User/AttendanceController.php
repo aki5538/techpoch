@@ -11,15 +11,44 @@ class AttendanceController extends Controller
     /**
      * 勤怠一覧（PG04）
      */
-    public function list()
+    public function list(Request $request)
     {
         $user = auth()->user();
 
-        $attendances = Attendance::with('breaks')
+        // 現在の月（例：2026-03）
+        $currentMonth = $request->query('month', now()->format('Y-m'));
+
+        // 前月・翌月
+        $prevMonth = \Carbon\Carbon::parse($currentMonth)->subMonth()->format('Y-m');
+        $nextMonth = \Carbon\Carbon::parse($currentMonth)->addMonth()->format('Y-m');
+
+        // Blade が使う「2026/03」形式のラベル
+        $currentMonthLabel = \Carbon\Carbon::parse($currentMonth)->format('Y/m');
+
+        // 勤怠データ取得
+        $attendances = Attendance::with('breakTimes')
             ->where('user_id', $user->id)
+            ->where('work_date', 'like', $currentMonth . '%')
             ->orderBy('work_date', 'desc')
             ->get();
 
-        return view('user.attendance.list', compact('attendances'));
+        return view('user.attendance.list', compact(
+            'attendances',
+            'currentMonth',
+            'currentMonthLabel',
+            'prevMonth',
+            'nextMonth'
+        ));
+    }
+
+    public function detail($id)
+    {
+        // 勤怠データ取得（休憩も一緒に）
+        $attendance = Attendance::with('breakTimes', 'correctionRequest')->findOrFail($id);
+
+        // ログイン中のユーザー
+        $user = auth()->user();
+
+        return view('user.attendance.detail', compact('attendance', 'user'));
     }
 }

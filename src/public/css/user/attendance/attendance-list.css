@@ -6,13 +6,23 @@
     padding-top: 40px;
 }
 
+/* 画面幅が 1512px 未満のときは横スクロールを出さない */
+@media screen and (max-width: 1512px) {
+    .attendance-list-container {
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+    }
+}
+
+
+
 /* この画面専用：ヘッダー右上メニュー */
 .attendance-header-menu {
     display: flex;
-    gap: 40px;
     align-items: center;
-    margin-left: auto;
-    margin-right: 40px;
+    gap: 40px; /* Figma の見た目に一致する間隔 */
+    margin-right: 0px;
 }
 
 /* メニュー共通スタイル */
@@ -38,9 +48,10 @@
 
 /* タイトルブロック全体（縦線＋タイトル） */
 .attendance-list-title {
-    display: flex;
-    align-items: center;
-    margin: 40px 0 20px 300px;
+    display: flex !important;
+    align-items: center !important;
+    margin: 40px auto 20px auto !important;
+    width: 1000px !important;
 }
 
 /* 左の黒い縦線 */
@@ -63,7 +74,7 @@
 
 /* ▼ 日付バー（全体） */
 .attendance-list-date-bar {
-    width: 900px;
+    width: 940px;
     height: 60px;
     background-color: #FFFFFF;
     border-radius: 10px;
@@ -76,40 +87,44 @@
     padding: 0 30px;
 }
 
+/* 左・中央・右ブロック */
+.date-left,
+.date-center,
+.date-right {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* ←と前月、カレンダーと日付、翌月と→ の距離 */
+}
+
 /* ←アイコン */
-.date-prev-icon {
+.date-prev-icon,
+.date-next-icon {
     width: 20px;
     height: 15px;
     opacity: 0.3;
     cursor: pointer;
 }
 
-/* 前月テキスト */
-.date-prev-text {
+.date-next-icon {
+    transform: scaleX(-1);
+}
+
+/* 前月・翌月テキスト */
+.date-prev-text,
+.date-next-text {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 16px;
     color: #737373;
     letter-spacing: 0.15em;
     line-height: 1;
-    margin-left: 10px;
     cursor: pointer;
-}
-
-/* カレンダー＋年月の中央ブロック */
-.attendance-list-date-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 123px;
-    height: 25px;
 }
 
 /* カレンダー画像 */
 .date-calendar-icon {
     width: 25px;
     height: 25px;
-    opacity: 1;
 }
 
 /* 年月（例：2023/06） */
@@ -120,28 +135,6 @@
     color: #000000;
     letter-spacing: 0;
     line-height: 1;
-    margin-left: 8px;
-}
-
-/* 翌月テキスト */
-.date-next-text {
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 16px;
-    color: #737373;
-    letter-spacing: 0.15em;
-    line-height: 1;
-    margin-right: 10px;
-    cursor: pointer;
-}
-
-/* →アイコン（←を反転） */
-.date-next-icon {
-    width: 20px;
-    height: 15px;
-    opacity: 0.3;
-    cursor: pointer;
-    transform: scaleX(-1);
 }
 
 /* 打刻履歴一覧の白い大枠 */

@@ -16,9 +16,9 @@
         メール認証を完了してください。
     </div>
 
-    <a href="{{ route('verification.notice') }}" class="verify-button">
-        <span class="verify-button-text">認証はこちらから</span>
-    </a>
+    <a href="http://localhost:8025" target="_blank" class="verify-button">
+    <span class="verify-button-text">認証はこちらから</span>
+</a>
 
     <!-- 認証メール再送（仕様書 FN012） -->
     <a href="{{ route('verification.send') }}"

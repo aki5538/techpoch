@@ -8,8 +8,8 @@
 
     {{-- 黒帯の中の右上メニュー --}}
     <nav class="attendance-header-menu">
-        <a href="{{ route('attendance.index') }}">勤怠</a>
-        <a href="{{ route('attendance.list') }}">勤怠一覧</a>
+        <a href="{{ route('user.attendance') }}">勤怠</a>
+        <a href="{{ route('user.attendance.list') }}">勤怠一覧</a>
         <a href="{{ route('stamp_correction_request.list') }}">申請</a>
         <a href="{{ route('logout') }}">ログアウト</a>
     </nav>

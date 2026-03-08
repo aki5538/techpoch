@@ -1,41 +1,32 @@
 /* 画面全体の背景 */
 .attendance-container {
     background-color: #F0EFF2;
-    min-height: calc(100vh - 80px); /* ヘッダーを除いた高さ（仮） */
+    min-height: calc(100vh - 80px); /* ヘッダーを除いた高さ */
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 120px; /* Figma の top:289px を調整して自然に */
+    justify-content: center;   /* ★ これで縦中央 */
+    align-items: center;       /* ★ 横中央 */
+    padding-top: 0;            /* ★ 120px は不要 */
 }
+
 
 /* この画面専用：ヘッダー右上メニュー */
-.attendance-header-menu {
+.header-menu {
     display: flex;
-    gap: 40px;
     align-items: center;
-    margin-left: auto;
-    margin-right: 40px;
+    gap: 40px; /* Figma の見た目に一致する間隔 */
+    margin-right: 0px; /* 黒帯右端の余白 */
 }
 
-/* メニュー共通スタイル */
-.attendance-header-menu a,
-.attendance-header-menu button {
+/* メニューの文字 */
+.header-menu a {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 24px;
     color: #FFFFFF;
     text-decoration: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-
-    padding: 5px 0;
-    line-height: 1;
-}
-
-.attendance-header-menu a:hover,
-.attendance-header-menu button:hover {
-    opacity: 0.7;
+    line-height: 29px; /* Figma の height:29px に一致 */
+    display: flex;
+    align-items: center; /* 垂直中央揃え */
 }
 
 /* ステータス全体のタグ */
@@ -88,6 +79,13 @@
     text-align: center;
 }
 
+.attendance-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px; /* Figma の間隔に合わせて調整 */
+}
+
 /* 出勤ボタン */
 .clockin-btn {
     width: 221px;
@@ -100,8 +98,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    margin-top: 40px;
 }
 
 /* 出勤ボタンの文字 */
@@ -126,8 +122,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    margin-top: 40px;
 }
 
 .clockout-btn span {
@@ -151,8 +145,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    margin-top: 40px;
 }
 
 .breakin-btn span {
@@ -176,8 +168,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    margin-top: 40px;
 }
 
 .breakout-btn span {
@@ -198,6 +188,11 @@
     letter-spacing: 0.15em;
     line-height: 1;
     text-align: center;
+}
 
-    margin-top: 40px;
+.attendance-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
 }
