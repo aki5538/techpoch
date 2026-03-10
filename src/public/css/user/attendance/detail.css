@@ -1,9 +1,12 @@
 .detail-container {
     width: 1512px;
-    min-height: calc(100vh - 80px);
-    background-color: #F0EFF2;
+    height: 100vh;
+    background: #F0EFF2;
     margin: 0 auto;
     padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 /* ヘッダー右上メニュー */
@@ -34,15 +37,12 @@
     opacity: 0.7;
 }
 
-/* ★ 白枠（画面全体基準） */
-.detail-box {
-    position: absolute;
-    top: 264px;
-    left: 306px;
-    width: 900px;
-    height: 555px;
-    background: #fff;
-    border-radius: 10px;
+.detail-header .bar {
+    width: 40px;
+    height: 0;
+    border: 8px solid #000000;
+    transform: rotate(90deg);
+    margin-right: 15px;
 }
 
 /* タイトル */
@@ -54,12 +54,16 @@
     align-items: center;
 }
 
-.detail-header .bar {
-    width: 40px;
-    height: 0;
-    border: 8px solid #000000;
-    transform: rotate(90deg);
-    margin-right: 15px;
+/* ★ 白枠（画面全体基準） */
+.detail-box {
+    width: 900px;
+    height: 555px;
+    background: #FFFFFF;
+    border-radius: 10px;
+    margin-left: 306px;
+    margin-top: 100px; /* 264px - タイトル位置調整後の差分 */
+    padding: 30px; /* 中身の余白は後で調整 */
+    box-sizing: border-box;
 }
 
 .detail-header .title {
@@ -71,106 +75,144 @@
 
 /* ===== 名前 ===== */
 .detail-name-label {
-    position: absolute;
-    top: 36px;
-    left: 64px;
+    font-family: Inter, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 0.15em; /* 15% */
+    color: #737373;
+    margin-top: 0px;
+    margin-left: 64px;
+
 }
 
 .detail-name-value {
-    position: absolute;
-    top: 36px;
-    left: 357px;
+    font-family: Inter, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 0.15em;
+    color: #000000;
+    margin-left: 258px;
+    margin-top: -19px;
+
 }
 
 .detail-line-1 {
-    position: absolute;
-    top: 79px;
-    left: 0;
-    width: 900px;
-    border-top: 2px solid #E1E1E1;
+    width: 900px; /* Figma */
+    border-bottom: 2px solid #E1E1E1;
+    margin-top: 20px;
+    margin-left: -30px;
 }
 
 /* ===== 日付 ===== */
 .detail-date-label {
-    position: absolute;
-    top: 114px;
-    left: 64px;
+    font-family: Inter, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 0.15em;
+    color: #737373;
+    margin-top: 60px;
+    margin-left: 30px;
 }
 
 .detail-date-year {
-    position: absolute;
-    top: 114px;
-    left: 357px;
+    font-family: Inter, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 0.15em;
+    color: #000000;
+    margin-left: 633px;
+    margin-top: -19px;
+
 }
 
 .detail-date-day {
-    position: absolute;
-    top: 114px;
-    left: 567px;
+    font-family: Inter, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 0.15em;
+    color: #000000;
+    margin-left: 843px;
+    margin-top: -19px;
 }
 
 .detail-line-2 {
-    position: absolute;
-    top: 168px;
-    left: 0;
     width: 900px;
-    border-top: 2px solid #E1E1E1;
+    border-bottom: 2px solid #E1E1E1;
+    margin-top: 20px;
+    margin-left: -30px;
 }
 
 /* ===== 出勤・退勤 ===== */
 .detail-worktime-label {
-    position: absolute;
-    top: 199px;
-    left: 64px;
+    font-family: Inter, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 0.15em;
+    color: #737373;
+    margin-top: 65px;
+    margin-left: 30px;
 }
 
 .detail-start-box {
-    position: absolute;
-    top: 199px;
-    left: 357px;
     width: 103px;
     height: 28px;
     border: 1px solid #E1E1E1;
     border-radius: 4px;
+    margin-left: 609px;
+    margin-top: -22px;
 }
 
 .detail-start-time {
-    position: absolute;
-    top: 201px;
-    left: 390px;
+    font-family: Inter, sans-serif;
     font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.15em;
+    color: #000000;
+    margin-left: 633px;
+    margin-top: -19px;
 }
 
 .detail-tilde {
-    position: absolute;
-    top: 204px;
-    left: 487px;
+    font-family: Inter, sans-serif;
     font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.15em;
+    color: #000000;
+    margin-left: 763px;
+    margin-top: -19px;
 }
 
 .detail-end-box {
-    position: absolute;
-    top: 199px;
-    left: 546px;
     width: 103px;
     height: 28px;
     border: 1px solid #E1E1E1;
     border-radius: 4px;
+    margin-left: 822px;
+    margin-top: -22px;
 }
 
 .detail-end-time {
-    position: absolute;
-    top: 201px;
-    left: 580px;
+    font-family: Inter, sans-serif;
     font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.15em;
+    color: #000000;
+    margin-left: 846px;
+    margin-top: -19px;
 }
 
 .detail-line-3 {
-    position: absolute;
-    top: 259px;
-    left: 0;
     width: 900px;
-    border-top: 2px solid #E1E1E1;
+    border-bottom: 2px solid #E1E1E1;
+    margin-top: 20px; 
+    margin-left: -30px;
+
 }
 
 /* ===== 休憩 ===== */
@@ -216,18 +258,88 @@
     border-top: 2px solid #E1E1E1;
 }
 
+/* ===== 休憩2 ===== */
+.detail-break2-label {
+    position: absolute;
+    top: 359px; /* break1 の 299px + 60 */
+    left: 64px;
+}
+
+.detail-break2-start-box {
+    position: absolute;
+    top: 359px;
+    left: 357px;
+    width: 103px;
+    height: 28px;
+    border: 1px solid #E1E1E1;
+    border-radius: 4px;
+}
+
+.detail-break2-start-time {
+    position: absolute;
+    top: 364px;
+    left: 370px;
+}
+
+.detail-break2-tilde {
+    position: absolute;
+    top: 364px;
+    left: 487px;
+}
+
+.detail-break2-end-box {
+    position: absolute;
+    top: 359px;
+    left: 546px;
+    width: 103px;
+    height: 28px;
+    border: 1px solid #E1E1E1;
+    border-radius: 4px;
+}
+
+.detail-break2-end-time {
+    position: absolute;
+    top: 364px;
+    left: 560px;
+}
+
+.detail-line-5 {
+    position: absolute;
+    top: 414px; /* break2 の下 */
+    left: 0;
+    width: 900px;
+    border-top: 2px solid #E1E1E1;
+}
+
 /* ===== 備考 ===== */
+.detail-note-box {
+    position: absolute;
+    top: 463px;
+    left: 333px;
+    width: 316px;
+    height: 72px;
+    background: #FFFFFF;
+    border: 1px solid #D9D9D9;
+    border-radius: 4px;
+}
+
+
 .detail-note-label {
     position: absolute;
-    top: 489px;
+    top: 443px;
     left: 64px;
 }
 
 .detail-note-text {
     position: absolute;
     top: 472px;
-    left: 346px;
+    left: 345px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #000;
 }
+
+
 
 /* 修正ボタン（画面全体基準） */
 .detail-edit-button {
