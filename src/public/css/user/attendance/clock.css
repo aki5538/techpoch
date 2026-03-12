@@ -1,33 +1,41 @@
 /* 画面全体の背景 */
 .attendance-container {
     background-color: #F0EFF2;
-    min-height: calc(100vh - 80px); /* ヘッダーを除いた高さ */
+    min-height: calc(100vh - 80px);
     display: flex;
-    justify-content: center;   /* ★ これで縦中央 */
-    align-items: center;       /* ★ 横中央 */
-    padding-top: 0;            /* ★ 120px は不要 */
+    justify-content: center;
+    align-items: center;
+    padding-top: 0;
 }
 
-
-/* この画面専用：ヘッダー右上メニュー */
-.header-menu {
+.attendance-header-menu {
     display: flex;
     align-items: center;
-    gap: 40px; /* Figma の見た目に一致する間隔 */
-    margin-right: 0px; /* 黒帯右端の余白 */
+    gap: 40px;
+    margin-right: 0px;
 }
 
-/* メニューの文字 */
-.header-menu a {
+/* メニュー共通スタイル */
+.attendance-header-menu a,
+.attendance-header-menu button {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 24px;
     color: #FFFFFF;
     text-decoration: none;
-    line-height: 29px; /* Figma の height:29px に一致 */
-    display: flex;
-    align-items: center; /* 垂直中央揃え */
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    padding: 5px 0;
+    line-height: 1;
 }
+
+.attendance-header-menu a:hover,
+.attendance-header-menu button:hover {
+    opacity: 0.7;
+}
+
 
 /* ステータス全体のタグ */
 .status-badge {
@@ -40,7 +48,7 @@
     justify-content: center;
     align-items: center;
 
-    margin: 0 auto; /* 中央寄せ（Figma の left/top は無視して中央寄せにする） */
+    margin: 0 auto;
 }
 
 /* ステータス文字 */
@@ -49,7 +57,7 @@
     font-weight: 700;
     font-size: 18px;
     color: #696969;
-    letter-spacing: 0.15em; /* 15% = 0.15em */
+    letter-spacing: 0.15em;
     line-height: 1;
 }
 
@@ -62,7 +70,7 @@
     line-height: 1;
     letter-spacing: 0;
 
-    margin-top: 40px; /* Figma の top:361px を自然な距離に調整 */
+    margin-top: 40px;
     text-align: center;
 }
 
@@ -83,7 +91,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 40px; /* Figma の間隔に合わせて調整 */
+    gap: 40px;
 }
 
 /* 出勤ボタン */

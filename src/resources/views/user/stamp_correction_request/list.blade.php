@@ -4,15 +4,27 @@
     <link rel="stylesheet" href="{{ asset('css/user/stamp_correction_request/list.css') }}">
 @endsection
 
-@section('content')
-
-    {{-- 黒帯の中の右上メニュー --}}
+@section('header-menu')
     <nav class="attendance-header-menu">
         <a href="{{ route('user.attendance') }}">勤怠</a>
         <a href="{{ route('user.attendance.list') }}">勤怠一覧</a>
         <a href="{{ route('stamp_correction_request.list') }}">申請</a>
-        <a href="{{ route('logout') }}">ログアウト</a>
+
+        <a href="#"
+        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            ログアウト
+        </a>
+
+        <form id="logout-form"
+            action="{{ route('logout') }}"
+            method="POST"
+            style="display:none;">
+            @csrf
+        </form>
     </nav>
+@endsection
+
+@section('content')
 
     {{-- 画面全体の背景（全幅） --}}
     <div class="page-bg">
@@ -61,7 +73,7 @@
                                 <td>{{ $item->reason }}</td>
                                 <td>{{ $item->created_at->format('Y年n月j日') }}</td>
                                 <td>
-                                    <a href="{{ route('attendance.detail', ['id' => $item->attendance_id]) }}" class="detail-link">
+                                    <a href="{{ route('user.attendance.detail', ['id' => $item->attendance_id]) }}" class="detail-link">
                                         詳細
                                     </a>
                                 </td>
@@ -101,7 +113,7 @@
                                 <td>{{ $item->reason }}</td>
                                 <td>{{ $item->created_at->format('Y年n月j日') }}</td>
                                 <td>
-                                    <a href="{{ route('attendance.detail', ['id' => $item->attendance_id]) }}" class="detail-link">
+                                    <a href="{{ route('user.attendance.detail', ['id' => $item->attendance_id]) }}" class="detail-link">
                                         詳細
                                     </a>
                                 </td>

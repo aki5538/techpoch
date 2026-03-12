@@ -5,15 +5,27 @@
 @endsection
 
 @section('header-menu')
+    <nav class="attendance-header-menu">
+        <a href="{{ route('user.attendance') }}">勤怠</a>
+        <a href="{{ route('user.attendance.list') }}">勤怠一覧</a>
+        <a href="{{ route('stamp_correction_request.list') }}">申請</a>
 
-{{-- 黒帯の中の右上メニュー --}}
-    <a href="{{ route('user.attendance') }}">勤怠</a>
-    <a href="{{ route('user.attendance.list') }}">勤怠一覧</a>
-    <a href="{{ route('stamp_correction_request.list') }}">申請</a>
-    <a href="{{ route('logout') }}">ログアウト</a>
+        <a href="#"
+        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            ログアウト
+        </a>
+
+        <form id="logout-form"
+            action="{{ route('logout') }}"
+            method="POST"
+            style="display:none;">
+            @csrf
+        </form>
+    </nav>
 @endsection
 
 @section('content')
+
     <div class="attendance-container">
 
     <div class="attendance-inner">

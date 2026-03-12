@@ -44,7 +44,7 @@ class AttendanceController extends Controller
     public function detail($id)
     {
         // 勤怠データ取得（休憩も一緒に）
-        $attendance = Attendance::with('breakTimes', 'correctionRequest')->findOrFail($id);
+        $attendance = Attendance::with('breakTimes', 'correctionRequests')->findOrFail($id);
 
         // ログイン中のユーザー
         $user = auth()->user();

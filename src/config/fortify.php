@@ -158,7 +158,7 @@ return [
     ],
 
     'redirects' => [
-        'login' => '/clock',
+        'login' => '/attendance',
         'register' => '/email/verify',
         'email-verification' => '/login',
     ],

@@ -1,10 +1,23 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
+Route::post('/logout', function () {
+    Auth::guard('user')->logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/login');
+})->name('logout');
+
 use App\Http\Controllers\User\ClockController;
 use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\AdminAttendanceController;
 use App\Http\Controllers\User\AttendanceController;
+use App\Http\Controllers\User\StampCorrectionRequestController;
+use App\Http\Controllers\Admin\AdminStampCorrectionRequestController;
+use App\Http\Controllers\Admin\AdminStaffController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -80,15 +93,19 @@ Route::middleware(['auth:admin'])->group(function () {
     ->name('admin.staff.list');
     
     // PG12：申請一覧画面（管理者）
-    Route::get('/stamp_correction_request/list',
+    Route::get('/admin/stamp_correction_request/list',
         [AdminStampCorrectionRequestController::class, 'list']
-    )->name('stamp_correction_request.list');
+    )->name('admin.stamp_correction_request.list');
     
     // PG13：修正申請承認画面（管理者）
     Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}',
         [AdminStampCorrectionRequestController::class, 'approve']
     )->name('stamp_correction_request.approve');
 });
+
+
+
+
 
 
 

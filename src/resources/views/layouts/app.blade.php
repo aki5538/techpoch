@@ -40,10 +40,7 @@
     <!-- 黒帯ヘッダー（ロゴのみ） -->
     <header class="global-header">
         <img src="{{ asset('images/COACHTECHヘッダーロゴ (1).png') }}" alt="COACHTECH">
-    
-        <nav class="header-menu">
-            @yield('header-menu')
-        </nav>
+        @yield('header-menu')
     </header>
 
     {{-- 各画面の内容 --}}

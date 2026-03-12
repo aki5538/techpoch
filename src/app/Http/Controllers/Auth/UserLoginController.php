@@ -21,9 +21,6 @@ class UserLoginController extends AuthenticatedSessionController
                 ->with('status', 'login-error'); // 仕様書 FN009
         }
 
-        // web ガードにもログインさせる
-        Auth::guard('web')->login(Auth::guard('user')->user());
-
         // メール未認証（仕様書 FN011）
         if (! Auth::guard('user')->user()->hasVerifiedEmail()) {
             Auth::guard('user')->logout();

@@ -84,8 +84,8 @@ class Attendance extends Model
         return gmdate('H:i', $total);
     }
 
-    public function correctionRequest()
+    public function correctionRequests()
     {
-        return $this->hasOne(StampCorrectionRequest::class);
+        return $this->hasMany(StampCorrectionRequest::class);
     }
 }
