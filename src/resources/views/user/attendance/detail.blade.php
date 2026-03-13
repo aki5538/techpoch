@@ -104,11 +104,11 @@
         <div class="row">
             <div class="label">備考</div>
             <div class="value note-value">
-                <div class="detail-note-box"></div>
-                <div class="detail-note-text">{{ $attendance->note }}</div>
+                <textarea name="note" class="detail-note-textarea" required>
+                    {{ old('note', $attendance->note) }}
+                </textarea>
             </div>
         </div>
-
     </div>
 
     @if($latestRequest && $latestRequest->status === 'pending')
@@ -116,11 +116,12 @@
     @else
         <form action="{{ route('stamp_correction_request.store', ['id' => $attendance->id]) }}" method="POST">
             @csrf
+            
             <button type="submit" class="detail-edit-button">
                 <span class="detail-edit-button-text">修正</span>
             </button>
         </form>
     @endif
-
+    </div>
 </div>
 @endsection

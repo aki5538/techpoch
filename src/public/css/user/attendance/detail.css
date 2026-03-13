@@ -153,13 +153,26 @@
     margin-top: 5px;
 }
 
+.detail-note-textarea {
+     width: 316px;
+    height: 72px;
+    border: 1px solid #D9D9D9;
+    border-radius: 4px;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+    margin-left: 306px;
+    margin-top: 20px;
+
+}
+
 /* ===== 修正ボタン ===== */
 .detail-edit-button {
     width: 130px;
     height: 50px;
     background: #000;
     border-radius: 5px;
-    margin-left: 1075px;
+    margin-left: 500px;
     margin-top: 45px;
 }
 

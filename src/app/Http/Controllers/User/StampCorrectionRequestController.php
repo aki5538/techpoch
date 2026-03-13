@@ -29,10 +29,12 @@ class StampCorrectionRequestController extends Controller
 
     public function store($attendanceId)
     {
+        $attendance = Attendance::findOrFail($attendanceId);
+        
         StampCorrectionRequest::create([
             'user_id' => Auth::id(),
             'attendance_id' => $attendanceId,
-            'reason' => 'ユーザーによる修正申請',
+            'reason' => $attendance->note,
             'status' => 'pending',
         ]);
 
