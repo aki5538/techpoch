@@ -40,88 +40,104 @@
         <div class="title">勤怠詳細</div>
     </div>
 
-    {{-- ★ 白ボックス開始 --}}
+    {{-- 白ボックス開始 --}}
     <div class="detail-box
-        {{ ($latestRequest && $latestRequest->status === 'pending')
-            ? 'detail-box-pending'
-            : ''
-        }}">
+    {{ ($latestRequest && $latestRequest->status === 'pending')
+        ? 'detail-box-pending'
+        : ''
+    }}">
 
-        {{-- 名前 --}}
-        <div class="row">
-            <div class="label">名前</div>
-            <div class="value">{{ $user->name }}</div>
+    {{-- 名前 --}}
+    <div class="row">
+        <div class="label">名前</div>
+        <div class="value">{{ $user->name }}</div>
+    </div>
+    <div class="detail-line-1"></div>
+
+    {{-- 日付 --}}
+    <div class="row">
+        <div class="label">日付</div>
+        <div class="value">
+            {{ $attendance->work_date->format('Y年 n月j日') }}
         </div>
-        <div class="detail-line-1"></div>
+    </div>
+    <div class="detail-line-2"></div>
 
-        {{-- 日付 --}}
-        <div class="row">
-            <div class="label">日付</div>
-            <div class="value">
-                {{ $attendance->work_date->format('Y年 n月j日') }}
+    {{-- 出勤・退勤 --}}
+    <div class="row">
+        <div class="label">出勤・退勤</div>
+        <div class="value">
+            <div class="time-box">
+                {{ $attendance->clock_in->format('H:i') }}
             </div>
-        </div>
-        <div class="detail-line-2"></div>
-
-        {{-- 出勤・退勤 --}}
-        <div class="row">
-            <div class="label">出勤・退勤</div>
-            <div class="value">
-                <div class="time-box">
-                    {{ $attendance->clock_in->format('H:i') }}
-                </div>
-                <span class="tilde">～</span>
-                <div class="time-box">
-                    {{ $attendance->clock_out->format('H:i') }}
-                </div>
-            </div>
-        </div>
-        <div class="detail-line-3"></div>
-
-        {{-- 休憩1 --}}
-        <div class="row">
-            <div class="label">休憩</div>
-            <div class="value">
-                <div class="time-box">{{ optional($break1)->break_in ? \Carbon\Carbon::parse($break1->break_in)->format('H:i') : '' }}</div>
-                <span class="tilde">～</span>
-                <div class="time-box">{{ optional($break1)->break_out ? \Carbon\Carbon::parse($break1->break_out)->format('H:i') : '' }}</div>
-            </div>
-        </div>
-        <div class="detail-line-4"></div>
-
-        {{-- 休憩2 --}}
-        <div class="row">
-            <div class="label">休憩2</div>
-            <div class="value">
-                <div class="time-box">{{ optional($break2)->break_in ? \Carbon\Carbon::parse($break2->break_in)->format('H:i') : '' }}</div>
-                <span class="tilde">～</span>
-                <div class="time-box">{{ optional($break2)->break_out ? \Carbon\Carbon::parse($break2->break_out)->format('H:i') : '' }}</div>
-            </div>
-        </div>
-        <div class="detail-line-5"></div>
-
-        {{-- 備考 --}}
-        <div class="row">
-            <div class="label">備考</div>
-            <div class="value note-value">
-                <textarea name="note" class="detail-note-textarea" required>
-                    {{ old('note', $attendance->note) }}
-                </textarea>
+            <span class="tilde">～</span>
+            <div class="time-box">
+                {{ $attendance->clock_out->format('H:i') }}
             </div>
         </div>
     </div>
+    <div class="detail-line-3"></div>
 
-    @if($latestRequest && $latestRequest->status === 'pending')
-        <div class="detail-pending-message">*承認待ちのため修正はできません。</div>
-    @else
-        <form action="{{ route('stamp_correction_request.store', ['id' => $attendance->id]) }}" method="POST">
-            @csrf
-            
-            <button type="submit" class="detail-edit-button">
-                <span class="detail-edit-button-text">修正</span>
-            </button>
-        </form>
-    @endif
+    {{-- 休憩1 --}}
+    <div class="row">
+        <div class="label">休憩</div>
+        <div class="value">
+            <div class="time-box">{{ optional($break1)->break_in ? \Carbon\Carbon::parse($break1->break_in)->format('H:i') : '' }}</div>
+            <span class="tilde">～</span>
+            <div class="time-box">{{ optional($break1)->break_out ? \Carbon\Carbon::parse($break1->break_out)->format('H:i') : '' }}</div>
+        </div>
     </div>
+    <div class="detail-line-4"></div>
+
+    {{-- 休憩2 --}}
+    <div class="row">
+        <div class="label">休憩2</div>
+        <div class="value">
+            <div class="time-box">{{ optional($break2)->break_in ? \Carbon\Carbon::parse($break2->break_in)->format('H:i') : '' }}</div>
+            <span class="tilde">～</span>
+            <div class="time-box">{{ optional($break2)->break_out ? \Carbon\Carbon::parse($break2->break_out)->format('H:i') : '' }}</div>
+        </div>
+    </div>
+    <div class="detail-line-5"></div>
+
+    {{-- 備考（白ボックス内） --}}
+    <div class="row">
+        <div class="label">備考</div>
+        <div class="value note-value">
+            <textarea id="note-input" class="detail-note-textarea" required>{{ old('note', $attendance->note) }}</textarea>
+        </div>
+    </div>
+</div>
+
+{{-- 承認待ちの場合：メッセージのみ --}}
+@if($status === 'pending')
+    <div class="detail-pending-message">*承認待ちのため修正はできません。</div>
+
+{{-- 承認済みの場合：何も表示しない（修正不可） --}}
+@elseif($status === 'approved')
+    {{-- 何も出さない --}}
+
+{{-- 通常の勤怠詳細（まだ申請していない）だけ修正ボタンを出す --}}
+@else
+    <form id="correction-form" action="{{ route('stamp_correction_request.store', ['id' => $attendance->id]) }}" method="POST">
+        @csrf
+
+        <input type="hidden" name="note" id="note-hidden">
+
+        <button type="button" id="submit-btn" class="detail-edit-button">
+            <span class="detail-edit-button-text">修正</span>
+        </button>
+    </form>
+
+    <script>
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            document.getElementById('note-hidden').value =
+                document.getElementById('note-input').value;
+
+            document.getElementById('correction-form').submit();
+        });
+    </script>
+@endif
+
 </div>
 @endsection

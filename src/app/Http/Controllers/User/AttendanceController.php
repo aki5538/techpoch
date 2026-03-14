@@ -41,14 +41,17 @@ class AttendanceController extends Controller
         ));
     }
 
-    public function detail($id)
+    public function detail(Request $request, $id)
     {
-        // 勤怠データ取得（休憩も一緒に）
+        // 勤怠データ取得
         $attendance = Attendance::with('breakTimes', 'correctionRequests')->findOrFail($id);
 
         // ログイン中のユーザー
         $user = auth()->user();
 
-        return view('user.attendance.detail', compact('attendance', 'user'));
+        // 申請一覧から渡された status
+        $status = $request->status;
+
+        return view('user.attendance.detail', compact('attendance', 'user', 'status'));
     }
 }

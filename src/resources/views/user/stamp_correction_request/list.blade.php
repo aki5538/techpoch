@@ -67,7 +67,8 @@
                                 <td>{{ $item->reason }}</td>
                                 <td>{{ $item->created_at->format('Y/m/d') }}</td>
                                 <td>
-                                    <a href="{{ route('user.attendance.detail', ['id' => $item->attendance_id]) }}"
+                                    <a href="{{ route('user.attendance.detail', ['id' => $item->attendance_id,
+                                        'status' => 'pending']) }}"
                                        class="detail-link">
                                         詳細
                                     </a>
@@ -105,8 +106,9 @@
                                 <td>{{ $item->reason }}</td>
                                 <td>{{ $item->created_at->format('Y/m/d') }}</td>
                                 <td>
-                                    <a href="{{ route('user.attendance.detail', ['id' => $item->attendance_id]) }}"
-                                       class="detail-link">
+                                    <a href="{{ route('user.attendance.detail', ['id' => $item->attendance_id,
+                                        'status' => 'approved']) }}"
+                                        class="detail-link">
                                         詳細
                                     </a>
                                 </td>
