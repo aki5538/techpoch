@@ -18,7 +18,9 @@ class UserLoginController extends AuthenticatedSessionController
         if (! Auth::guard('user')->attempt($request->only('email', 'password'))) {
             return back()
                 ->withInput()
-                ->with('status', 'login-error'); // 仕様書 FN009
+                ->withErrors([
+                    'email' => 'ログイン情報が登録されていません',
+                ]);
         }
 
         // メール未認証（仕様書 FN011）

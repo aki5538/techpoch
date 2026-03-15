@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\StampCorrectionRequest;
 use App\Models\Attendance;
+use App\Http\Requests\User\StampCorrectionRequest as StampCorrectionRequestForm;
+
 
 class StampCorrectionRequestController extends Controller
 {
@@ -27,19 +29,17 @@ class StampCorrectionRequestController extends Controller
         return view('user.stamp_correction_request.list', compact('pending', 'approved'));
     }
 
-    public function store(Request $request, $attendanceId)
+    public function store(StampCorrectionRequestForm $request, $attendanceId)
     {
         $attendance = Attendance::findOrFail($attendanceId);
 
-        // 備考は必須
-        $request->validate([
-            'note' => 'required|string',
-        ]);
+        // バリデーション済みデータを取得
+        $data = $request->validated();
 
         StampCorrectionRequest::create([
             'user_id'       => Auth::id(),
             'attendance_id' => $attendanceId,
-            'reason'        => $request->note,  // ← これでOK
+            'reason'        => $data['note'],
             'status'        => 'pending',
         ]);
 

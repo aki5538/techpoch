@@ -29,7 +29,19 @@ class ClockController extends Controller
         }
 
         // 日付と時刻（UI と同じ形式）
-        $today = Carbon::now()->format('Y年n月j日(D)');
+        $weekMap = [
+            'Sun' => '日',
+            'Mon' => '月',
+            'Tue' => '火',
+            'Wed' => '水',
+            'Thu' => '木',
+            'Fri' => '金',
+            'Sat' => '土',
+        ];
+
+        $w = $weekMap[Carbon::now()->format('D')];
+
+        $today = Carbon::now()->format("Y年n月j日") . "({$w})";
         $now   = Carbon::now()->format('H:i');
 
         return view('user.attendance.clock', [

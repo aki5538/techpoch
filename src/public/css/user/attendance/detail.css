@@ -1,6 +1,5 @@
 .detail-container {
     width: 1512px;
-    height: 100vh;
     background: #F0EFF2;
     margin: 0 auto;
     padding-top: 40px;
@@ -81,22 +80,41 @@
 /* ===== ラベル ===== */
 .label {
     width: 120px;
-    margin-left: 30px;
+    margin-left: 40px;
     font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
     letter-spacing: 0.15em;
     color: #737373;
+    margin-right: 150px;
 }
 
 /* ===== 値 ===== */
+.time-input {
+    width: 103px;              /* 既存の枠サイズに合わせる */
+    height: 28px;
+    border: 1px solid #E1E1E1;
+    border-radius: 4px;
+    padding: 0;
+    text-align: center;        /* ★ 中央寄せ */
+    font-family: Inter, sans-serif;
+    font-weight: 700;          /* ★ 太字 */
+    font-size: 16px;           /* ★ Figma と同じ */
+    letter-spacing: 0.15em;    /* ★ Figma と同じ */
+    color: #000;
+    margin-right: 20px;
+}
+
 .value {
-    margin-left: 40px;
     display: flex;
     align-items: center;
     gap: 20px;
+}
+
+/* 名前・日付など、テキスト専用の値 */
+.text-value {
     font-family: Inter, sans-serif;
-    font-weight: 700;
+    font-weight: 700;       /* 太字 */
     font-size: 16px;
     letter-spacing: 0.15em;
     color: #000;
@@ -116,7 +134,7 @@
 }
 
 /* 共通の時間枠 */
-.time-box {
+.time-input {
     width: 103px;
     height: 28px;
     border: 1px solid #E1E1E1;
@@ -179,6 +197,13 @@
     color: #FF000080;
     margin-left: 835px;
     margin-top: 50px;
+}
+
+.error-message {
+    color: #D9534F !important;
+    font-size: 14px;
+    margin-top: 6px;
+    margin-left: 40px; 
 }
 
 /* 備考だけ縦積みにする（休憩には絶対当たらない） */
