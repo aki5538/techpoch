@@ -19,7 +19,6 @@ class Attendance extends Model
     ];
 
     protected $dates = [
-        'work_date',
         'clock_in',
         'clock_out',
     ];
