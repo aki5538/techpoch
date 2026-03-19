@@ -4,9 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class Attendance extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id',
         'work_date',
@@ -86,5 +90,21 @@ class Attendance extends Model
     public function correctionRequests()
     {
         return $this->hasMany(StampCorrectionRequest::class);
+    }
+
+    public function getBreakTimesLabelAttribute()
+    {
+        $labels = [];
+
+        foreach ($this->breakTimes as $break) {
+            $in  = $break->break_in  ? Carbon::parse($break->break_in)->format('H:i') : '';
+            $out = $break->break_out ? Carbon::parse($break->break_out)->format('H:i') : '';
+
+            if ($in && $out) {
+                $labels[] = $in . ' - ' . $out;
+            }
+        }
+
+        return implode(', ', $labels);
     }
 }

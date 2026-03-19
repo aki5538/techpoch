@@ -87,7 +87,7 @@
                     {{ $attendance->end_time_label }}
                 </div>
                 <div class="attendance-list-row-item attendance-list-row-break">
-                    {{ $attendance->break_time_label }}
+                    {{ $attendance->break_times_label }}
                 </div>
                 <div class="attendance-list-row-item attendance-list-row-total">
                     {{ $attendance->total_time_label }}

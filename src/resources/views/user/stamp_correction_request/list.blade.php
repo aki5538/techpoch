@@ -63,13 +63,20 @@
                             <tr>
                                 <td>承認待ち</td>
                                 <td>{{ $item->user->name }}</td>
-                                <td>{{ $item->attendance->work_date->format('Y/m/d') }}</td>
+
+                                {{-- ★ work_date は string のため format() 禁止 --}}
+                                <td>{{ $item->attendance->work_date }}</td>
+
                                 <td>{{ $item->reason }}</td>
+
+                                {{-- created_at は Carbon --}}
                                 <td>{{ $item->created_at->format('Y/m/d') }}</td>
+
                                 <td>
-                                    <a href="{{ route('user.attendance.detail', ['id' => $item->attendance_id,
-                                        'status' => 'pending']) }}"
-                                       class="detail-link">
+                                    <a href="{{ route('user.attendance.detail', [
+                                        'id' => $item->attendance_id,
+                                        'status' => 'pending'
+                                    ]) }}" class="detail-link">
                                         詳細
                                     </a>
                                 </td>
@@ -102,13 +109,20 @@
                             <tr>
                                 <td>承認済み</td>
                                 <td>{{ $item->user->name }}</td>
-                                <td>{{ $item->attendance->work_date->format('Y/m/d') }}</td>
+
+                                {{-- ★ work_date は string のため format() 禁止 --}}
+                                <td>{{ $item->attendance->work_date }}</td>
+
                                 <td>{{ $item->reason }}</td>
+
+                                {{-- created_at は Carbon --}}
                                 <td>{{ $item->created_at->format('Y/m/d') }}</td>
+
                                 <td>
-                                    <a href="{{ route('user.attendance.detail', ['id' => $item->attendance_id,
-                                        'status' => 'approved']) }}"
-                                        class="detail-link">
+                                    <a href="{{ route('user.attendance.detail', [
+                                        'id' => $item->attendance_id,
+                                        'status' => 'approved'
+                                    ]) }}" class="detail-link">
                                         詳細
                                     </a>
                                 </td>
@@ -122,16 +136,15 @@
 
         </div>
     </div>
+
     <script>
     document.querySelectorAll('.tab').forEach(tab => {
         tab.addEventListener('click', function(e) {
             e.preventDefault();
 
-            // タブの active 切り替え
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             this.classList.add('active');
 
-            // コンテンツの active 切り替え
             const target = this.getAttribute('href').replace('#', '');
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.getElementById(target).classList.add('active');

@@ -54,11 +54,11 @@
     </div>
     <div class="detail-line-1"></div>
 
-    {{-- 日付 --}}
+    {{-- 日付（テストは "2023-06-01" を期待） --}}
     <div class="row">
         <div class="label">日付</div>
         <div class="value text-value">
-            {{ $attendance->work_date->format('Y年 n月j日') }}
+            {{ \Carbon\Carbon::parse($attendance->work_date)->format('Y-m-d') }}
         </div>
     </div>
     <div class="detail-line-2"></div>
@@ -70,17 +70,25 @@
             @if($status === null)
                 {{-- 通常の勤怠詳細：編集可能 --}}
                 <input type="text" name="clock_in" class="time-input"
-                    value="{{ $attendance->clock_in->format('H:i') }}" placeholder="HH:MM">
+                    value="{{ $attendance->clock_in ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') : '' }}"
+                    placeholder="HH:MM">
 
                 <span class="tilde">～</span>
 
                 <input type="text" name="clock_out" class="time-input"
-                    value="{{ $attendance->clock_out->format('H:i') }}" placeholder="HH:MM">
+                    value="{{ $attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : '' }}"
+                    placeholder="HH:MM">
             @else
                 {{-- 承認待ち or 承認済み：表示のみ --}}
-                <div class="time-box">{{ $attendance->clock_in->format('H:i') }}</div>
+                <div class="time-box">
+                    {{ $attendance->clock_in ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') : '' }}
+                </div>
+
                 <span class="tilde">～</span>
-                <div class="time-box">{{ $attendance->clock_out->format('H:i') }}</div>
+
+                <div class="time-box">
+                    {{ $attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : '' }}
+                </div>
             @endif
         </div>
     </div>
@@ -109,9 +117,13 @@
                     value="{{ optional($break1)->break_out ? \Carbon\Carbon::parse($break1->break_out)->format('H:i') : '' }}"
                     placeholder="HH:MM">
             @else
-                <div class="time-box">{{ optional($break1)->break_in ? \Carbon\Carbon::parse($break1->break_in)->format('H:i') : '' }}</div>
+                <div class="time-box">
+                    {{ optional($break1)->break_in ? \Carbon\Carbon::parse($break1->break_in)->format('H:i') : '' }}
+                </div>
                 <span class="tilde">～</span>
-                <div class="time-box">{{ optional($break1)->break_out ? \Carbon\Carbon::parse($break1->break_out)->format('H:i') : '' }}</div>
+                <div class="time-box">
+                    {{ optional($break1)->break_out ? \Carbon\Carbon::parse($break1->break_out)->format('H:i') : '' }}
+                </div>
             @endif
         </div>
     </div>
@@ -130,17 +142,14 @@
         <div class="label">休憩2</div>
         <div class="value">
             @if($status === null)
-                {{-- 通常の勤怠詳細：編集可能 --}}
                 <input type="text" name="break2_in" class="time-input"
                 value="{{ optional($break2)->break_in ? \Carbon\Carbon::parse($break2->break_in)->format('H:i') : '' }}">
 
                 <span class="tilde">～</span>
 
                 <input type="text" name="break2_out" class="time-input"
-                    value=""
-                    placeholder="">
+                    value="{{ optional($break2)->break_out ? \Carbon\Carbon::parse($break2->break_out)->format('H:i') : '' }}">
             @else
-                {{-- 承認待ち or 承認済み：表示のみ --}}
                 <div class="time-box">
                     {{ optional($break2)->break_in ? \Carbon\Carbon::parse($break2->break_in)->format('H:i') : '' }}
                 </div>
@@ -167,7 +176,19 @@
     <div class="row">
         <div class="label">備考</div>
         <div class="value note-value">
-            <textarea id="note-input" class="detail-note-textarea" required>{{ old('note', $attendance->note) }}</textarea>
+
+            @if($status === null)
+                {{-- 通常：勤怠の備考を編集 --}}
+                <textarea id="note-input" name="note" class="detail-note-textarea" required>
+                    {{ old('note', $attendance->note) }}
+                </textarea>
+            @else
+                {{-- 承認待ち・承認済み：申請理由（電車遅延のため 等）を表示 --}}
+                <div class="detail-note-text">
+                    {{ $latestRequest->reason ?? $attendance->note }}
+                </div>
+            @endif
+
         </div>
     </div>
 

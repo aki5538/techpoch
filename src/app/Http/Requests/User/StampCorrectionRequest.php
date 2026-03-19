@@ -43,7 +43,7 @@ class StampCorrectionRequest extends FormRequest
 
             // 出勤 > 退勤 の場合
             if ($clockIn && $clockOut && $clockIn > $clockOut) {
-                $validator->errors()->add('clock_in', '出勤時間もしくは退勤時間が不適切な値です');
+                $validator->errors()->add('clock_in', '出勤時間が不適切な値です');
             }
 
             // 休憩1
