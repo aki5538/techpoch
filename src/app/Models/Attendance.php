@@ -107,4 +107,9 @@ class Attendance extends Model
 
         return implode(', ', $labels);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

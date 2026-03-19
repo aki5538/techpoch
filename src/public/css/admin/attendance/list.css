@@ -1,25 +1,31 @@
-/* 画面全体 */
-body {
-    margin: 0;
-    padding: 0;
-    background: #F0EFF2;
-    font-family: 'Inter', sans-serif;
+/* 画面全体コンテナ */
+.attendance-list-container {
+    width: 1512px;
+    background-color: #F0EFF2;
+    margin: 0 auto;
+    padding-top: 40px;
 }
 
-/* 管理者ヘッダー */
-.admin-nav {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 80px;
+/* 画面幅が 1512px 未満のときは横スクロールを出さない */
+@media screen and (max-width: 1512px) {
+    .attendance-list-container {
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+    }
 }
 
-.admin-nav a,
-.admin-nav button {
-    position: absolute;
-    top: 26px;
+/* ヘッダー右上メニュー（ユーザー側と同じ） */
+.attendance-header-menu {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-right: 0px;
+}
 
+/* メニュー共通スタイル */
+.attendance-header-menu a,
+.attendance-header-menu button {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 24px;
@@ -28,221 +34,201 @@ body {
     background: none;
     border: none;
     cursor: pointer;
+    padding: 5px 0;
+    line-height: 1;
 }
 
-/* 個別 left 値（Figma 通り） */
-.nav-attendance { left: 857px; width: 96px; }
-.nav-staff      { left: 996px; width: 144px; }
-.nav-request    { left: 1195px; width: 96px; }
-.nav-logout     { left: 1346px; width: 120px; }
-
-
-/* タイトルブロック全体（位置合わせ用） */
-.page-title-block {
-    position: absolute;
-    top: 171px;
-    left: 306px;
-    height: 36px;
+.attendance-header-menu a:hover,
+.attendance-header-menu button:hover {
+    opacity: 0.7;
 }
 
-/* 左の黒い棒（Line 2） */
-.title-line {
-    position: absolute;
-    width: 40px;
-    height: 0px;
-    border: 8px solid #000000;
-    transform: rotate(90deg);
-    top: 0;
-    left: 0;
+/* タイトルブロック（縦線＋タイトル） */
+.attendance-list-title {
+    display: flex !important;
+    align-items: center !important;
+    margin: 40px auto 20px auto !important;
+    width: 1000px !important;
 }
 
-/* タイトル文字（2023年6月1日の勤怠） */
-.page-title {
-    position: absolute;
-    top: 0;
-    left: 21px;
-    width: 293px;
-    height: 36px;
+/* 左の黒い縦線 */
+.attendance-list-title-line {
+    width: 0;
+    height: 40px;
+    border-left: 8px solid #000000;
+    margin-right: 20px;
+}
 
+/* タイトル文字 */
+.attendance-list-title-text {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 30px;
-    line-height: 100%;
-    letter-spacing: 0;
-
     color: #000000;
+    letter-spacing: 0;
+    line-height: 1;
 }
 
-/* 日付バー（白背景） */
-.date-bar {
-    position: absolute;
-    top: 254px;
-    left: 306px;
-    width: 900px;
+/* ▼ 日付バー（全体） */
+.attendance-list-date-bar {
+    width: 940px;
     height: 60px;
-    background: #FFFFFF;
+    background-color: #FFFFFF;
     border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin: 20px auto;
+    padding: 0 30px;
 }
 
+/* 左・中央・右ブロック */
+.date-left,
+.date-center,
+.date-right {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* ←と前日、カレンダーと日付、翌日と→ の距離 */
+}
 
-/* 左の ←（画像） */
-.date-prev-icon {
-    position: absolute;
+/* ←アイコン / →アイコン */
+.date-prev-icon,
+.date-next-icon {
     width: 20px;
     height: 15px;
-    top: 22px;   /* 276 - 254 */
-    left: 25px;  /* 331 - 306 */
     opacity: 0.3;
+    cursor: pointer;
 }
 
+.date-next-icon {
+    transform: scaleX(-1);
+}
 
-/* 「前日」テキスト */
-.date-prev-text {
-    position: absolute;
-    top: 21px;
-    left: 52px;
-    width: 35px;
-    height: 19px;
-
+/* 前日・翌日テキスト */
+.date-prev-text,
+.date-next-text {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 16px;
-    line-height: 100%;
-    letter-spacing: 15%;
     color: #737373;
-
-    text-decoration: none;
+    letter-spacing: 0.15em;
+    line-height: 1;
+    cursor: pointer;
 }
-
 
 /* カレンダー画像 */
 .date-calendar-icon {
-    position: absolute;
     width: 25px;
     height: 25px;
-    top: 14px;
-    left: 372px;
 }
 
-
-/* 日付（2023/06/01） */
+/* 日付（例：2026/03/19） */
 .date-current {
-    position: absolute;
-    top: 15px;
-    left: 408px;
-    width: 119px;
-    height: 24px;
-
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 20px;
-    line-height: 100%;
     color: #000000;
+    letter-spacing: 0;
+    line-height: 1;
 }
 
-/* 「翌月」テキスト */
-.date-next-text {
-    position: absolute;
-    top: 23px;
-    left: 809px;
-    width: 35px;
-    height: 19px;
-
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 100%;
-    letter-spacing: 15%;
-    color: #737373;
-
-    text-decoration: none;
-}
-
-/* → アイコン（← を反転した画像） */
-.date-next-icon {
-    position: absolute;
-    width: 20px;
-    height: 15px;
-    top: 23px;
-    left: 854px;
-    opacity: 0.3;
-    transform: rotate(180deg);
-}
-
-/* テーブル全体（白背景） */
-.attendance-list-table {
-    position: absolute;
-    top: 360px;
-    left: 306px;
+/* ▼ テーブル全体の白い大枠 */
+.attendance-list-table-container {
     width: 900px;
-    height: 328px;
-    background: #FFFFFF;
+    min-height: 1506px;
+    background-color: #FFFFFF;
     border-radius: 10px;
-    border: 0px solid #E1E1E1;
-    border-collapse: collapse;
+
+    margin: 40px auto 60px;
+    padding: 20px 50px;
 }
 
-/* テーブルヘッダー行 */
-.attendance-list-table thead tr {
-    position: absolute;
-    top: 15px;
-    left: 0;
-    width: 900px;
+/* ▼ テーブルヘッダー全体 */
+.attendance-list-table-header {
+    width: 910px;
     height: 31px;
-    border: 3px solid #E1E1E1;
-    color: #737373;
+    border-bottom: 3px solid #E1E1E1;
+    
+
+    display: flex;
+    align-items: center;
+
+    padding-left: 40px !important;
+    margin: 0;
 }
 
-/* 各ヘッダー項目（共通） */
-.attendance-list-table th {
-    position: absolute;
+
+
+/* ▼ テーブルヘッダー共通 */
+.attendance-list-header-item {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 16px;
-    line-height: 100%;
-    letter-spacing: 15%;
     color: #737373;
+    letter-spacing: 0.15em;
+    line-height: 1;
 }
 
-/* 個別位置（Figma 完全一致） */
-.attendance-header-name   { left: 57px;  top: 6px; }
-.attendance-header-start  { left: 246px; top: 6px; }
-.attendance-header-end    { left: 379px; top: 6px; }
-.attendance-header-break  { left: 512px; top: 6px; }
-.attendance-header-total  { left: 645px; top: 6px; }
-.attendance-header-detail { left: 778px; top: 6px; }
+/* ▼ カラム幅（管理者側は「名前」カラムが最初） */
+.attendance-list-header-name {
+    width: 189px; /* ユーザー側の「日付」と同じ幅 */
+}
 
-/* テーブル行（全行共通） */
-.attendance-row {
-    position: absolute;
-    left: 0;
+.attendance-list-header-start {
+    width: 133px;
+}
+
+.attendance-list-header-end {
+    width: 133px;
+}
+
+.attendance-list-header-break {
+    width: 133px;
+}
+
+.attendance-list-header-total {
+    width: 133px;
+}
+
+.attendance-list-header-detail {
+    width: 133px;
+}
+
+/* ▼ テーブル1行分（共通） */
+.attendance-list-row {
     width: 900px;
-    height: 33px;
-    border: 2px solid #E1E1E1;
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+
+    border-bottom: 1px solid #E1E1E1;
+
+    margin: 0 auto;
+    padding-left: 40px;
 }
 
-/* 各セル共通 */
-.attendance-row-item {
-    position: absolute;
+/* ▼ 行の文字共通 */
+.attendance-list-row-item {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 16px;
-    line-height: 100%;
-    letter-spacing: 15%;
-    color: #737373;
-    top: 7px; /* 33px - 19px の中央揃え */
+    letter-spacing: 0.15em;
+    line-height: 1;
+    color: #000000;
 }
 
-/* 個別位置（Figma 完全一致） */
-.row-name  { left: 36px;  width: 78px;  text-align: center; }
-.row-start { left: 238px; width: 58px; }
-.row-end   { left: 368px; width: 55px; }
-.row-break { left: 509px; width: 42px; }
-.row-total { left: 642px; width: 45px; }
+/* ▼ 行のカラム幅（ヘッダーと同じ） */
+.attendance-list-row-name {
+    width: 189px;
+}
 
-/* 詳細（ここだけ黒） */
-.row-detail {
-    left: 778px;
-    width: 35px;
-    color: #000000;
+.attendance-list-row-start,
+.attendance-list-row-end,
+.attendance-list-row-break,
+.attendance-list-row-total,
+.attendance-list-row-detail {
+    width: 133px;
 }

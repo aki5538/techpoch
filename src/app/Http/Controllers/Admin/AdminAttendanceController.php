@@ -28,7 +28,7 @@ class AdminAttendanceController extends Controller
         $attendance = Attendance::with([
             'user',
             'breakTimes',   // 休憩
-            'correctionRequest' // 承認待ち判定用
+            'correctionRequests' // 承認待ち判定用
         ])->findOrFail($id);
 
         return view('admin.attendance.detail', [
@@ -53,7 +53,6 @@ class AdminAttendanceController extends Controller
         if ($request->break_start) {
             foreach ($request->break_start as $index => $start) {
 
-                // 空行はスキップ
                 if (!$start && !$request->break_end[$index]) {
                     continue;
                 }
@@ -66,6 +65,8 @@ class AdminAttendanceController extends Controller
                 ]);
             }
         }
+
+        $attendance->load('breakTimes');
 
         // 休憩合計
         $breakSeconds = 0;

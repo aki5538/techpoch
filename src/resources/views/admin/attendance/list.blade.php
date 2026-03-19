@@ -4,96 +4,106 @@
 <link rel="stylesheet" href="{{ asset('css/admin/attendance/list.css') }}">
 @endsection
 
+{{-- ヘッダー（ユーザー側と同じ構成） --}}
+@section('header-menu')
+    <nav class="attendance-header-menu">
+        <a href="{{ route('admin.attendance.list') }}">勤怠一覧</a>
+        <a href="{{ route('admin.staff.list') }}">スタッフ一覧</a>
+        <a href="{{ route('admin.stamp_correction_request.list') }}">申請一覧</a>
+
+        <a href="#"
+           onclick="event.preventDefault(); document.getElementById('admin-logout-form').submit();">
+            ログアウト
+        </a>
+
+        <form id="admin-logout-form"
+              action="{{ url('/admin/logout') }}"
+              method="POST"
+              style="display:none;">
+            @csrf
+        </form>
+    </nav>
+@endsection
+
 @section('content')
-
-{{-- 管理者ナビ（各画面ごとに実装） --}}
-<div class="admin-nav">
-    <a href="/admin/attendance/list">勤怠一覧</a>
-    <a href="/admin/staff/list">スタッフ一覧</a>
-    <a href="/admin/stamp_correction_request/list">申請一覧</a>
-
-    <form method="POST" action="/admin/logout" class="admin-logout-form">
-        @csrf
-        <button type="submit">ログアウト</button>
-    </form>
-</div>
 
 <div class="attendance-list-container">
 
-    {{-- タイトルブロック（棒 + タイトル） --}}
-    <div class="page-title-block">
-        <div class="title-line"></div>
-
-        <h1 class="page-title">
+    {{-- ▼ タイトル（ユーザー側と同じ構成） --}}
+    <div class="attendance-list-title">
+        <div class="attendance-list-title-line"></div>
+        <div class="attendance-list-title-text">
             {{ \Carbon\Carbon::parse($date)->format('Y年n月j日の勤怠') }}
-        </h1>
+        </div>
     </div>
 
-    {{-- 日付（前日 / 今日 / 翌日） --}}
-    <div class="date-bar">
+    {{-- ここから先は今の date-bar / table をそのまま使ってOK --}}
+    {{-- ▼ 日付バー --}}
+    <div class="attendance-list-date-bar">
+        <div class="date-left">
+            <img src="{{ asset('images/admin/attendance/arrow-left.png') }}" class="date-prev-icon">
+            <a href="{{ route('admin.attendance.list', ['date' => \Carbon\Carbon::parse($date)->subDay()->toDateString()]) }}"
+               class="date-prev-text">
+                前日
+            </a>
+        </div>
 
-        {{-- ←（画像） --}}
-        <img src="{{ asset('images/admin/attendance/arrow-left.png') }}" class="date-prev-icon">
+        <div class="date-center">
+            <img src="{{ asset('images/admin/attendance/calendar.png') }}" class="date-calendar-icon">
+            <span class="date-current">
+                {{ \Carbon\Carbon::parse($date)->format('Y/m/d') }}
+            </span>
+        </div>
 
-        {{-- 前日 --}}
-        <a href="{{ route('admin.attendance.list', ['date' => \Carbon\Carbon::parse($date)->subDay()->toDateString()]) }}"
-        class="date-prev-text">
-            前日
-        </a>
-
-        {{-- カレンダー画像 --}}
-        <img src="{{ asset('images/admin/attendance/calendar.png') }}" class="date-calendar-icon">
-
-        {{-- 日付（例：2023/06/01） --}}
-        <span class="date-current">
-            {{ \Carbon\Carbon::parse($date)->format('Y/m/d') }}
-        </span>
-
-        {{-- 翌日 --}}
-        <a href="{{ route('admin.attendance.list', ['date' => \Carbon\Carbon::parse($date)->addDay()->toDateString()]) }}"
-        class="date-next-text">
-            翌日
-        </a>
-
-        {{-- →（画像：← を反転） --}}
-        <img src="{{ asset('images/admin/attendance/arrow-left.png') }}" class="date-next-icon">
-
+        <div class="date-right">
+            <a href="{{ route('admin.attendance.list', ['date' => \Carbon\Carbon::parse($date)->addDay()->toDateString()]) }}"
+               class="date-next-text">
+                翌日
+            </a>
+            <img src="{{ asset('images/admin/attendance/arrow-left.png') }}" class="date-next-icon">
+        </div>
     </div>
 
-    {{-- 勤怠一覧テーブル --}}
-    <table class="attendance-list-table">
-        <thead>
-            <tr>
-                <th class="attendance-header-name">名前</th>
-                <th class="attendance-header-start">出勤</th>
-                <th class="attendance-header-end">退勤</th>
-                <th class="attendance-header-break">休憩</th>
-                <th class="attendance-header-total">合計</th>
-                <th class="attendance-header-detail">詳細</th>
-            </tr>
-        </thead>
+    {{-- ▼ 勤怠一覧テーブル（ここは今のままでOK） --}}
+    <div class="attendance-list-table-container">
 
-        <tbody>
-            @foreach ($attendances as $index => $attendance)
-                <tr class="attendance-row" style="top: {{ 60 + ($index * 33) }}px;">
-                    <td class="attendance-row-item row-name">
-                        {{ $attendance->user->name }}</td>
-                    <td class="attendance-row-item row-start">
-                        {{ $attendance->clock_in ?? '' }}</td>
-                    <td class="attendance-row-item row-end">
-                        {{ $attendance->clock_out ?? '' }}</td>
-                    <td class="attendance-row-item row-break">
-                        {{ $attendance->break_total ?? '' }}</td>
-                    <td class="attendance-row-item row-total">
-                        {{ $attendance->work_total ?? '' }}</td>
-                    <td class="attendance-row-item row-detail">
-                        <a href="{{ route('admin.attendance.detail', $attendance->id) }}">詳細</a>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+        <div class="attendance-list-table-header">
+            <div class="attendance-list-header-item attendance-list-header-name">名前</div>
+            <div class="attendance-list-header-item attendance-list-header-start">出勤</div>
+            <div class="attendance-list-header-item attendance-list-header-end">退勤</div>
+            <div class="attendance-list-header-item attendance-list-header-break">休憩</div>
+            <div class="attendance-list-header-item attendance-list-header-total">合計</div>
+            <div class="attendance-list-header-item attendance-list-header-detail">詳細</div>
+        </div>
+
+        @foreach ($attendances as $attendance)
+            <div class="attendance-list-row">
+                <div class="attendance-list-row-item attendance-list-row-name">
+                    {{ $attendance->user->name }}
+                </div>
+
+                <div class="attendance-list-row-item attendance-list-row-start">
+                    {{ optional($attendance->clock_in)->format('H:i') }}
+                </div>
+
+                <div class="attendance-list-row-item attendance-list-row-end">
+                    {{ optional($attendance->clock_out)->format('H:i') }}
+                </div>
+
+                <div class="attendance-list-row-item attendance-list-row-break">
+                    {{ $attendance->break_time_label }}
+                </div>
+
+                <div class="attendance-list-row-item attendance-list-row-total">
+                    {{ $attendance->total_time_label }}
+                </div>
+
+                <div class="attendance-list-row-item attendance-list-row-detail">
+                    <a href="{{ route('admin.attendance.detail', $attendance->id) }}">詳細</a>
+                </div>
+            </div>
+        @endforeach
+    </div>
 
 </div>
-
 @endsection

@@ -149,21 +149,38 @@ class ClockController extends Controller
         $user = Auth::user();
         $todayDate = Carbon::today()->toDateString();
 
-        // 今日の勤怠を取得
         $attendance = Attendance::where('user_id', $user->id)
             ->where('work_date', $todayDate)
+            ->with('breakTimes')
             ->first();
 
-        // 出勤中でなければ退勤できない
         if (!$attendance || $attendance->status !== '出勤中') {
             return redirect()->route('user.attendance');
         }
 
-        // 退勤時刻を保存
-        $attendance->update([
-            'clock_out' => Carbon::now(),
-            'status'    => '退勤済',
-        ]);
+        // 退勤時刻
+        $attendance->clock_out = Carbon::now();
+        $attendance->status = '退勤済';
+
+        // ★ 休憩合計
+        $breakSeconds = 0;
+        foreach ($attendance->breakTimes as $break) {
+            if ($break->break_in && $break->break_out) {
+                $breakSeconds += Carbon::parse($break->break_out)
+                    ->diffInSeconds(Carbon::parse($break->break_in));
+            }
+        }
+        $attendance->break_time = floor($breakSeconds / 60);
+
+        // ★ 実働
+        if ($attendance->clock_in && $attendance->clock_out) {
+            $workSeconds = Carbon::parse($attendance->clock_out)
+                ->diffInSeconds(Carbon::parse($attendance->clock_in));
+
+            $attendance->working_time = floor(($workSeconds - $breakSeconds) / 60);
+        }
+
+        $attendance->save();
 
         return redirect()->route('user.attendance');
     }

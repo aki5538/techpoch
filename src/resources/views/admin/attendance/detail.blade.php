@@ -4,41 +4,50 @@
 <link rel="stylesheet" href="{{ asset('css/admin/attendance/detail.css') }}">
 @endsection
 
+{{-- ヘッダー --}}
+@section('header-menu')
+    <nav class="attendance-header-menu">
+        <a href="{{ route('admin.attendance.list') }}">勤怠一覧</a>
+        <a href="{{ route('admin.staff.list') }}">スタッフ一覧</a>
+        <a href="{{ route('admin.stamp_correction_request.list') }}">申請一覧</a>
+
+        <a href="#"
+           onclick="event.preventDefault(); document.getElementById('admin-logout-form').submit();">
+            ログアウト
+        </a>
+
+        <form id="admin-logout-form"
+              action="{{ url('/admin/logout') }}"
+              method="POST"
+              style="display:none;">
+            @csrf
+        </form>
+    </nav>
+@endsection
+
 @section('content')
 
-{{-- 管理者ナビ（各画面ごとに実装） --}}
-<div class="admin-nav">
-    <a href="/admin/attendance/list">勤怠一覧</a>
-    <a href="/admin/staff/list">スタッフ一覧</a>
-    <a href="/admin/stamp_correction_request/list">申請一覧</a>
-
-    <form method="POST" action="/admin/logout" class="admin-logout-form">
-        @csrf
-        <button type="submit">ログアウト</button>
-    </form>
-</div>
-
-{{-- タイトル（棒 + 勤怠詳細） --}}
+{{-- タイトル --}}
 <div class="detail-header">
     <div class="bar"></div>
     <div class="title">勤怠詳細</div>
 </div>
 
-{{-- 白い大枠（表示部分） --}}
+{{-- 白い大枠 --}}
 <div class="detail-wrapper"></div>
 
-{{-- 名前（表示） --}}
+{{-- 名前 --}}
 <div class="detail-name-label">名前</div>
 <div class="detail-name-value">{{ $attendance->user->name }}</div>
 <div class="detail-line-1"></div>
 
-{{-- 日付（表示） --}}
+{{-- 日付 --}}
 <div class="detail-date-label">日付</div>
 <div class="detail-date-year">{{ \Carbon\Carbon::parse($attendance->work_date)->format('Y年') }}</div>
 <div class="detail-date-day">{{ \Carbon\Carbon::parse($attendance->work_date)->format('n月j日') }}</div>
 <div class="detail-line-2"></div>
 
-{{-- 出勤・退勤（表示） --}}
+{{-- 出勤・退勤 --}}
 <div class="detail-worktime-label">出勤・退勤</div>
 
 <div class="detail-start-box"></div>
@@ -55,57 +64,65 @@
 
 <div class="detail-line-3"></div>
 
-{{-- 休憩1（表示） --}}
+{{-- 休憩1 --}}
 <div class="detail-break-box"></div>
 
 <div class="detail-break1-label">休憩</div>
 
 <div class="detail-break1-start-box"></div>
 <div class="detail-break1-start-time">
-    {{ optional($attendance->breakTimes[0])->break_in ? \Carbon\Carbon::parse($attendance->breakTimes[0]->break_in)->format('H:i') : '' }}
+    {{ $attendance->breakTimes->get(0)?->break_in
+        ? \Carbon\Carbon::parse($attendance->breakTimes->get(0)->break_in)->format('H:i')
+        : '' }}
 </div>
 
 <div class="detail-break1-tilde">〜</div>
 
 <div class="detail-break1-end-box"></div>
 <div class="detail-break1-end-time">
-    {{ optional($attendance->breakTimes[0])->break_out ? \Carbon\Carbon::parse($attendance->breakTimes[0]->break_out)->format('H:i') : '' }}
+    {{ $attendance->breakTimes->get(0)?->break_out
+        ? \Carbon\Carbon::parse($attendance->breakTimes->get(0)->break_out)->format('H:i')
+        : '' }}
 </div>
 
 <div class="detail-line-4"></div>
 
-{{-- 休憩2（表示） --}}
+{{-- 休憩2 --}}
 <div class="detail-break2-label">休憩2</div>
 
 <div class="detail-break2-start-box"></div>
 <div class="detail-break2-start-time">
-    {{ optional($attendance->breakTimes[1])->break_in ? \Carbon\Carbon::parse($attendance->breakTimes[1]->break_in)->format('H:i') : '' }}
+    {{ $attendance->breakTimes->get(1)?->break_in
+        ? \Carbon\Carbon::parse($attendance->breakTimes->get(1)->break_in)->format('H:i')
+        : '' }}
 </div>
 
 <div class="detail-break2-tilde">〜</div>
 
 <div class="detail-break2-end-box"></div>
 <div class="detail-break2-end-time">
-    {{ optional($attendance->breakTimes[1])->break_out ? \Carbon\Carbon::parse($attendance->breakTimes[1]->break_out)->format('H:i') : '' }}
+    {{ $attendance->breakTimes->get(1)?->break_out
+        ? \Carbon\Carbon::parse($attendance->breakTimes->get(1)->break_out)->format('H:i')
+        : '' }}
 </div>
 
 <div class="detail-line-5"></div>
 
-{{-- 備考（表示） --}}
+{{-- 備考 --}}
 <div class="detail-note-label">備考</div>
 <div class="detail-note-box"></div>
 <div class="detail-note-text">
     {{ $attendance->note }}
 </div>
 
-{{-- 承認待ちメッセージ（表示） --}}
+{{-- 承認待ち --}}
 @if ($attendance->correctionRequest && $attendance->correctionRequest->status === 'pending')
     <div class="detail-pending-message">
         ※ この勤怠は修正申請が承認待ちのため、修正できません。
     </div>
 @endif
 
-{{-- 修正フォーム（表示の下に配置） --}}
+{{-- 修正フォーム --}}
 <div class="attendance-detail-container">
 
     <h2 class="page-title">
@@ -139,36 +156,36 @@
             @enderror
         </div>
 
-        {{-- 休憩時間（複数行） --}}
+        {{-- 休憩時間（固定2枠） --}}
         <div class="break-time-wrapper">
             <label>休憩時間</label>
 
-            @php
-                $oldBreakStart = old('break_start', $attendance->breakTimes->pluck('break_in')->map(fn($v) => \Carbon\Carbon::parse($v)->format('H:i'))->toArray());
-                $oldBreakEnd   = old('break_end',   $attendance->breakTimes->pluck('break_out')->map(fn($v) => $v ? \Carbon\Carbon::parse($v)->format('H:i') : null)->toArray());
-            @endphp
-
-            @foreach ($oldBreakStart as $i => $start)
-                <div class="break-row">
-                    <input type="time" name="break_start[]" value="{{ $start }}">
-                    <span>〜</span>
-                    <input type="time" name="break_end[]" value="{{ $oldBreakEnd[$i] ?? '' }}">
-                </div>
-            @endforeach
-
-            {{-- 空行を1つ追加 --}}
+            {{-- 休憩1 --}}
             <div class="break-row">
-                <input type="time" name="break_start[]" value="">
+                <input type="time"
+                       name="break_start_1"
+                       value="{{ old('break_start_1', $attendance->breakTimes->get(0)?->break_in ? \Carbon\Carbon::parse($attendance->breakTimes->get(0)->break_in)->format('H:i') : '') }}">
                 <span>〜</span>
-                <input type="time" name="break_end[]" value="">
+                <input type="time"
+                       name="break_end_1"
+                       value="{{ old('break_end_1', $attendance->breakTimes->get(0)?->break_out ? \Carbon\Carbon::parse($attendance->breakTimes->get(0)->break_out)->format('H:i') : '') }}">
             </div>
 
-            @error('break_start.*')
-                <p class="error">{{ $message }}</p>
-            @enderror
-            @error('break_end.*')
-                <p class="error">{{ $message }}</p>
-            @enderror
+            {{-- 休憩2 --}}
+            <div class="break-row">
+                <input type="time"
+                       name="break_start_2"
+                       value="{{ old('break_start_2', $attendance->breakTimes->get(1)?->break_in ? \Carbon\Carbon::parse($attendance->breakTimes->get(1)->break_in)->format('H:i') : '') }}">
+                <span>〜</span>
+                <input type="time"
+                       name="break_end_2"
+                       value="{{ old('break_end_2', $attendance->breakTimes->get(1)?->break_out ? \Carbon\Carbon::parse($attendance->breakTimes->get(1)->break_out)->format('H:i') : '') }}">
+            </div>
+
+            @error('break_start_1') <p class="error">{{ $message }}</p> @enderror
+            @error('break_end_1')   <p class="error">{{ $message }}</p> @enderror
+            @error('break_start_2') <p class="error">{{ $message }}</p> @enderror
+            @error('break_end_2')   <p class="error">{{ $message }}</p> @enderror
         </div>
 
         {{-- 備考 --}}
@@ -180,7 +197,7 @@
             @enderror
         </div>
 
-        {{-- 修正ボタン（承認待ちなら非表示） --}}
+        {{-- 修正ボタン --}}
         @if (!($attendance->correctionRequest && $attendance->correctionRequest->status === 'pending'))
             <button type="submit" class="btn-submit">修正する</button>
         @endif

@@ -10,6 +10,14 @@ Route::post('/logout', function () {
     return redirect('/login');
 })->name('logout');
 
+Route::post('/admin/logout', function () {
+    Auth::guard('admin')->logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/admin/login');
+})->name('admin.logout');
+
+
 use App\Http\Controllers\User\ClockController;
 use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\AdminAttendanceController;
