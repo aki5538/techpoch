@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="{{ asset('css/admin/attendance/detail.css') }}">
 @endsection
 
-{{-- ヘッダー --}}
 @section('header-menu')
     <nav class="attendance-header-menu">
         <a href="{{ route('admin.attendance.list') }}">勤怠一覧</a>
@@ -27,182 +26,155 @@
 
 @section('content')
 
-{{-- タイトル --}}
-<div class="detail-header">
-    <div class="bar"></div>
-    <div class="title">勤怠詳細</div>
-</div>
+@php
+    $break1 = $attendance->breakTimes[0] ?? null;
+    $break2 = $attendance->breakTimes[1] ?? null;
 
-{{-- 白い大枠 --}}
-<div class="detail-wrapper"></div>
+    $pending = $attendance->correctionRequest && $attendance->correctionRequest->status === 'pending';
+@endphp
 
-{{-- 名前 --}}
-<div class="detail-name-label">名前</div>
-<div class="detail-name-value">{{ $attendance->user->name }}</div>
-<div class="detail-line-1"></div>
+<div class="detail-container">
 
-{{-- 日付 --}}
-<div class="detail-date-label">日付</div>
-<div class="detail-date-year">{{ \Carbon\Carbon::parse($attendance->work_date)->format('Y年') }}</div>
-<div class="detail-date-day">{{ \Carbon\Carbon::parse($attendance->work_date)->format('n月j日') }}</div>
-<div class="detail-line-2"></div>
-
-{{-- 出勤・退勤 --}}
-<div class="detail-worktime-label">出勤・退勤</div>
-
-<div class="detail-start-box"></div>
-<div class="detail-start-time">
-    {{ \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') }}
-</div>
-
-<div class="detail-tilde">〜</div>
-
-<div class="detail-end-box"></div>
-<div class="detail-end-time">
-    {{ \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') }}
-</div>
-
-<div class="detail-line-3"></div>
-
-{{-- 休憩1 --}}
-<div class="detail-break-box"></div>
-
-<div class="detail-break1-label">休憩</div>
-
-<div class="detail-break1-start-box"></div>
-<div class="detail-break1-start-time">
-    {{ $attendance->breakTimes->get(0)?->break_in
-        ? \Carbon\Carbon::parse($attendance->breakTimes->get(0)->break_in)->format('H:i')
-        : '' }}
-</div>
-
-<div class="detail-break1-tilde">〜</div>
-
-<div class="detail-break1-end-box"></div>
-<div class="detail-break1-end-time">
-    {{ $attendance->breakTimes->get(0)?->break_out
-        ? \Carbon\Carbon::parse($attendance->breakTimes->get(0)->break_out)->format('H:i')
-        : '' }}
-</div>
-
-<div class="detail-line-4"></div>
-
-{{-- 休憩2 --}}
-<div class="detail-break2-label">休憩2</div>
-
-<div class="detail-break2-start-box"></div>
-<div class="detail-break2-start-time">
-    {{ $attendance->breakTimes->get(1)?->break_in
-        ? \Carbon\Carbon::parse($attendance->breakTimes->get(1)->break_in)->format('H:i')
-        : '' }}
-</div>
-
-<div class="detail-break2-tilde">〜</div>
-
-<div class="detail-break2-end-box"></div>
-<div class="detail-break2-end-time">
-    {{ $attendance->breakTimes->get(1)?->break_out
-        ? \Carbon\Carbon::parse($attendance->breakTimes->get(1)->break_out)->format('H:i')
-        : '' }}
-</div>
-
-<div class="detail-line-5"></div>
-
-{{-- 備考 --}}
-<div class="detail-note-label">備考</div>
-<div class="detail-note-box"></div>
-<div class="detail-note-text">
-    {{ $attendance->note }}
-</div>
-
-{{-- 承認待ち --}}
-@if ($attendance->correctionRequest && $attendance->correctionRequest->status === 'pending')
-    <div class="detail-pending-message">
-        ※ この勤怠は修正申請が承認待ちのため、修正できません。
+    <div class="detail-header">
+        <div class="bar"></div>
+        <div class="title">勤怠詳細</div>
     </div>
-@endif
 
-{{-- 修正フォーム --}}
-<div class="attendance-detail-container">
-
-    <h2 class="page-title">
-        {{ $attendance->user->name }} さんの勤怠修正
-    </h2>
-
+    {{-- ★ 管理者は直接修正するので form はここ --}}
     <form action="{{ route('admin.attendance.update', $attendance->id) }}" method="POST">
         @csrf
 
-        {{-- 出勤時間 --}}
-        <div class="form-group">
-            <label for="clock_in">出勤時間</label>
-            <input type="time"
-                   name="clock_in"
-                   id="clock_in"
-                   value="{{ old('clock_in', \Carbon\Carbon::parse($attendance->clock_in)->format('H:i')) }}">
-            @error('clock_in')
-                <p class="error">{{ $message }}</p>
-            @enderror
-        </div>
+        {{-- ★ 白枠（ユーザー側と同じ構造） --}}
+        <div class="detail-box {{ $pending ? 'detail-box-pending' : '' }}">
 
-        {{-- 退勤時間 --}}
-        <div class="form-group">
-            <label for="clock_out">退勤時間</label>
-            <input type="time"
-                   name="clock_out"
-                   id="clock_out"
-                   value="{{ old('clock_out', \Carbon\Carbon::parse($attendance->clock_out)->format('H:i')) }}">
-            @error('clock_out')
-                <p class="error">{{ $message }}</p>
-            @enderror
-        </div>
+            {{-- 名前 --}}
+            <div class="row">
+                <div class="label">名前</div>
+                <div class="value text-value">{{ $attendance->user->name }}</div>
+            </div>
+            <div class="detail-line-1"></div>
 
-        {{-- 休憩時間（固定2枠） --}}
-        <div class="break-time-wrapper">
-            <label>休憩時間</label>
+            {{-- 日付 --}}
+            <div class="row">
+                <div class="label">日付</div>
+                <div class="value text-value">
+                    {{ \Carbon\Carbon::parse($attendance->work_date)->format('Y年') }}
+                </div>
+                <div class="value text-value">
+                    {{ \Carbon\Carbon::parse($attendance->work_date)->format('n月j日') }}
+                </div>
+            </div>
+            <div class="detail-line-2"></div>
+
+            {{-- 出勤・退勤 --}}
+            <div class="row">
+                <div class="label">出勤・退勤</div>
+
+                <div class="value">
+                    <input type="text"
+                        name="clock_in"
+                        class="time-input"
+                        value="{{ old('clock_in', \Carbon\Carbon::parse($attendance->clock_in)->format('H:i')) }}"
+                        @if($pending) disabled @endif>
+
+                    <span class="tilde">～</span>
+
+                    <input type="text"
+                        name="clock_out"
+                        class="time-input"
+                        value="{{ old('clock_out', \Carbon\Carbon::parse($attendance->clock_out)->format('H:i')) }}"
+                        @if($pending) disabled @endif>
+                </div>
+            </div>
+
+            @error('clock_in') <div class="error-message">{{ $message }}</div> @enderror
+            @error('clock_out') <div class="error-message">{{ $message }}</div> @enderror
+
+            <div class="detail-line-3"></div>
 
             {{-- 休憩1 --}}
-            <div class="break-row">
-                <input type="time"
-                       name="break_start_1"
-                       value="{{ old('break_start_1', $attendance->breakTimes->get(0)?->break_in ? \Carbon\Carbon::parse($attendance->breakTimes->get(0)->break_in)->format('H:i') : '') }}">
-                <span>〜</span>
-                <input type="time"
-                       name="break_end_1"
-                       value="{{ old('break_end_1', $attendance->breakTimes->get(0)?->break_out ? \Carbon\Carbon::parse($attendance->breakTimes->get(0)->break_out)->format('H:i') : '') }}">
+            <div class="row">
+                <div class="label">休憩</div>
+                <div class="value">
+
+                    <input type="text"
+                           name="break_start_1"
+                           class="time-input"
+                           value="{{ old('break_start_1', optional($break1)->break_in ? \Carbon\Carbon::parse($break1->break_in)->format('H:i') : '') }}"
+                           @if($pending) disabled @endif>
+
+                    <span class="tilde">～</span>
+
+                    <input type="text"
+                           name="break_end_1"
+                           class="time-input"
+                           value="{{ old('break_end_1', optional($break1)->break_out ? \Carbon\Carbon::parse($break1->break_out)->format('H:i') : '') }}"
+                           @if($pending) disabled @endif>
+
+                </div>
             </div>
+
+            @error('break_start_1') <div class="error-message">{{ $message }}</div> @enderror
+            @error('break_end_1')   <div class="error-message">{{ $message }}</div> @enderror
+
+            <div class="detail-line-4"></div>
 
             {{-- 休憩2 --}}
-            <div class="break-row">
-                <input type="time"
-                       name="break_start_2"
-                       value="{{ old('break_start_2', $attendance->breakTimes->get(1)?->break_in ? \Carbon\Carbon::parse($attendance->breakTimes->get(1)->break_in)->format('H:i') : '') }}">
-                <span>〜</span>
-                <input type="time"
-                       name="break_end_2"
-                       value="{{ old('break_end_2', $attendance->breakTimes->get(1)?->break_out ? \Carbon\Carbon::parse($attendance->breakTimes->get(1)->break_out)->format('H:i') : '') }}">
+            <div class="row">
+                <div class="label">休憩2</div>
+                <div class="value">
+
+                    <input type="text"
+                           name="break_start_2"
+                           class="time-input"
+                           value="{{ old('break_start_2', optional($break2)->break_in ? \Carbon\Carbon::parse($break2->break_in)->format('H:i') : '') }}"
+                           @if($pending) disabled @endif>
+
+                    <span class="tilde">～</span>
+
+                    <input type="text"
+                           name="break_end_2"
+                           class="time-input"
+                           value="{{ old('break_end_2', optional($break2)->break_out ? \Carbon\Carbon::parse($break2->break_out)->format('H:i') : '') }}"
+                           @if($pending) disabled @endif>
+
+                </div>
             </div>
 
-            @error('break_start_1') <p class="error">{{ $message }}</p> @enderror
-            @error('break_end_1')   <p class="error">{{ $message }}</p> @enderror
-            @error('break_start_2') <p class="error">{{ $message }}</p> @enderror
-            @error('break_end_2')   <p class="error">{{ $message }}</p> @enderror
-        </div>
+            @error('break_start_2') <div class="error-message">{{ $message }}</div> @enderror
+            @error('break_end_2')   <div class="error-message">{{ $message }}</div> @enderror
 
-        {{-- 備考 --}}
-        <div class="form-group">
-            <label for="note">備考</label>
-            <textarea name="note" id="note" rows="4">{{ old('note', $attendance->note) }}</textarea>
-            @error('note')
-                <p class="error">{{ $message }}</p>
-            @enderror
-        </div>
+            <div class="detail-line-5"></div>
 
-        {{-- 修正ボタン --}}
-        @if (!($attendance->correctionRequest && $attendance->correctionRequest->status === 'pending'))
-            <button type="submit" class="btn-submit">修正する</button>
+            {{-- 備考 --}}
+            <div class="row">
+                <div class="label">備考</div>
+                <div class="value note-value">
+
+                    <textarea name="note"
+                              class="detail-note-textarea"
+                              @if($pending) disabled @endif>{{ old('note', $attendance->note) }}</textarea>
+
+                </div>
+            </div>
+
+            @error('note') <div class="error-message">{{ $message }}</div> @enderror
+
+        </div>{{-- /detail-box --}}
+
+        {{-- 承認待ち --}}
+        @if($pending)
+            <div class="detail-pending-message">※ 承認待ちのため修正はできません。</div>
+        @endif
+
+        {{-- 修正ボタン（白枠の外） --}}
+        @if(!$pending)
+            <button type="submit" class="detail-edit-button">
+                <span class="detail-edit-button-text">修正</span>
+            </button>
         @endif
 
     </form>
-</div>
 
+</div>
 @endsection

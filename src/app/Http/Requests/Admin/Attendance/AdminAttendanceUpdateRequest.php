@@ -18,8 +18,10 @@ class AdminAttendanceUpdateRequest extends FormRequest
             'clock_out' => ['required', 'date_format:H:i'],
 
             // 休憩（複数対応）
-            'break_start.*' => ['nullable', 'date_format:H:i'],
-            'break_end.*'   => ['nullable', 'date_format:H:i'],
+            'break_start_1' => ['nullable', 'date_format:H:i'],
+            'break_end_1'   => ['nullable', 'date_format:H:i'],
+            'break_start_2' => ['nullable', 'date_format:H:i'],
+            'break_end_2'   => ['nullable', 'date_format:H:i'],
 
             // 備考
             'note' => ['required', 'string'],
@@ -34,8 +36,10 @@ class AdminAttendanceUpdateRequest extends FormRequest
             'clock_out.required' => '出勤時間もしくは退勤時間が不適切な値です',
 
             // 休憩
-            'break_start.*.date_format' => '休憩時間が不適切な値です',
-            'break_end.*.date_format'   => '休憩時間もしくは退勤時間が不適切な値です',
+            'break_start_1.date_format' => '休憩時間が不適切な値です',
+            'break_end_1.date_format'   => '休憩時間もしくは退勤時間が不適切な値です',
+            'break_start_2.date_format' => '休憩時間が不適切な値です',
+            'break_end_2.date_format'   => '休憩時間もしくは退勤時間が不適切な値です',
 
             // 備考
             'note.required' => '備考を記入してください',
@@ -55,21 +59,29 @@ class AdminAttendanceUpdateRequest extends FormRequest
             }
 
             // ② 休憩開始 < 出勤 or > 退勤（仕様書 FN039-2）
-            if ($this->break_start) {
-                foreach ($this->break_start as $start) {
-                    if ($start && ($start < $clockIn || $start > $clockOut)) {
-                        $validator->errors()->add('break_start', '休憩時間が不適切な値です');
-                    }
-                }
+            $start1 = $this->break_start_1;
+            $start2 = $this->break_start_2;
+
+            if ($start1 && ($start1 < $clockIn || $start1 > $clockOut)) {
+                $validator->errors()->add('break_start_1', '休憩時間が不適切な値です');
             }
 
+            if ($start2 && ($start2 < $clockIn || $start2 > $clockOut)) {
+                $validator->errors()->add('break_start_2', '休憩時間が不適切な値です');
+            }
+
+
+
             // ③ 休憩終了 > 退勤（仕様書 FN039-3）
-            if ($this->break_end) {
-                foreach ($this->break_end as $end) {
-                    if ($end && $end > $clockOut) {
-                        $validator->errors()->add('break_end', '休憩時間もしくは退勤時間が不適切な値です');
-                    }
-                }
+            $end1 = $this->break_end_1;
+            $end2 = $this->break_end_2;
+
+            if ($end1 && $end1 > $clockOut) {
+                $validator->errors()->add('break_end_1', '休憩時間もしくは退勤時間が不適切な値です');
+            }
+
+            if ($end2 && $end2 > $clockOut) {
+                $validator->errors()->add('break_end_2', '休憩時間もしくは退勤時間が不適切な値です');
             }
         });
     }

@@ -40,6 +40,11 @@ class AdminAttendanceController extends Controller
     {
         $attendance = Attendance::with('breakTimes')->findOrFail($id);
 
+        // ★ 承認待ちなら更新禁止（仕様書 FN038）
+        if ($attendance->correctionRequests()->where('status', 'pending')->exists()) {
+            return back()->withErrors(['error' => '承認待ちのため修正はできません。']);
+        }
+
         // 出勤・退勤・備考の更新
         $attendance->clock_in  = $attendance->work_date . ' ' . $request->clock_in;
         $attendance->clock_out = $attendance->work_date . ' ' . $request->clock_out;
@@ -49,26 +54,33 @@ class AdminAttendanceController extends Controller
         // 既存の休憩時間を削除
         $attendance->breakTimes()->delete();
 
-        // 新しい休憩時間を登録
-        if ($request->break_start) {
-            foreach ($request->break_start as $index => $start) {
-
-                if (!$start && !$request->break_end[$index]) {
-                    continue;
-                }
-
-                $attendance->breakTimes()->create([
-                    'break_in'  => $attendance->work_date . ' ' . $start,
-                    'break_out' => $request->break_end[$index]
-                        ? $attendance->work_date . ' ' . $request->break_end[$index]
-                        : null,
-                ]);
-            }
+        // ★ 休憩1（固定枠）
+        if ($request->break_start_1 || $request->break_end_1) {
+            $attendance->breakTimes()->create([
+                'break_in'  => $request->break_start_1
+                    ? $attendance->work_date . ' ' . $request->break_start_1
+                    : null,
+                'break_out' => $request->break_end_1
+                    ? $attendance->work_date . ' ' . $request->break_end_1
+                    : null,
+            ]);
         }
 
-        $attendance->load('breakTimes');
+        // ★ 休憩2（固定枠）
+        if ($request->break_start_2 || $request->break_end_2) {
+            $attendance->breakTimes()->create([
+                'break_in'  => $request->break_start_2
+                    ? $attendance->work_date . ' ' . $request->break_start_2
+                    : null,
+                'break_out' => $request->break_end_2
+                    ? $attendance->work_date . ' ' . $request->break_end_2
+                    : null,
+            ]);
+        }
 
         // 休憩合計
+        $attendance->load('breakTimes');
+
         $breakSeconds = 0;
         foreach ($attendance->breakTimes as $break) {
             if ($break->break_in && $break->break_out) {

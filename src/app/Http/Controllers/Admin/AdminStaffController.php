@@ -11,7 +11,7 @@ class AdminStaffController extends Controller
     public function list()
     {
         // 一般ユーザーのみ取得
-        $users = User::where('role', 'general')->get();
+        $users = User::where('role', 0)->get();
 
         return view('admin.staff.list', compact('users'));
     }

@@ -1,25 +1,31 @@
-/* 画面全体 */
-body {
-    margin: 0;
-    padding: 0;
-    background: #F0EFF2;
-    font-family: 'Inter', sans-serif;
+/* 画面全体コンテナ */
+.detail-container {
+    width: 1512px;
+    background-color: #F0EFF2;
+    margin: 0 auto;
+    padding-top: 40px;
 }
 
-/* 管理者ヘッダー */
-.admin-nav {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 80px;
+/* 画面幅が 1512px 未満のときは横スクロールを出さない */
+@media screen and (max-width: 1512px) {
+    .attendance-list-container {
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+    }
 }
 
-.admin-nav a,
-.admin-nav button {
-    position: absolute;
-    top: 26px;
+/* ヘッダー右上メニュー（ユーザー側と同じ） */
+.attendance-header-menu {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-right: 0px;
+}
 
+/* メニュー共通スタイル */
+.attendance-header-menu a,
+.attendance-header-menu button {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 24px;
@@ -28,21 +34,27 @@ body {
     background: none;
     border: none;
     cursor: pointer;
+    padding: 5px 0;
+    line-height: 1;
 }
 
-/* 個別 left 値（Figma 通り） */
-.nav-attendance { left: 857px; width: 96px; }
-.nav-staff      { left: 996px; width: 144px; }
-.nav-request    { left: 1195px; width: 96px; }
-.nav-logout     { left: 1346px; width: 120px; }
-
+.attendance-header-menu a:hover,
+.attendance-header-menu button:hover {
+    opacity: 0.7;
+}
 /* タイトル（棒 + 勤怠詳細） */
 .detail-header {
-    display: flex;
-    align-items: center;
     position: absolute;
     top: 158px;
     left: 314px;
+    display: flex;
+    align-items: center;
+}
+
+.detail-header .title {
+    font-family: Inter, sans-serif;
+    font-weight: 650;
+    font-size: 30px;
 }
 
 .detail-header .bar {
@@ -53,354 +65,176 @@ body {
     margin-right: 15px;
 }
 
-.detail-header .title {
-    font-family: Inter, sans-serif;
-    font-weight: 700;
-    font-size: 30px;
-    color: #000000;
-}
+
 
 /* 白い大枠 */
-.detail-wrapper {
-    position: absolute;
-    top: 306px;
-    left: 306px;
+.detail-box {
     width: 900px;
-    height: 449px;
-    background-color: #FFFFFF;
-    border: 1px solid #E1E1E1;
+    background: #fff;
     border-radius: 10px;
+    margin-left: 306px;
+    margin-top: 150px;
+    padding: 30px;
+    box-sizing: border-box;
+    min-height: 480px;
 }
 
-/* 名前 */
-.detail-name-label {
-    position: absolute;
-    top: 300px;
-    left: 370px;
+/* ===== 行（row） ===== */
+.row {
+    display: flex;
+    align-items: center;
+    height: 48px; /* Figma 行高さ */
+}
+
+/* ===== ラベル ===== */
+.label {
+    width: 120px;
+    margin-left: 40px;
+    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 16px;
+    letter-spacing: 0.15em;
     color: #737373;
-    letter-spacing: 0.15em;
+    margin-right: 150px;
 }
 
-.detail-name-value {
-    position: absolute;
-    top: 300px;
-    left: 663px;
-    font-weight: 700;
-    font-size: 16px;
-    color: #737373;
-    letter-spacing: 0.15em;
-}
-
-.detail-line-1 {
-    position: absolute;
-    top: 343px;
-    left: 305px;
-    width: 900px;
-    border-top: 2px solid #E1E1E1;
-}
-
-/* 日付 */
-.detail-date-label {
-    position: absolute;
-    top: 378px;
-    left: 370px;
-    font-weight: 700;
-    font-size: 16px;
-    color: #737373;
-    letter-spacing: 0.15em;
-}
-
-.detail-date-year {
-    position: absolute;
-    top: 378px;
-    left: 663px;
-    font-weight: 700;
-    font-size: 16px;
-    color: #000000;
-    letter-spacing: 0.15em;
-}
-
-.detail-date-day {
-    position: absolute;
-    top: 378px;
-    left: 873px;
-    font-weight: 700;
-    font-size: 16px;
-    color: #000000;
-    letter-spacing: 0.15em;
-}
-
-.detail-line-2 {
-    position: absolute;
-    top: 432px;
-    left: 306px;
-    width: 900px;
-    border-top: 2px solid #E1E1E1;
-}
-
-/* 出勤・退勤 */
-.detail-worktime-label {
-    position: absolute;
-    top: 468px;
-    left: 370px;
-    font-weight: 700;
-    font-size: 16px;
-    color: #737373;
-    letter-spacing: 0.15em;
-}
-
-.detail-start-box {
-    position: absolute;
-    top: 463px;
-    left: 639px;
-    width: 103px;
+/* ===== 値 ===== */
+.time-input {
+    width: 103px;              /* 既存の枠サイズに合わせる */
     height: 28px;
     border: 1px solid #E1E1E1;
     border-radius: 4px;
+    padding: 0;
+    text-align: center;        /* ★ 中央寄せ */
+    font-family: Inter, sans-serif;
+    font-weight: 700;          /* ★ 太字 */
+    font-size: 16px;           /* ★ Figma と同じ */
+    letter-spacing: 0.15em;    /* ★ Figma と同じ */
+    color: #000;
+    margin-right: 20px;
 }
 
-.detail-start-time {
-    position: absolute;
-    top: 468px;
-    left: 663px;
-    font-weight: 700;
+.value {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* 名前・日付など、テキスト専用の値 */
+.text-value {
+    font-family: Inter, sans-serif;
+    font-weight: 700;       /* 太字 */
     font-size: 16px;
-}
-
-.detail-tilde {
-    position: absolute;
-    top: 468px;
-    left: 793px;
-    font-weight: 700;
-    font-size: 16px;
-}
-
-.detail-end-box {
-    position: absolute;
-    top: 463px;
-    left: 852px;
-    width: 103px;
-    height: 28px;
-    border: 1px solid #E1E1E1;
-    border-radius: 4px;
-}
-
-.detail-end-time {
-    position: absolute;
-    top: 468px;
-    left: 876px;
-    font-weight: 700;
-    font-size: 16px;
-}
-
-.detail-line-3 {
-    position: absolute;
-    top: 523px;
-    left: 306px;
-    width: 900px;
-    border-top: 2px solid #E1E1E1;
-}
-
-/* 休憩1・休憩2 */
-.detail-break-box {
-    position: absolute;
-    top: 563px;
-    left: 370px;
-    width: 561px;
-    height: 110px;
-    border: 1px solid #E1E1E1;
-    border-radius: 4px;
-    background-color: #FFFFFF;
-}
-
-/* 休憩1 */
-.detail-break1-label {
-    position: absolute;
-    top: 563px;
-    left: 370px;
-    font-weight: 700;
-    font-size: 16px;
-    color: #737373;
     letter-spacing: 0.15em;
+    color: #000;
 }
 
-.detail-break1-start-box {
-    position: absolute;
-    top: 562px;
-    left: 639px;
-    width: 103px;
-    height: 29px;
-    border: 1px solid #E1E1E1;
-    border-radius: 4px;
-}
-
-.detail-break1-start-time {
-    position: absolute;
-    top: 567px;
-    left: 663px;
-    font-weight: 700;
-    font-size: 16px;
-}
-
-.detail-break1-tilde {
-    position: absolute;
-    top: 567px;
-    left: 793px;
-    font-weight: 700;
-    font-size: 16px;
-}
-
-.detail-break1-end-box {
-    position: absolute;
-    top: 562px;
-    left: 852px;
-    width: 103px;
-    height: 29px;
-    border: 1px solid #E1E1E1;
-    border-radius: 4px;
-}
-
-.detail-break1-end-time {
-    position: absolute;
-    top: 567px;
-    left: 876px;
-    font-weight: 700;
-    font-size: 16px;
-}
-
-.detail-line-4 {
-    position: absolute;
-    top: 618px;
-    left: 306px;
-    width: 900px;
-    border-top: 2px solid #E1E1E1;
-}
-
-/* 休憩2 */
-.detail-break2-label {
-    position: absolute;
-    top: 618px;
-    left: 370px;
-    font-weight: 700;
-    font-size: 16px;
-    color: #737373;
-    letter-spacing: 0.15em;
-}
-
-.detail-break2-start-box {
-    position: absolute;
-    top: 617px;
-    left: 639px;
-    width: 103px;
-    height: 29px;
-    border: 1px solid #E1E1E1;
-    border-radius: 4px;
-}
-
-.detail-break2-start-time {
-    position: absolute;
-    top: 622px;
-    left: 663px;
-    font-weight: 700;
-    font-size: 16px;
-}
-
-.detail-break2-tilde {
-    position: absolute;
-    top: 622px;
-    left: 793px;
-    font-weight: 700;
-    font-size: 16px;
-}
-
-.detail-break2-end-box {
-    position: absolute;
-    top: 617px;
-    left: 852px;
-    width: 103px;
-    height: 29px;
-    border: 1px solid #E1E1E1;
-    border-radius: 4px;
-}
-
-.detail-break2-end-time {
-    position: absolute;
-    top: 622px;
-    left: 876px;
-    font-weight: 700;
-    font-size: 16px;
-}
-
+/* ===== 仕切り線 ===== */
+.detail-line-1,
+.detail-line-2,
+.detail-line-3,
+.detail-line-4,
 .detail-line-5 {
-    position: absolute;
-    top: 713px;
-    left: 306px;
-    width: 900px;
-    border-top: 2px solid #E1E1E1;
+    width: 107%;
+    border-bottom: 2px solid #E1E1E1;
+    margin: 10px 0;
+    margin-left: 0; /* ← detail-box の padding に合わせる */
+    transform: translateX(-30px);
 }
 
-/* 備考 */
-.detail-note-label {
-    position: absolute;
-    top: 753px;
-    left: 370px;
+/* ===== 仕切り線 ===== */
+.detail-line-1,
+.detail-line-2,
+.detail-line-3,
+.detail-line-4,
+.detail-line-5 {
+    width: 107%;
+    border-bottom: 2px solid #E1E1E1;
+    margin: 10px 0;
+    margin-left: 0; /* ← detail-box の padding に合わせる */
+    transform: translateX(-30px);
+}
+
+/* 共通の時間枠 */
+.time-input {
+    width: 103px;
+    height: 28px;
+    border: 1px solid #E1E1E1;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+}
+
+/* ～ の位置 */
+.tilde {
+    margin-right: 20px;
     font-weight: 700;
-    font-size: 16px;
-    color: #737373;
-    letter-spacing: 0.15em;
 }
 
-.detail-note-box {
-    position: absolute;
-    top: 727px;
-    left: 639px;
+/* ===== 備考 ===== */
+.detail-note-textarea {
     width: 316px;
     height: 72px;
     border: 1px solid #D9D9D9;
     border-radius: 4px;
-    background-color: #FFFFFF;
+    margin-bottom: 10px;
+    margin-left: 1px;
+    margin-top: 60px;
 }
 
 .detail-note-text {
-    position: absolute;
-    top: 736px;
-    left: 652px;
+    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 14px;
+    letter-spacing: 0.15em;
+    color: #000;
+    margin-top: 5px;
 }
 
-/* 修正ボタン */
+/* ===== 修正ボタン ===== */
 .detail-edit-button {
-    position: absolute;
-    top: 855px;
-    left: 1075px;
     width: 130px;
     height: 50px;
-    background-color: #000000;
+    background: #000;
     border-radius: 5px;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+    margin-left: 1000px;
+    margin-top: 45px;
 }
 
 .detail-edit-button-text {
+    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 22px;
-    color: #FFFFFF;
-    letter-spacing: 0.15em;
+    color: #fff;
 }
 
-/* 承認待ちメッセージ */
+/* ===== 承認待ちメッセージ ===== */
 .detail-pending-message {
-    position: absolute;
-    top: 780px;
-    left: 865px;
+    font-family: Inter, sans-serif;
     font-weight: 800;
     font-size: 18px;
-    color: #FF000080;
     letter-spacing: 0.15em;
+    color: #FF000080;
+    margin-left: 835px;
+    margin-top: 50px;
 }
+
+.error-message {
+    color: #D9534F !important;
+    font-size: 14px;
+    margin-top: 6px;
+    margin-left: 40px; 
+}
+
+/* 備考だけ縦積みにする（休憩には絶対当たらない） */
+.note-value {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    height: auto;
+}
+
+
