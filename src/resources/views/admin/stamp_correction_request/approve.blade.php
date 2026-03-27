@@ -4,18 +4,28 @@
 <link rel="stylesheet" href="{{ asset('css/admin/stamp_correction_request/approve.css') }}">
 @endsection
 
+{{-- ヘッダー（ユーザー側と同じ構成） --}}
+@section('header-menu')
+    <nav class="attendance-header-menu">
+        <a href="{{ route('admin.attendance.list') }}">勤怠一覧</a>
+        <a href="{{ route('admin.staff.list') }}">スタッフ一覧</a>
+        <a href="{{ route('admin.stamp_correction_request.list') }}">申請一覧</a>
+
+        <a href="#"
+           onclick="event.preventDefault(); document.getElementById('admin-logout-form').submit();">
+            ログアウト
+        </a>
+
+        <form id="admin-logout-form"
+              action="{{ url('/admin/logout') }}"
+              method="POST"
+              style="display:none;">
+            @csrf
+        </form>
+    </nav>
+@endsection
 @section('content')
 
-<div class="admin-nav">
-    <a href="/admin/attendance/list">勤怠一覧</a>
-    <a href="/admin/staff/list">スタッフ一覧</a>
-    <a href="/admin/stamp_correction_request/list">申請一覧</a>
-
-    <form method="POST" action="/admin/logout" class="admin-logout-form">
-        @csrf
-        <button type="submit">ログアウト</button>
-    </form>
-</div>
 
 <div class="correction-detail-container">
 
@@ -60,7 +70,7 @@
     </div>
 
     {{-- 承認ボタン --}}
-    <form action="{{ route('stamp_correction_request.approve', $request->id) }}" method="GET">
+    <form action="{{ route('admin.stamp_correction_request.approve', ['attendance_correct_request_id' => $request->id]) }}" method="POST">
         @csrf
         <button type="submit" class="approve-btn">承認</button>
     </form>

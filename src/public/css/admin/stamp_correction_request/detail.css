@@ -1,25 +1,31 @@
-/* 画面全体 */
-body {
-    margin: 0;
-    padding: 0;
-    background: #F0EFF2;
-    font-family: 'Inter', sans-serif;
+/* 画面全体コンテナ */
+.attendance-list-container {
+    width: 1512px;
+    background-color: #F0EFF2;
+    margin: 0 auto;
+    padding-top: 40px;
 }
 
-/* 管理者ヘッダー */
-.admin-nav {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 80px;
+/* 画面幅が 1512px 未満のときは横スクロールを出さない */
+@media screen and (max-width: 1512px) {
+    .attendance-list-container {
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+    }
 }
 
-.admin-nav a,
-.admin-nav button {
-    position: absolute;
-    top: 26px;
+/* ヘッダー右上メニュー（ユーザー側と同じ） */
+.attendance-header-menu {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-right: 0px;
+}
 
+/* メニュー共通スタイル */
+.attendance-header-menu a,
+.attendance-header-menu button {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 24px;
@@ -28,14 +34,14 @@ body {
     background: none;
     border: none;
     cursor: pointer;
+    padding: 5px 0;
+    line-height: 1;
 }
 
-/* 個別 left 値（Figma 通り） */
-.nav-attendance { left: 857px; width: 96px; }
-.nav-staff      { left: 996px; width: 144px; }
-.nav-request    { left: 1195px; width: 96px; }
-.nav-logout     { left: 1346px; width: 120px; }
-
+.attendance-header-menu a:hover,
+.attendance-header-menu button:hover {
+    opacity: 0.7;
+}
 /* テーブル全体（白背景の箱） */
 .pg13-table {
     position: absolute;

@@ -3,6 +3,20 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\User\ClockController;
+use App\Http\Controllers\Admin\AdminLoginController;
+use App\Http\Controllers\Admin\AdminAttendanceController;
+use App\Http\Controllers\User\AttendanceController;
+use App\Http\Controllers\User\StampCorrectionRequestController;
+use App\Http\Controllers\Admin\AdminStampCorrectionRequestController;
+use App\Http\Controllers\Admin\AdminStaffController;
+
+/*
+|--------------------------------------------------------------------------
+| ログアウト
+|--------------------------------------------------------------------------
+*/
+
 Route::post('/logout', function () {
     Auth::guard('user')->logout();
     request()->session()->invalidate();
@@ -17,99 +31,108 @@ Route::post('/admin/logout', function () {
     return redirect('/admin/login');
 })->name('admin.logout');
 
-
-use App\Http\Controllers\User\ClockController;
-use App\Http\Controllers\Admin\AdminLoginController;
-use App\Http\Controllers\Admin\AdminAttendanceController;
-use App\Http\Controllers\User\AttendanceController;
-use App\Http\Controllers\User\StampCorrectionRequestController;
-use App\Http\Controllers\Admin\AdminStampCorrectionRequestController;
-use App\Http\Controllers\Admin\AdminStaffController;
-
-
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| 管理者ログイン
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
 */
-
-Route::middleware(['auth:user'])->group(function () {
-
-    // 打刻画面（仕様書 PG03）
-    Route::get('/attendance', [ClockController::class, 'index'])->name('user.attendance');
-
-    // 出勤
-    Route::post('/attendance/clock-in', [ClockController::class, 'clockIn'])->name('user.clock.in');
-
-    // 休憩入
-    Route::post('/attendance/break-in', [ClockController::class, 'breakIn'])->name('user.break.in');
-
-    // 休憩戻
-    Route::post('/attendance/break-out', [ClockController::class, 'breakOut'])->name('user.break.out');
-
-    // 退勤
-    Route::post('/attendance/clock-out', [ClockController::class, 'clockOut'])->name('user.clock.out');
-
-    // 勤怠一覧（PG04）
-    Route::get('/attendance/list', [AttendanceController::class, 'list'])
-        ->name('user.attendance.list');
-
-    // 勤怠詳細（PG05）
-    Route::get('/attendance/detail/{id}', [AttendanceController::class, 'detail'])
-        ->name('user.attendance.detail');
-    Route::post('/attendance/detail/{id}/correction',[StampCorrectionRequestController::class, 'store'])
-        ->name('stamp_correction_request.store');
-    // 申請一覧（PG06）
-    Route::get('/stamp_correction_request/list', [App\Http\Controllers\User\StampCorrectionRequestController::class, 'index'])
-        ->name('stamp_correction_request.list');
-});
-
-Route::get('/email/verify', function () {
-    return view('auth.user.verify-email');
-})->middleware(['auth:user'])->name('verification.notice');
 
 Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm']);
 Route::post('/admin/login', [AdminLoginController::class, 'login']);
 
-Route::middleware(['auth:admin'])->group(function () {
-    
-     // PG11：スタッフ別月次勤怠一覧
+/*
+|--------------------------------------------------------------------------
+| 一般ユーザー（PG03〜PG06）
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth:user'])->group(function () {
+
+    // PG03：打刻画面
+    Route::get('/attendance', [ClockController::class, 'index'])->name('user.attendance');
+
+    Route::post('/attendance/clock-in', [ClockController::class, 'clockIn'])->name('user.clock.in');
+    Route::post('/attendance/break-in', [ClockController::class, 'breakIn'])->name('user.break.in');
+    Route::post('/attendance/break-out', [ClockController::class, 'breakOut'])->name('user.break.out');
+    Route::post('/attendance/clock-out', [ClockController::class, 'clockOut'])->name('user.clock.out');
+
+    // PG04：勤怠一覧
+    Route::get('/attendance/list', [AttendanceController::class, 'list'])
+        ->name('user.attendance.list');
+
+    // PG05：勤怠詳細
+    Route::get('/attendance/detail/{id}', [AttendanceController::class, 'detail'])
+        ->name('user.attendance.detail');
+
+    // 修正申請（PG05 → PG06）
+    Route::post('/attendance/detail/{id}/correction', [StampCorrectionRequestController::class, 'store'])
+        ->name('stamp_correction_request.store');
+
+    // PG06：申請一覧（一般ユーザー）
+    Route::get('/stamp_correction_request/list',
+        [StampCorrectionRequestController::class, 'index']
+    )->name('stamp_correction_request.list');
+});
+
+/*
+|--------------------------------------------------------------------------
+| 管理者（PG08〜PG13）
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth:admin'])
+    ->name('admin.')   // ← これが衝突を完全に防ぐ
+    ->group(function () {
+
+    // PG11：スタッフ別月次勤怠一覧
     Route::get('/admin/attendance/staff/{id}', [AdminAttendanceController::class, 'staffMonthly'])
-        ->name('admin.attendance.staff.monthly');
-    Route::get('/admin/attendance/staff/{id}/csv', 
+        ->name('attendance.staff.monthly');
+
+    Route::get('/admin/attendance/staff/{id}/csv',
         [AdminAttendanceController::class, 'staffMonthlyCsv'])
-        ->name('admin.attendance.staff.csv');
-        
-        // PG08：勤怠一覧
+        ->name('attendance.staff.csv');
+
+    // PG08：勤怠一覧
     Route::get('/admin/attendance/list', [AdminAttendanceController::class, 'index'])
-        ->name('admin.attendance.list');
+        ->name('attendance.list');
+
     // PG09：勤怠詳細（表示）
     Route::get('/admin/attendance/{id}', [AdminAttendanceController::class, 'show'])
-        ->name('admin.attendance.detail');
+        ->name('attendance.detail');
 
     // PG09：勤怠詳細（修正）
     Route::post('/admin/attendance/{id}', [AdminAttendanceController::class, 'update'])
-        ->name('admin.attendance.update');
+        ->name('attendance.update');
 
-    // PG10
+    // PG10：スタッフ一覧
     Route::get('/admin/staff/list', [AdminStaffController::class, 'list'])
-    ->name('admin.staff.list');
-    
-    // PG12：申請一覧画面（管理者）
-    Route::get('/admin/stamp_correction_request/list',
+        ->name('staff.list');
+
+    // PG12：申請一覧（管理者）
+    Route::get('/stamp_correction_request/list',
         [AdminStampCorrectionRequestController::class, 'list']
-    )->name('admin.stamp_correction_request.list');
-    
-    // PG13：修正申請承認画面（管理者）
+    )->name('stamp_correction_request.list');
+
+    // PG13 表示（GET）
     Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}',
         [AdminStampCorrectionRequestController::class, 'approve']
     )->name('stamp_correction_request.approve');
+
+    // PG13 承認処理（POST）
+    Route::post('/stamp_correction_request/approve/{attendance_correct_request_id}',
+        [AdminStampCorrectionRequestController::class, 'updateApprove']
+    )->name('stamp_correction_request.update');
 });
+
+/*
+|--------------------------------------------------------------------------
+| メール認証
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/email/verify', function () {
+    return view('auth.user.verify-email');
+})->middleware(['auth:user'])->name('verification.notice');
 
 
 

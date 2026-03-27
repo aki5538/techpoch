@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\StampCorrectionRequest;
-
+use Carbon\Carbon;
 
 class AdminStampCorrectionRequestController extends Controller
 {
@@ -24,36 +24,43 @@ class AdminStampCorrectionRequestController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('admin.stamp_correction_request.list', compact('pending', 'approved'));
+        return view('admin.stamp_correction_request.pg12_list', compact('pending', 'approved'));
     }
 
-    public function approve($id)
+    public function approve($attendance_correct_request_id)
     {
-        // ① 修正申請を取得（勤怠・休憩も取得）
+        // 修正申請データを取得（勤怠・休憩も含む）
         $request = StampCorrectionRequest::with(['attendance', 'attendance.breakTimes'])
-            ->findOrFail($id);
+            ->findOrFail($attendance_correct_request_id);
 
-        // ② 修正申請のステータスを approved に更新
+        // PG13 の画面を表示
+        return view('admin.stamp_correction_request.detail', compact('request'));
+    }
+
+    public function updateApprove(Request $req, $attendance_correct_request_id)
+    {
+        // ① 修正申請を取得
+        $request = StampCorrectionRequest::with(['attendance', 'attendance.breakTimes'])
+            ->findOrFail($attendance_correct_request_id);
+
+        // ② ステータス更新
         $request->status = 'approved';
         $request->save();
 
-        // ③ 対象の勤怠データを取得
+        // ③ 勤怠データ更新
         $attendance = $request->attendance;
 
-        // ④ 出勤・退勤・備考を更新
         $attendance->clock_in  = $attendance->work_date . ' ' . $request->clock_in;
         $attendance->clock_out = $attendance->work_date . ' ' . $request->clock_out;
         $attendance->note      = $request->note;
         $attendance->save();
 
-        // ⑤ 既存の休憩レコードを削除
+        // ④ 休憩再登録
         $attendance->breakTimes()->delete();
 
-        // ⑥ 新しい休憩レコードを登録
         if (!empty($request->break_start)) {
             foreach ($request->break_start as $index => $start) {
 
-                // 空行はスキップ
                 if (!$start && empty($request->break_end[$index])) {
                     continue;
                 }
@@ -67,7 +74,7 @@ class AdminStampCorrectionRequestController extends Controller
             }
         }
 
-        // ⑦ 休憩合計（分）を再計算
+        // ⑤ 休憩合計
         $breakSeconds = 0;
         foreach ($attendance->breakTimes as $break) {
             if ($break->break_in && $break->break_out) {
@@ -77,7 +84,7 @@ class AdminStampCorrectionRequestController extends Controller
         }
         $attendance->break_time = floor($breakSeconds / 60);
 
-        // ⑧ 実働時間（分）を再計算
+        // ⑥ 実働時間
         if ($attendance->clock_in && $attendance->clock_out) {
             $workSeconds = Carbon::parse($attendance->clock_out)
                 ->diffInSeconds(Carbon::parse($attendance->clock_in));
@@ -87,8 +94,8 @@ class AdminStampCorrectionRequestController extends Controller
 
         $attendance->save();
 
-        // ⑨ 承認後、同じ画面に戻る
-        return redirect()->route('stamp_correction_request.approve', $id)
+        // ⑦ 一覧に戻る
+        return redirect()->route('admin.stamp_correction_request.list')
             ->with('success', '承認しました');
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Attendance;
 use Carbon\Carbon;
 use App\Http\Requests\Admin\Attendance\AdminAttendanceUpdateRequest;
+use App\Models\User;
 
 class AdminAttendanceController extends Controller
 {
@@ -116,8 +117,10 @@ class AdminAttendanceController extends Controller
         $endOfMonth   = Carbon::parse($currentMonth)->endOfMonth();
 
         // 3. 勤怠データ取得（その月の全日分）
+        // ★ whereBetween → whereDate に変更（型ズレ防止）
         $attendances = Attendance::where('user_id', $id)
-            ->whereBetween('work_date', [$startOfMonth, $endOfMonth])
+            ->whereDate('work_date', '>=', $startOfMonth->toDateString())
+            ->whereDate('work_date', '<=', $endOfMonth->toDateString())
             ->orderBy('work_date', 'asc')
             ->get();
 
@@ -149,7 +152,7 @@ class AdminAttendanceController extends Controller
 
         // CSV のヘッダー行
         $csvHeader = [
-            '日付', '出勤', '退勤', '休憩', '実働'
+            '日付', '出勤', '退勤', '休憩', '合計'
         ];
 
         // CSV 本体

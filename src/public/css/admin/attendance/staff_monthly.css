@@ -1,33 +1,31 @@
 /* 画面全体 */
 .admin-attendance-monthly-container {
     width: 1512px;
-    min-height: 1980px;
     background-color: #F0EFF2;
     margin: 0 auto;
     padding-top: 40px;
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    background: #F0EFF2;
-    font-family: 'Inter', sans-serif;
+/* 画面幅が 1512px 未満のときは横スクロールを出さない */
+@media screen and (max-width: 1512px) {
+    .admin-attendance-monthly-container {
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+    }
 }
 
-/* 管理者ヘッダー */
-.admin-nav {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 80px;
+/* ヘッダー右上メニュー（ユーザー側と同じ） */
+.attendance-header-menu {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-right: 0px;
 }
 
-.admin-nav a,
-.admin-nav button {
-    position: absolute;
-    top: 26px;
-
+/* メニュー共通スタイル */
+.attendance-header-menu a,
+.attendance-header-menu button {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 24px;
@@ -36,20 +34,21 @@ body {
     background: none;
     border: none;
     cursor: pointer;
+    padding: 5px 0;
+    line-height: 1;
 }
 
-/* 個別 left 値（Figma 通り） */
-.nav-attendance { left: 857px; width: 96px; }
-.nav-staff      { left: 996px; width: 144px; }
-.nav-request    { left: 1195px; width: 96px; }
-.nav-logout     { left: 1346px; width: 120px; }
+.attendance-header-menu a:hover,
+.attendance-header-menu button:hover {
+    opacity: 0.7;
+}
 
 
 /* タイトル（縦線＋◯◯さんの勤怠） */
 .admin-attendance-monthly-title {
     display: flex;
     align-items: center;
-    margin: 40px 0 20px 300px;
+    margin: 40px 0 20px 215px;
 }
 
 .admin-attendance-monthly-title-line {
@@ -67,9 +66,9 @@ body {
     line-height: 1;
 }
 
-/* ▼ 月移動バー */
+/* 月移動バー */
 .admin-attendance-monthly-date-bar {
-    width: 900px;
+    width: 850px;
     height: 60px;
     background-color: #FFFFFF;
     border-radius: 10px;
@@ -143,18 +142,24 @@ body {
 
 /* CSV 出力ボタン */
 .admin-csv-area {
-    width: 900px;
-    margin: 10px auto 0;
+    width: 990px;
+    margin: 8px auto 0;
     text-align: right;
 }
 
 .admin-csv-btn {
-    display: inline-block;
-    background-color: #4A90E2;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 184px;
+    height: 50px;
+    background-color: #000000;
     color: #FFFFFF;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 22px;
+    line-height: 1;
+    letter-spacing: 0.15em;
     padding: 10px 20px;
     border-radius: 6px;
     text-decoration: none;
@@ -164,56 +169,74 @@ body {
     opacity: 0.8;
 }
 
+
 /* 白い大枠 */
 .admin-attendance-monthly-table-container {
-    width: 900px;
+    width: 910px;
     min-height: 1506px;
     background-color: #FFFFFF;
     border-radius: 10px;
 
-    margin: 40px auto 80px;
-    padding: 40px 50px;
+    margin: 40px auto 50px;
+    padding: 40px 0px;
 }
 
 /* テーブルヘッダー */
 .admin-attendance-monthly-table-header {
-    width: 900px;
-    height: 31px;
-    border: 3px solid #E1E1E1;
-    border-radius: 5px;
+    width: 100%;
+    max-width: 860px;
+    height: 15px;
 
     display: flex;
     align-items: center;
 
     margin: 0 auto;
-    padding-left: 40px;
+    padding: 0 40px 10px 0px;       /* ← 左右40pxの余白を均等にする */
+    padding-left: 10px;
+    padding-bottom: 10px;              /* 下に少し余白をつけると綺麗 */
+
+    border: none;                      /* ← 枠を消す */
+    border-bottom: 3px solid #E1E1E1;  /* ← 下線だけ残す */
 }
+
+
 
 .admin-header-item {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 16px;
     color: #737373;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.25em;
+
+    border: none;
+    background: none;
+    text-align: center;
 }
 
 /* カラム幅 */
-.admin-header-date { width: 189px; }
-.admin-header-start { width: 133px; }
-.admin-header-end { width: 133px; }
-.admin-header-break { width: 133px; }
-.admin-header-total { width: 133px; }
-.admin-header-detail { width: 133px; }
+.admin-header-date { width: 160px; }
+.admin-header-start { width: 185px; }
+.admin-header-end { width: 100px; }
+.admin-header-break { width: 170px; }
+.admin-header-total { width: 105px; }
+.admin-header-detail { width: 100px; }
+
 
 /* テーブル行 */
 .admin-attendance-monthly-row {
-    width: 900px;
-    height: 33px;
+    width: 910px;
+    height: 55px;
     display: flex;
     align-items: center;
     border-bottom: 1px solid #E1E1E1;
     margin: 0 auto;
-    padding-left: 40px;
+    padding-left: 0;
+}
+
+.admin-header-detail,
+.admin-row-detail {
+    text-align: right;
+    padding-left: 10px;
 }
 
 .admin-row-item {
@@ -222,6 +245,8 @@ body {
     font-size: 16px;
     letter-spacing: 0.15em;
     color: #000000;
+    text-align: center;
+    padding-left: 5px;
 }
 
 .admin-row-date { width: 189px; }
