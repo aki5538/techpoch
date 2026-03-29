@@ -9,7 +9,7 @@
     <nav class="attendance-header-menu">
         <a href="{{ route('admin.attendance.list') }}">勤怠一覧</a>
         <a href="{{ route('admin.staff.list') }}">スタッフ一覧</a>
-        <a href="{{ route('admin.stamp_correction_request.list') }}">申請一覧</a>
+        <a href="{{ route('stamp_correction_request.list') }}">申請一覧</a>
 
         <a href="#"
            onclick="event.preventDefault(); document.getElementById('admin-logout-form').submit();">
@@ -69,12 +69,17 @@
 
     </div>
 
-    {{-- 承認ボタン --}}
-    <form action="{{ route('admin.stamp_correction_request.approve', ['attendance_correct_request_id' => $request->id]) }}" method="POST">
-        @csrf
-        <button type="submit" class="approve-btn">承認</button>
-    </form>
+    {{-- 承認前 --}}
+    @if ($request->status === 'pending')
+        <form action="{{ route('admin.stamp_correction_request.update', ['attendance_correct_request_id' => $request->id]) }}" method="POST">
+            @csrf
+            <button type="submit" class="approve-btn">承認</button>
+        </form>
 
+    {{-- 承認後 --}}
+    @elseif ($request->status === 'approved')
+        <button class="approved-btn" disabled>承認済み</button>
+    @endif
 </div>
 
 @endsection

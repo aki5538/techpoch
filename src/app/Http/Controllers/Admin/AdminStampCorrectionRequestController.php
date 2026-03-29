@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\StampCorrectionRequest;
+use App\Models\AttendanceCorrectRequest; // ← ここ変更
 use Carbon\Carbon;
 
 class AdminStampCorrectionRequestController extends Controller
@@ -13,13 +13,13 @@ class AdminStampCorrectionRequestController extends Controller
     public function list()
     {
         // 承認待ち（pending）
-        $pending = StampCorrectionRequest::where('status', 'pending')
+        $pending = AttendanceCorrectRequest::where('status', 'pending') // ← 変更
             ->with(['user', 'attendance'])
             ->orderBy('created_at', 'desc')
             ->get();
 
         // 承認済み（approved）
-        $approved = StampCorrectionRequest::where('status', 'approved')
+        $approved = AttendanceCorrectRequest::where('status', 'approved') // ← 変更
             ->with(['user', 'attendance'])
             ->orderBy('created_at', 'desc')
             ->get();
@@ -30,7 +30,7 @@ class AdminStampCorrectionRequestController extends Controller
     public function approve($attendance_correct_request_id)
     {
         // 修正申請データを取得（勤怠・休憩も含む）
-        $request = StampCorrectionRequest::with(['attendance', 'attendance.breakTimes'])
+        $request = AttendanceCorrectRequest::with(['attendance', 'attendance.breakTimes']) // ← 変更
             ->findOrFail($attendance_correct_request_id);
 
         // PG13 の画面を表示
@@ -39,64 +39,34 @@ class AdminStampCorrectionRequestController extends Controller
 
     public function updateApprove(Request $req, $attendance_correct_request_id)
     {
-        // ① 修正申請を取得
-        $request = StampCorrectionRequest::with(['attendance', 'attendance.breakTimes'])
-            ->findOrFail($attendance_correct_request_id);
+        // 修正申請（休憩レコード含む）を取得
+        $requestModel = AttendanceCorrectRequest::with('correctBreakTimes', 'attendance')->findOrFail($attendance_correct_request_id);
+        $attendance = $requestModel->attendance;
 
-        // ② ステータス更新
-        $request->status = 'approved';
-        $request->save();
-
-        // ③ 勤怠データ更新
-        $attendance = $request->attendance;
-
-        $attendance->clock_in  = $attendance->work_date . ' ' . $request->clock_in;
-        $attendance->clock_out = $attendance->work_date . ' ' . $request->clock_out;
-        $attendance->note      = $request->note;
-        $attendance->save();
-
-        // ④ 休憩再登録
+        // 1. 既存の休憩を削除
         $attendance->breakTimes()->delete();
 
-        if (!empty($request->break_start)) {
-            foreach ($request->break_start as $index => $start) {
-
-                if (!$start && empty($request->break_end[$index])) {
-                    continue;
-                }
-
-                $attendance->breakTimes()->create([
-                    'break_in'  => $attendance->work_date . ' ' . $start,
-                    'break_out' => !empty($request->break_end[$index])
-                        ? $attendance->work_date . ' ' . $request->break_end[$index]
-                        : null,
-                ]);
-            }
+        // 2. 修正申請の休憩を移植
+        foreach ($requestModel->correctBreakTimes as $cbt) {
+            $attendance->breakTimes()->create([
+                'break_in'  => $cbt->break_in,
+                'break_out' => $cbt->break_out,
+            ]);
         }
 
-        // ⑤ 休憩合計
-        $breakSeconds = 0;
-        foreach ($attendance->breakTimes as $break) {
-            if ($break->break_in && $break->break_out) {
-                $breakSeconds += Carbon::parse($break->break_out)
-                    ->diffInSeconds(Carbon::parse($break->break_in));
-            }
-        }
-        $attendance->break_time = floor($breakSeconds / 60);
+        // 3. 出勤・退勤・備考を更新
+        $attendance->update([
+            'clock_in'  => $requestModel->clock_in,
+            'clock_out' => $requestModel->clock_out,
+            'note'      => $requestModel->reason,
+        ]);
 
-        // ⑥ 実働時間
-        if ($attendance->clock_in && $attendance->clock_out) {
-            $workSeconds = Carbon::parse($attendance->clock_out)
-                ->diffInSeconds(Carbon::parse($attendance->clock_in));
+        // 4. 修正申請のステータスを approved に変更
+        $requestModel->update([
+            'status' => 'approved',
+        ]);
 
-            $attendance->working_time = floor(($workSeconds - $breakSeconds) / 60);
-        }
-
-        $attendance->save();
-
-        // ⑦ 一覧に戻る
-        return redirect()->route('admin.stamp_correction_request.list')
-            ->with('success', '承認しました');
+        return redirect()->route('admin.stamp_correction_request.list')->with('success', '承認しました');
     }
 }
 

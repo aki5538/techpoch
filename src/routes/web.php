@@ -67,12 +67,29 @@ Route::middleware(['auth:user'])->group(function () {
     // 修正申請（PG05 → PG06）
     Route::post('/attendance/detail/{id}/correction', [StampCorrectionRequestController::class, 'store'])
         ->name('stamp_correction_request.store');
-
-    // PG06：申請一覧（一般ユーザー）
-    Route::get('/stamp_correction_request/list',
-        [StampCorrectionRequestController::class, 'index']
-    )->name('stamp_correction_request.list');
 });
+
+/*
+|--------------------------------------------------------------------------
+| PG06 / PG12：申請一覧（一般ユーザー & 管理者）
+|--------------------------------------------------------------------------
+| 仕様書の「同じパスを使用。認証ミドルウェアで区別」を
+| Laravel の制約に合わせて正しく実現するため、
+| ルートを1本にまとめてガードで分岐する。
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/stamp_correction_request/list', function () {
+
+    // 管理者ログイン中 → PG12
+    if (Auth::guard('admin')->check()) {
+        return app(AdminStampCorrectionRequestController::class)->list();
+    }
+
+    // 一般ユーザー → PG06
+    return app(StampCorrectionRequestController::class)->index();
+
+})->name('stamp_correction_request.list');
 
 /*
 |--------------------------------------------------------------------------
@@ -80,48 +97,42 @@ Route::middleware(['auth:user'])->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:admin'])
-    ->name('admin.')   // ← これが衝突を完全に防ぐ
-    ->group(function () {
+Route::middleware(['auth:admin'])->group(function () {
 
     // PG11：スタッフ別月次勤怠一覧
     Route::get('/admin/attendance/staff/{id}', [AdminAttendanceController::class, 'staffMonthly'])
-        ->name('attendance.staff.monthly');
+        ->name('admin.attendance.staff.monthly');
 
     Route::get('/admin/attendance/staff/{id}/csv',
         [AdminAttendanceController::class, 'staffMonthlyCsv'])
-        ->name('attendance.staff.csv');
+        ->name('admin.attendance.staff.csv');
 
     // PG08：勤怠一覧
     Route::get('/admin/attendance/list', [AdminAttendanceController::class, 'index'])
-        ->name('attendance.list');
+        ->name('admin.attendance.list');
 
     // PG09：勤怠詳細（表示）
     Route::get('/admin/attendance/{id}', [AdminAttendanceController::class, 'show'])
-        ->name('attendance.detail');
+        ->name('admin.attendance.detail');
 
     // PG09：勤怠詳細（修正）
     Route::post('/admin/attendance/{id}', [AdminAttendanceController::class, 'update'])
-        ->name('attendance.update');
+        ->name('admin.attendance.update');
 
     // PG10：スタッフ一覧
     Route::get('/admin/staff/list', [AdminStaffController::class, 'list'])
-        ->name('staff.list');
+        ->name('admin.staff.list');
 
-    // PG12：申請一覧（管理者）
-    Route::get('/stamp_correction_request/list',
-        [AdminStampCorrectionRequestController::class, 'list']
-    )->name('stamp_correction_request.list');
 
     // PG13 表示（GET）
     Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}',
-        [AdminStampCorrectionRequestController::class, 'approve']
-    )->name('stamp_correction_request.approve');
+        [AdminStampCorrectionRequestController::class, 'approve'])
+        ->name('admin.stamp_correction_request.approve');
 
     // PG13 承認処理（POST）
     Route::post('/stamp_correction_request/approve/{attendance_correct_request_id}',
-        [AdminStampCorrectionRequestController::class, 'updateApprove']
-    )->name('stamp_correction_request.update');
+        [AdminStampCorrectionRequestController::class, 'updateApprove'])
+        ->name('admin.stamp_correction_request.update');
 });
 
 /*
@@ -133,7 +144,6 @@ Route::middleware(['auth:admin'])
 Route::get('/email/verify', function () {
     return view('auth.user.verify-email');
 })->middleware(['auth:user'])->name('verification.notice');
-
 
 
 

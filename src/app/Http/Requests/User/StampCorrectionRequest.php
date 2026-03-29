@@ -47,26 +47,26 @@ class StampCorrectionRequest extends FormRequest
             }
 
             // 休憩1
-            if ($this->break1_in) {
+            if (!empty($this->break1_in)) {
                 if ($this->break1_in < $clockIn || $this->break1_in > $clockOut) {
                     $validator->errors()->add('break1_in', '休憩時間が不適切な値です');
                 }
             }
 
-            if ($this->break1_out) {
+            if (!empty($this->break1_out)) {
                 if ($this->break1_out > $clockOut) {
                     $validator->errors()->add('break1_out', '休憩時間もしくは退勤時間が不適切な値です');
                 }
             }
 
             // 休憩2
-            if ($this->break2_in) {
+            if (!empty($this->break2_in)) {
                 if ($this->break2_in < $clockIn || $this->break2_in > $clockOut) {
                     $validator->errors()->add('break2_in', '休憩時間が不適切な値です');
                 }
             }
 
-            if ($this->break2_out) {
+            if (!empty($this->break2_out)) {
                 if ($this->break2_out > $clockOut) {
                     $validator->errors()->add('break2_out', '休憩時間もしくは退勤時間が不適切な値です');
                 }
@@ -80,6 +80,14 @@ class StampCorrectionRequest extends FormRequest
             'clock_in.required'  => '出勤時間を入力してください',
             'clock_out.required' => '退勤時間を入力してください',
             'note.required'      => '備考を記入してください',
-        ];
+        
+            // フォーマットエラーも仕様書の文言に寄せる
+            'clock_in.date_format'   => '出勤時間もしくは退勤時間が不適切な値です',
+            'clock_out.date_format'  => '出勤時間もしくは退勤時間が不適切な値です',
+            'break1_in.date_format'  => '休憩時間が不適切な値です',
+            'break1_out.date_format' => '休憩時間もしくは退勤時間が不適切な値です',
+            'break2_in.date_format'  => '休憩時間が不適切な値です',
+            'break2_out.date_format' => '休憩時間もしくは退勤時間が不適切な値です',
+            ];
     }
 }

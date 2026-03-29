@@ -9,7 +9,7 @@
     <nav class="attendance-header-menu">
         <a href="{{ route('admin.attendance.list') }}">勤怠一覧</a>
         <a href="{{ route('admin.staff.list') }}">スタッフ一覧</a>
-        <a href="{{ route('admin.stamp_correction_request.list') }}">申請一覧</a>
+        <a href="{{ route('stamp_correction_request.list') }}">申請一覧</a>
 
         <a href="#"
            onclick="event.preventDefault(); document.getElementById('admin-logout-form').submit();">
