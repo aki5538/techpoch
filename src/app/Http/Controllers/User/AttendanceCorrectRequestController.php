@@ -5,22 +5,21 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Models\StampCorrectionRequest;
 use App\Models\Attendance;
 use App\Http\Requests\User\StampCorrectionRequest as StampCorrectionRequestForm;
 use App\Models\AttendanceCorrectRequest;
 
-class StampCorrectionRequestController extends Controller
+class AttendanceCorrectRequestController extends Controller
 {
     public function index()
     {
-        $pending = StampCorrectionRequest::where('user_id', Auth::id())
+        $pending = AttendanceCorrectRequest::where('user_id', Auth::id())
             ->where('status', 'pending')
             ->with(['user', 'attendance'])
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $approved = StampCorrectionRequest::where('user_id', Auth::id())
+        $approved = AttendanceCorrectRequest::where('user_id', Auth::id())
             ->where('status', 'approved')
             ->with(['user', 'attendance'])
             ->orderBy('created_at', 'desc')

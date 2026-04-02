@@ -65,7 +65,8 @@ Route::middleware(['auth:user'])->group(function () {
         ->name('user.attendance.detail');
 
     // 修正申請（PG05 → PG06）
-    Route::post('/attendance/detail/{id}/correction', [StampCorrectionRequestController::class, 'store'])
+    Route::post('/attendance/detail/{attendanceId}/correction',
+        [\App\Http\Controllers\User\AttendanceCorrectRequestController::class, 'store'])
         ->name('stamp_correction_request.store');
 });
 
@@ -87,7 +88,7 @@ Route::get('/stamp_correction_request/list', function () {
     }
 
     // 一般ユーザー → PG06
-    return app(StampCorrectionRequestController::class)->index();
+    return app(\App\Http\Controllers\User\AttendanceCorrectRequestController::class)->index();
 
 })->name('stamp_correction_request.list');
 

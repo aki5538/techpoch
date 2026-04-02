@@ -1,0 +1,4 @@
+勤怠アプリを作成していて、laravelとfortifyを使って、一般ユーザーと管理者で分けて、マルチログインで実装したい。
+同じURLで一般ユーザーと管理者を別の画面にしたい。
+	申請一覧画面（一般ユーザー）	/stamp_correction_request/list	
+	申請一覧画面（管理者）	/stamp_correction_request/list	一般ユーザーと同じパスを使用。認証ミドルウェアで区別

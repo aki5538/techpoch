@@ -47,26 +47,26 @@ class StampCorrectionRequest extends FormRequest
             }
 
             // 休憩1
-            if (!empty($this->break1_in)) {
+            if ($this->break1_in !== null && $this->break1_in !== '') {
                 if ($this->break1_in < $clockIn || $this->break1_in > $clockOut) {
                     $validator->errors()->add('break1_in', '休憩時間が不適切な値です');
                 }
             }
 
-            if (!empty($this->break1_out)) {
+            if ($this->break1_out !== null && $this->break1_out !== '') {
                 if ($this->break1_out > $clockOut) {
                     $validator->errors()->add('break1_out', '休憩時間もしくは退勤時間が不適切な値です');
                 }
             }
 
             // 休憩2
-            if (!empty($this->break2_in)) {
+            if ($this->break2_in !== null && $this->break2_in !== '') {
                 if ($this->break2_in < $clockIn || $this->break2_in > $clockOut) {
                     $validator->errors()->add('break2_in', '休憩時間が不適切な値です');
                 }
             }
 
-            if (!empty($this->break2_out)) {
+            if ($this->break2_out !== null && $this->break2_out !== '') {
                 if ($this->break2_out > $clockOut) {
                     $validator->errors()->add('break2_out', '休憩時間もしくは退勤時間が不適切な値です');
                 }

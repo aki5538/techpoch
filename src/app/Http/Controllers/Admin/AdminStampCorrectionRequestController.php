@@ -34,7 +34,7 @@ class AdminStampCorrectionRequestController extends Controller
             ->findOrFail($attendance_correct_request_id);
 
         // PG13 の画面を表示
-        return view('admin.stamp_correction_request.detail', compact('request'));
+        return view('admin.stamp_correction_request.approve', compact('request'));
     }
 
     public function updateApprove(Request $req, $attendance_correct_request_id)
