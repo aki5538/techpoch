@@ -39,7 +39,7 @@
 
         <div class="detail-header">
             <div class="bar"></div>
-            <div class="title">勤怠詳細</div>
+            <div class="title">勤怠</div>
         </div>
 
         <form action="{{ route('admin.stamp_correction_request.update', ['attendance_correct_request_id' => $request->id]) }}"

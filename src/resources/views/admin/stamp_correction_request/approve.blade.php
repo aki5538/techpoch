@@ -24,50 +24,87 @@
         </form>
     </nav>
 @endsection
+
 @section('content')
 
+@php
+    $break1 = $attendance->breakTimes[0] ?? null;
+    $break2 = $attendance->breakTimes[1] ?? null;
 
-<div class="correction-detail-container">
+@endphp
 
-    <h2>修正申請詳細（承認）</h2>
+<div class="detail-container">
+<div class="detail-header">
+    <div class="bar"></div>
+    <h1 class="title">勤怠詳細</h1>
+</div>
 
-    <div class="detail-box">
+<div class="detail-box">
 
-        <div class="row">
-            <span class="label">名前</span>
-            <span class="value">{{ $request->user->name }}</span>
-        </div>
-
-        <div class="row">
-            <span class="label">日付</span>
-            <span class="value">{{ $request->attendance->work_date }}</span>
-        </div>
-
-        <div class="row">
-            <span class="label">出勤・退勤</span>
-            <span class="value">
-                {{ $request->attendance->start_time_label }} ～ {{ $request->attendance->end_time_label }}
-            </span>
-        </div>
-
-        <div class="row">
-            <span class="label">休憩</span>
-            <span class="value">
-                @foreach ($request->attendance->breakTimes as $break)
-                    {{ \Carbon\Carbon::parse($break->break_in)->format('H:i') }}
-                    ～
-                    {{ $break->break_out ? \Carbon\Carbon::parse($break->break_out)->format('H:i') : '' }}
-                    <br>
-                @endforeach
-            </span>
-        </div>
-
-        <div class="row">
-            <span class="label">備考</span>
-            <span class="value">{{ $request->reason }}</span>
-        </div>
-
+    {{-- 名前 --}}
+    <div class="row">
+        <span class="label">名前</span>
+        <span class="text-value">{{ $request->user->name }}</span>
     </div>
+    <div class="detail-line-1"></div>
+
+    {{-- 日付 --}}
+    <div class="row">
+        <span class="label">日付</span>
+        <span class="text-value">{{ $request->attendance->work_date }}</span>
+    </div>
+    <div class="detail-line-2"></div>
+
+    {{-- 出勤・退勤 --}}
+    <div class="row">
+        <span class="label">出勤・退勤</span>
+        <span class="value">
+            <span class="time-input">{{ $request->attendance->start_time_label }}</span>
+            <span class="tilde">～</span>
+            <span class="time-input">{{ $request->attendance->end_time_label }}</span>
+        </span>
+    </div>
+    <div class="detail-line-3"></div>
+
+    {{-- 休憩 --}}
+    <div class="row">
+        <span class="label">休憩1</span>
+        <span class="value">
+            <span class="time-input">
+                {{ $break1? \Carbon\Carbon::parse($break1->break_in)->format('H:i') : '' }}
+            </span>
+            <span class="tilde">～</span>
+            <span class="time-input">
+                {{ $break1 && $break1->break_out ? \Carbon\Carbon::parse($break1->break_out)->format('H:i') : '' }}
+            </span>
+        </span>
+    </div>
+
+    <div class="detail-line-4"></div>
+
+    {{-- 休憩2 --}}
+    <div class="row">
+        <span class="label">休憩2</span>
+        <span class="value">
+            <span class="time-input">
+                {{ $break2? \Carbon\Carbon::parse($break2->break_in)->format('H:i') : '' }}
+            </span>
+            <span class="tilde">～</span>
+            <span class="time-input">
+                {{ $break2 && $break2->break_out ? \Carbon\Carbon::parse($break2->break_out)->format('H:i') : '' }}
+            </span>
+        </span>
+    </div>
+    <div class="detail-line-5"></div>
+
+    {{-- 備考（申請理由） --}}
+    <div class="row">
+        <span class="label">備考</span>
+        <span class="text-value">{{ $request->reason }}</span>
+    </div>
+    
+
+</div>
 
     {{-- 承認前 --}}
     @if ($request->status === 'pending')
@@ -80,6 +117,8 @@
     @elseif ($request->status === 'approved')
         <button class="approved-btn" disabled>承認済み</button>
     @endif
+</div>
+
 </div>
 
 @endsection
