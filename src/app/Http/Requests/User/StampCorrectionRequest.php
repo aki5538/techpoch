@@ -80,14 +80,16 @@ class StampCorrectionRequest extends FormRequest
             'clock_in.required'  => '出勤時間を入力してください',
             'clock_out.required' => '退勤時間を入力してください',
             'note.required'      => '備考を記入してください',
-        
-            // フォーマットエラーも仕様書の文言に寄せる
-            'clock_in.date_format'   => '出勤時間もしくは退勤時間が不適切な値です',
-            'clock_out.date_format'  => '出勤時間もしくは退勤時間が不適切な値です',
+
+            // テスト仕様に合わせる
+            'clock_in.date_format'   => '出勤時間が不適切な値です',
+            'clock_out.date_format'  => '退勤時間が不適切な値です',
+
             'break1_in.date_format'  => '休憩時間が不適切な値です',
-            'break1_out.date_format' => '休憩時間もしくは退勤時間が不適切な値です',
             'break2_in.date_format'  => '休憩時間が不適切な値です',
+
+            'break1_out.date_format' => '休憩時間もしくは退勤時間が不適切な値です',
             'break2_out.date_format' => '休憩時間もしくは退勤時間が不適切な値です',
-            ];
+        ];
     }
 }

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
-use App\Http\Requests\User\StampCorrectionRequest as StampCorrectionRequestForm;
+use App\Http\Requests\User\StampCorrectionRequest;
 use App\Models\AttendanceCorrectRequest;
 
 class AttendanceCorrectRequestController extends Controller
@@ -28,12 +28,11 @@ class AttendanceCorrectRequestController extends Controller
         return view('user.stamp_correction_request.list', compact('pending', 'approved'));
     }
 
-    public function store(StampCorrectionRequestForm $request, $attendanceId)
+    public function store(StampCorrectionRequest $request, $attendanceId)
     {
         $attendance = Attendance::findOrFail($attendanceId);
 
-        // ★ validated() を all() に変更
-        $data = $request->all();
+        $data = $request->validated();
 
         $requestModel = AttendanceCorrectRequest::create([
             'user_id'       => Auth::id(),
@@ -65,6 +64,7 @@ class AttendanceCorrectRequestController extends Controller
     
     public function detail(Request $request, $attendanceId)
     {
+        $attendance = Attendance::findOrFail($attendanceId);
         $status = $request->status;
 
         return view('user.attendance.detail', compact('attendance', 'status'));

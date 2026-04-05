@@ -39,34 +39,15 @@ class AdminStampCorrectionRequestController extends Controller
 
     public function updateApprove(Request $req, $attendance_correct_request_id)
     {
-        // 修正申請（休憩レコード含む）を取得
-        $requestModel = AttendanceCorrectRequest::with('correctBreakTimes', 'attendance')->findOrFail($attendance_correct_request_id);
-        $attendance = $requestModel->attendance;
+       $requestModel = AttendanceCorrectRequest::findOrFail($attendance_correct_request_id);
 
-        // 1. 既存の休憩を削除
-        $attendance->breakTimes()->delete();
-
-        // 2. 修正申請の休憩を移植
-        foreach ($requestModel->correctBreakTimes as $cbt) {
-            $attendance->breakTimes()->create([
-                'break_in'  => $cbt->break_in,
-                'break_out' => $cbt->break_out,
-            ]);
-        }
-
-        // 3. 出勤・退勤・備考を更新
-        $attendance->update([
-            'clock_in'  => $requestModel->clock_in,
-            'clock_out' => $requestModel->clock_out,
-            'note'      => $requestModel->reason,
-        ]);
-
-        // 4. 修正申請のステータスを approved に変更
+        // ステータスだけ変更（仕様書どおり）
         $requestModel->update([
             'status' => 'approved',
         ]);
 
-        return redirect()->route('admin.stamp_correction_request.list')->with('success', '承認しました');
+        // 遷移しない → 元の画面を再表示する
+        return back()->with('success', '承認しました');
     }
 }
 

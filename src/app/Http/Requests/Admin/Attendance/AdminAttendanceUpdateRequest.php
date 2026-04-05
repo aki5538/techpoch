@@ -17,13 +17,11 @@ class AdminAttendanceUpdateRequest extends FormRequest
             'clock_in'  => ['required', 'date_format:H:i'],
             'clock_out' => ['required', 'date_format:H:i'],
 
-            // 休憩（複数対応）
             'break_start_1' => ['nullable', 'date_format:H:i'],
             'break_end_1'   => ['nullable', 'date_format:H:i'],
             'break_start_2' => ['nullable', 'date_format:H:i'],
             'break_end_2'   => ['nullable', 'date_format:H:i'],
 
-            // 備考
             'note' => ['required', 'string'],
         ];
     }
@@ -31,17 +29,14 @@ class AdminAttendanceUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            // 出勤・退勤
             'clock_in.required'  => '出勤時間もしくは退勤時間が不適切な値です',
             'clock_out.required' => '出勤時間もしくは退勤時間が不適切な値です',
 
-            // 休憩
             'break_start_1.date_format' => '休憩時間が不適切な値です',
             'break_end_1.date_format'   => '休憩時間もしくは退勤時間が不適切な値です',
             'break_start_2.date_format' => '休憩時間が不適切な値です',
             'break_end_2.date_format'   => '休憩時間もしくは退勤時間が不適切な値です',
 
-            // 備考
             'note.required' => '備考を記入してください',
         ];
     }
@@ -53,12 +48,12 @@ class AdminAttendanceUpdateRequest extends FormRequest
             $clockIn  = $this->clock_in;
             $clockOut = $this->clock_out;
 
-            // ① 出勤 > 退勤（仕様書 FN039-1）
+            // 出勤 > 退勤
             if ($clockIn && $clockOut && $clockIn > $clockOut) {
                 $validator->errors()->add('clock_in', '出勤時間もしくは退勤時間が不適切な値です');
             }
 
-            // ② 休憩開始 < 出勤 or > 退勤（仕様書 FN039-2）
+            // 休憩開始
             $start1 = $this->break_start_1;
             $start2 = $this->break_start_2;
 
@@ -70,9 +65,7 @@ class AdminAttendanceUpdateRequest extends FormRequest
                 $validator->errors()->add('break_start_2', '休憩時間が不適切な値です');
             }
 
-
-
-            // ③ 休憩終了 > 退勤（仕様書 FN039-3）
+            // 休憩終了
             $end1 = $this->break_end_1;
             $end2 = $this->break_end_2;
 

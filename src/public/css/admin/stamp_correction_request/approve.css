@@ -51,13 +51,13 @@
     height: 0;
     border: 8px solid #000000;
     transform: rotate(90deg);
-    margin-right: 15px;
+    margin-right: 5px;
 }
 
 /* タイトル */
 .detail-header {
     position: absolute;
-    top: 158px;
+    top: 130px;
     left: 314px;
     display: flex;
     align-items: center;
@@ -113,13 +113,14 @@
     font-size: 16px;           /* ★ Figma と同じ */
     letter-spacing: 0.15em;    /* ★ Figma と同じ */
     color: #000;
-    margin-right: 20px;
+    margin-right: 10px;
 }
 
 .value {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 10;
+    margin-left: -25px;
 }
 
 /* 名前・日付など、テキスト専用の値 */
@@ -148,17 +149,17 @@
 .time-input {
     width: 103px;
     height: 28px;
-    border: 1px solid #E1E1E1;
+    border: none;
     border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 20px;
+    margin-right: 15px;
 }
 
 /* ～ の位置 */
 .tilde {
-    margin-right: 20px;
+    margin-right: 15px;
     font-weight: 700;
 }
 
@@ -182,29 +183,52 @@
     margin-top: 5px;
 }
 
-.pg13-approve-button {
+.approve-btn {
     position: absolute;
     width: 130px;
     height: 50px;
-    top: 875px;
+    top: 750px;
     left: 1076px;
-    background: #000000;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-}
 
-.pg13-approve-button-text {
-    position: absolute;
-    top: 886px;
-    left: 1117px;
-    width: 48px;
-    height: 27px;
-    font-family: Inter;
+    background: #000000;
+    color: #FFFFFF;
+
+    font-family: Inter, sans-serif;
     font-weight: 700;
     font-size: 22px;
-    line-height: 100%;
-    letter-spacing: 15%;
+    letter-spacing: 0.15em;
+
+    border: none;
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.approved-btn {
+    position: absolute;
+    width: 130px;
+    height: 50px;
+    top: 750px;
+    left: 1076px;
+
+    background: #696969; 
     color: #FFFFFF;
-    pointer-events: none; /* テキストクリックでフォームが壊れないように */
+
+    font-family: Inter, sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.15em;
+
+    border: none;
+    border-radius: 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: not-allowed;
 }

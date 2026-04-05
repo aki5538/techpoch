@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Attendance;
 use App\Models\BreakTime;
-use App\Models\StampCorrectionRequest;
+use App\Models\AttendanceCorrectRequest;
 
 class AttendanceStatusDisplayTest extends TestCase
 {
@@ -665,9 +665,9 @@ class AttendanceStatusDisplayTest extends TestCase
 
         // 3. 出勤時間を退勤時間より後にして修正申請
         $response = $this->actingAs($user)
-            ->post(route('stamp_correction_request.store', ['id' => $attendance->id]), [
-                'clock_in' => '19:00',
-                'clock_out' => '18:00',
+            ->post(route('stamp_correction_request.store', ['attendanceId' => $attendance->id]), [
+                'clock_in' => '2026-03-19 19:00:00',
+                'clock_out' => '2026-03-19 18:00:00',
                 'note' => 'テスト',
             ]);
 
@@ -693,10 +693,10 @@ class AttendanceStatusDisplayTest extends TestCase
 
         // 3. 休憩開始時間を退勤時間より後にして修正申請
         $response = $this->actingAs($user)
-            ->post(route('stamp_correction_request.store', ['id' => $attendance->id]), [
-                'clock_in' => '09:00',
-                'clock_out' => '18:00',
-                'break1_in' => '19:00', // 退勤より後
+            ->post(route('stamp_correction_request.store', ['attendanceId' => $attendance->id]), [
+                'clock_in' => '2026-03-19 08:30:00',
+                'clock_out' => '2026-03-19 18:00:00',
+                'break1_in' => '2026-03-19 19:00:00', // 退勤より後
                 'note' => 'テスト',
             ]);
 
@@ -722,11 +722,11 @@ class AttendanceStatusDisplayTest extends TestCase
 
         // 3. 休憩終了時間を退勤時間より後にして修正申請
         $response = $this->actingAs($user)
-            ->post(route('stamp_correction_request.store', ['id' => $attendance->id]), [
-                'clock_in' => '09:00',
-                'clock_out' => '18:00',
-                'break1_in' => '10:00',
-                'break1_out' => '19:00', // 退勤より後
+            ->post(route('stamp_correction_request.store', ['attendanceId' => $attendance->id]), [
+                'clock_in' => '2026-03-19 08:30:00',
+                'clock_out' => '2026-03-19 18:00:00',
+                'break1_in' => '2026-03-19 10:00:00',
+                'break1_out' => '2026-03-19 19:00:00', // 退勤より後
                 'note' => 'テスト',
             ]);
 
@@ -752,9 +752,9 @@ class AttendanceStatusDisplayTest extends TestCase
 
         // 3. 備考未入力で修正申請
         $response = $this->actingAs($user)
-            ->post(route('stamp_correction_request.store', ['id' => $attendance->id]), [
-                'clock_in' => '09:00',
-                'clock_out' => '18:00',
+            ->post(route('stamp_correction_request.store', ['attendanceId' => $attendance->id]), [
+                'clock_in' => '2026-03-19 08:30:00',
+                'clock_out' => '2026-03-19 18:00:00',
                 'note' => '', // 未入力
             ]);
 
@@ -779,15 +779,19 @@ class AttendanceStatusDisplayTest extends TestCase
         ]);
 
         // 3. 修正申請を送信
-        $response = $this->actingAs($user)
-            ->post(route('stamp_correction_request.store', ['id' => $attendance->id]), [
+        $response = $this->actingAs($user, 'user')
+            ->post(route('stamp_correction_request.store', ['attendanceId' => $attendance->id]), [
                 'clock_in' => '08:30',
                 'clock_out' => '18:00',
                 'note' => 'テスト修正',
+                'break1_in' => null,
+                'break1_out' => null,
+                'break2_in' => null,
+                'break2_out' => null,
             ]);
 
         // 4. DB に修正申請が作成されていることを確認
-        $this->assertDatabaseHas('stamp_correction_requests', [
+        $this->assertDatabaseHas('attendance_correct_requests', [
             'user_id' => $user->id,
             'attendance_id' => $attendance->id,
             'reason' => 'テスト修正',
@@ -810,14 +814,14 @@ class AttendanceStatusDisplayTest extends TestCase
         ]);
 
         // 3. 修正申請を2件作成（複数表示の確認）
-        $this->actingAs($user)->post(route('stamp_correction_request.store', ['id' => $attendance->id]), [
+        $this->actingAs($user)->post(route('stamp_correction_request.store', ['attendanceId' => $attendance->id]), [
             'clock_in' => '08:30',
             'clock_out' => '18:00',
             'note' => '1件目',
         ]);
 
-        $this->actingAs($user)->post(route('stamp_correction_request.store', ['id' => $attendance->id]), [
-            'clock_in' => '08:45',
+        $this->actingAs($user)->post(route('stamp_correction_request.store', ['attendanceId' => $attendance->id]), [
+            'clock_in' => '08:30',
             'clock_out' => '18:00',
             'note' => '2件目',
         ]);
@@ -826,13 +830,13 @@ class AttendanceStatusDisplayTest extends TestCase
         $response = $this->actingAs($user)->get(route('stamp_correction_request.list'));
 
         // 5. DB に2件 pending が存在することを確認
-        $this->assertDatabaseHas('stamp_correction_requests', [
+        $this->assertDatabaseHas('attendance_correct_requests', [
             'user_id' => $user->id,
             'reason' => '1件目',
             'status' => 'pending',
         ]);
 
-        $this->assertDatabaseHas('stamp_correction_requests', [
+        $this->assertDatabaseHas('attendance_correct_requests', [
             'user_id' => $user->id,
             'reason' => '2件目',
             'status' => 'pending',
@@ -863,14 +867,14 @@ class AttendanceStatusDisplayTest extends TestCase
         ]);
 
         // 4. 一般ユーザーが修正申請を送信
-        $this->actingAs($user)->post(route('stamp_correction_request.store', ['id' => $attendance->id]), [
+        $this->actingAs($user)->post(route('stamp_correction_request.store', ['attendanceId' => $attendance->id]), [
             'clock_in' => '08:30',
             'clock_out' => '18:00',
             'note' => '承認テスト',
         ]);
 
         // 5. DB から修正申請を取得
-        $request = StampCorrectionRequest::first();
+        $request = AttendanceCorrectRequest::first();
 
         // 6. 管理者が承認（status を approved に更新）
         $request->update([
@@ -899,7 +903,7 @@ class AttendanceStatusDisplayTest extends TestCase
         ]);
 
         // 3. 修正申請を作成
-        $this->actingAs($user)->post(route('stamp_correction_request.store', ['id' => $attendance->id]), [
+        $this->actingAs($user)->post(route('stamp_correction_request.store', ['attendanceId' => $attendance->id]), [
             'clock_in' => '08:30',
             'clock_out' => '18:00',
             'note' => '詳細テスト',
