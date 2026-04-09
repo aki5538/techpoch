@@ -46,6 +46,16 @@ Route::post('/admin/login', [AdminLoginController::class, 'login']);
 |--------------------------------------------------------------------------
 */
 
+// 会員登録画面
+Route::get('/register', function () {
+    return view('auth.user.register');
+})->name('register');
+
+// PG02：ログイン画面
+Route::get('/login', function () {
+    return view('auth.user.login');
+})->name('login');
+
 Route::middleware(['auth:user'])->group(function () {
 
     // PG03：打刻画面
