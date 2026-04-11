@@ -73,7 +73,20 @@ class Attendance extends Model
      */
     public function getDateLabelAttribute()
     {
-        return Carbon::parse($this->work_date)->format('m/d（D）');
+        $wMap = [
+            'Sun' => '日',
+            'Mon' => '月',
+            'Tue' => '火',
+            'Wed' => '水',
+            'Thu' => '木',
+            'Fri' => '金',
+            'Sat' => '土',
+        ];
+
+        $date = Carbon::parse($this->work_date);
+        $w = $wMap[$date->format('D')];
+
+        return $date->format('m/d') . '（' . $w . '）';
     }
 
     /**
