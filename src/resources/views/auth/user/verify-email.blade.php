@@ -10,7 +10,6 @@
 
 <div class="verify-wrapper">
 
-    <!-- Figma 準拠メッセージ -->
     <div class="verify-message">
         登録していただいたメールアドレスに認証メールを送付しました。<br>
         メール認証を完了してください。

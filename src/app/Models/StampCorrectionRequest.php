@@ -16,17 +16,11 @@ class StampCorrectionRequest extends Model
         'status',
     ];
 
-    /**
-     * 申請者（User）
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * 対象勤怠（Attendance）
-     */
     public function attendance()
     {
         return $this->belongsTo(Attendance::class);

@@ -1,4 +1,3 @@
-/* ログイン画面全体の枠 */
 .admin-login-wrapper {
     position: relative;
     width: 1512px;
@@ -7,7 +6,6 @@
     margin: 0 auto;
 }
 
-/* タイトル：管理者ログイン */
 .admin-login-title {
     position: absolute;
     top: 188px;
@@ -138,7 +136,7 @@
 
 .admin-login-error-login {
     position: absolute;
-    top: 250px;  /* タイトルの下に自然に配置 */
+    top: 250px;
     left: 416px;
 
     font-family: 'Inter', sans-serif;

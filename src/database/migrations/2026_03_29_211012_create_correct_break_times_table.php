@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateCorrectBreakTimesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('correct_break_times', function (Blueprint $table) {
@@ -24,11 +19,6 @@ class CreateCorrectBreakTimesTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('correct_break_times');

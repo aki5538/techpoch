@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="{{ asset('css/admin/stamp_correction_request/list.css') }}">
 @endsection
 
-{{-- ヘッダー（ユーザー側と同じ構成） --}}
 @section('header-menu')
     <nav class="attendance-header-menu">
         <a href="{{ route('admin.attendance.list') }}">勤怠一覧</a>
@@ -29,13 +28,11 @@
 
 <div class="correction-list-container">
 
-    {{-- タイトル --}}
     <div class="page-header">
         <div class="page-bar"></div>
         <h1 class="page-title">申請一覧</h1>
     </div>
 
-    {{-- タブ（承認待ち / 承認済み） --}}
     <div class="pg12-tabs">
         <a href="?tab=pending"
            class="pg12-tab {{ request('tab','pending') === 'pending' ? 'active' : 'inactive' }}">
@@ -50,7 +47,6 @@
 
     <div class="pg12-tab-line"></div>
 
-    {{-- 承認待ちタブ --}}
     @if (request('tab','pending') === 'pending')
     <div class="table-wrapper">
         <div class="table-box">
@@ -90,7 +86,6 @@
     </div>
     @endif
 
-    {{-- 承認済みタブ --}}
     @if (request('tab') === 'approved')
     <div class="table-wrapper">
         <div class="table-box">

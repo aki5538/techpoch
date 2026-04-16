@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="{{ asset('css/admin/stamp_correction_request/approve.css') }}">
 @endsection
 
-{{-- ヘッダー（ユーザー側と同じ構成） --}}
 @section('header-menu')
     <nav class="attendance-header-menu">
         <a href="{{ route('admin.attendance.list') }}">勤怠一覧</a>
@@ -41,21 +40,18 @@
 
 <div class="detail-box">
 
-    {{-- 名前 --}}
     <div class="row">
         <span class="label">名前</span>
         <span class="text-value">{{ $request->user->name }}</span>
     </div>
     <div class="detail-line-1"></div>
 
-    {{-- 日付 --}}
     <div class="row">
         <span class="label">日付</span>
         <span class="text-value">{{ $request->attendance->work_date }}</span>
     </div>
     <div class="detail-line-2"></div>
 
-    {{-- 出勤・退勤 --}}
     <div class="row">
         <span class="label">出勤・退勤</span>
         <span class="value">
@@ -66,7 +62,6 @@
     </div>
     <div class="detail-line-3"></div>
 
-    {{-- 休憩 --}}
     <div class="row">
         <span class="label">休憩1</span>
         <span class="value">
@@ -82,7 +77,6 @@
 
     <div class="detail-line-4"></div>
 
-    {{-- 休憩2 --}}
     <div class="row">
         <span class="label">休憩2</span>
         <span class="value">
@@ -97,7 +91,6 @@
     </div>
     <div class="detail-line-5"></div>
 
-    {{-- 備考（申請理由） --}}
     <div class="row">
         <span class="label">備考</span>
         <span class="text-value">{{ $request->reason }}</span>
@@ -106,14 +99,12 @@
 
 </div>
 
-    {{-- 承認前 --}}
     @if ($request->status === 'pending')
         <form action="{{ route('admin.stamp_correction_request.update', ['attendance_correct_request_id' => $request->id]) }}" method="POST">
             @csrf
             <button type="submit" class="approve-btn">承認</button>
         </form>
 
-    {{-- 承認後 --}}
     @elseif ($request->status === 'approved')
         <button class="approved-btn" disabled>承認済み</button>
     @endif

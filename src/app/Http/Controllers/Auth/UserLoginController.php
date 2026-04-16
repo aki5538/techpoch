@@ -15,7 +15,7 @@ class UserLoginController extends AuthenticatedSessionController
         app(LoginRequest::class)->validateResolved();
 
         // 認証試行（仕様書 FN006）
-        if (! Auth::guard('user')->attempt($request->only('email', 'password'))) {
+        if (!Auth::guard('user')->attempt($request->only('email', 'password'))) {
             return back()
                 ->withInput()
                 ->withErrors([

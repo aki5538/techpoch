@@ -43,7 +43,6 @@ class AttendanceCorrectRequestController extends Controller
             'status'        => 'pending',
         ]);
 
-        // 休憩1
         if (!empty($data['break1_in']) || !empty($data['break1_out'])) {
             $requestModel->correctBreakTimes()->create([
                 'break_in'  => $data['break1_in'],
@@ -51,7 +50,6 @@ class AttendanceCorrectRequestController extends Controller
             ]);
         }
 
-        // 休憩2
         if (!empty($data['break2_in']) || !empty($data['break2_out'])) {
             $requestModel->correctBreakTimes()->create([
                 'break_in'  => $data['break2_in'],

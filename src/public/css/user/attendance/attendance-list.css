@@ -6,7 +6,6 @@
     padding-top: 40px;
 }
 
-/* 画面幅が 1512px 未満のときは横スクロールを出さない */
 @media screen and (max-width: 1512px) {
     .attendance-list-container {
         margin-left: 0;
@@ -15,17 +14,13 @@
     }
 }
 
-
-
-/* この画面専用：ヘッダー右上メニュー */
 .attendance-header-menu {
     display: flex;
     align-items: center;
-    gap: 40px; /* Figma の見た目に一致する間隔 */
+    gap: 40px;
     margin-right: 0px;
 }
 
-/* メニュー共通スタイル */
 .attendance-header-menu a,
 .attendance-header-menu button {
     font-family: 'Inter', sans-serif;
@@ -46,7 +41,6 @@
     opacity: 0.7;
 }
 
-/* タイトルブロック全体（縦線＋タイトル） */
 .attendance-list-title {
     display: flex !important;
     align-items: center !important;
@@ -54,7 +48,6 @@
     width: 1000px !important;
 }
 
-/* 左の黒い縦線 */
 .attendance-list-title-line {
     width: 0;
     height: 40px;
@@ -62,7 +55,6 @@
     margin-right: 20px;
 }
 
-/* タイトル文字「勤怠一覧」 */
 .attendance-list-title-text {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
@@ -72,7 +64,6 @@
     line-height: 1;
 }
 
-/* ▼ 日付バー（全体） */
 .attendance-list-date-bar {
     width: 940px;
     height: 60px;
@@ -87,16 +78,14 @@
     padding: 0 30px;
 }
 
-/* 左・中央・右ブロック */
 .date-left,
 .date-center,
 .date-right {
     display: flex;
     align-items: center;
-    gap: 10px; /* ←と前月、カレンダーと日付、翌月と→ の距離 */
+    gap: 10px;
 }
 
-/* ←アイコン */
 .date-prev-icon,
 .date-next-icon {
     width: 20px;
@@ -109,7 +98,6 @@
     transform: scaleX(-1);
 }
 
-/* 前月・翌月テキスト */
 .date-prev-text,
 .date-next-text {
     font-family: 'Inter', sans-serif;
@@ -121,13 +109,11 @@
     cursor: pointer;
 }
 
-/* カレンダー画像 */
 .date-calendar-icon {
     width: 25px;
     height: 25px;
 }
 
-/* 年月（例：2023/06） */
 .date-current {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
@@ -137,7 +123,6 @@
     line-height: 1;
 }
 
-/* 打刻履歴一覧の白い大枠 */
 .attendance-list-table-container {
     width: 900px;
     min-height: 1506px;
@@ -148,7 +133,6 @@
     padding: 40px 50px;
 }
 
-/* テーブルヘッダー全体 */
 .attendance-list-table-header {
     width: 900px;
     height: 31px;
@@ -173,7 +157,6 @@
     width: 35px;
 }
 
-/* テーブルヘッダーの共通スタイル */
 .attendance-list-header-item {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
@@ -183,7 +166,6 @@
     line-height: 1;
 }
 
-/* テーブルヘッダー共通 */
 .attendance-list-header-item {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
@@ -193,7 +175,6 @@
     line-height: 1;
 }
 
-/* カラム幅（Figma の left 差分から算出） */
 .attendance-list-header-date {
     width: 189px;
 }
@@ -218,7 +199,6 @@
     width: 133px;
 }
 
-/* テーブル1行分（共通） */
 .attendance-list-row {
     width: 900px;
     height: 33px;

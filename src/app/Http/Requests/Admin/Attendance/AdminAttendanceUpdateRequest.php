@@ -29,8 +29,10 @@ class AdminAttendanceUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'clock_in.required'  => '出勤時間もしくは退勤時間が不適切な値です',
-            'clock_out.required' => '出勤時間もしくは退勤時間が不適切な値です',
+            'clock_in.required'     => '出勤時間もしくは退勤時間が不適切な値です',
+            'clock_out.required'    => '出勤時間もしくは退勤時間が不適切な値です',
+            'clock_in.date_format'  => '出勤時間もしくは退勤時間が不適切な値です',
+            'clock_out.date_format' => '出勤時間もしくは退勤時間が不適切な値です',
 
             'break_start_1.date_format' => '休憩時間が不適切な値です',
             'break_end_1.date_format'   => '休憩時間もしくは退勤時間が不適切な値です',
@@ -48,12 +50,10 @@ class AdminAttendanceUpdateRequest extends FormRequest
             $clockIn  = $this->clock_in;
             $clockOut = $this->clock_out;
 
-            // 出勤 > 退勤
             if ($clockIn && $clockOut && $clockIn > $clockOut) {
                 $validator->errors()->add('clock_in', '出勤時間もしくは退勤時間が不適切な値です');
             }
 
-            // 休憩開始
             $start1 = $this->break_start_1;
             $start2 = $this->break_start_2;
 
@@ -65,7 +65,6 @@ class AdminAttendanceUpdateRequest extends FormRequest
                 $validator->errors()->add('break_start_2', '休憩時間が不適切な値です');
             }
 
-            // 休憩終了
             $end1 = $this->break_end_1;
             $end2 = $this->break_end_2;
 

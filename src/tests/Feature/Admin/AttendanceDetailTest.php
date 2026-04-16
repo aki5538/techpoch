@@ -15,17 +15,14 @@ class AttendanceDetailTest extends TestCase
     /** @test */
     public function 詳細画面に選択した勤怠情報が表示される()
     {
-        // 管理者ユーザー
         $admin = User::factory()->create([
             'role' => 'admin',
         ]);
 
-        // 一般ユーザー
         $user = User::factory()->create([
             'name' => 'テスト太郎',
         ]);
 
-        // 勤怠データ
         $attendance = Attendance::factory()->create([
             'user_id' => $user->id,
             'work_date' => '2024-01-10',
@@ -34,7 +31,6 @@ class AttendanceDetailTest extends TestCase
             'note' => 'テスト備考',
         ]);
 
-        // 休憩データ（2つ）
         BreakTime::factory()->create([
             'attendance_id' => $attendance->id,
             'break_in' => '12:00:00',
@@ -47,14 +43,11 @@ class AttendanceDetailTest extends TestCase
             'break_out' => '15:30:00',
         ]);
 
-        // アクセス（管理者ガード）
         $response = $this->actingAs($admin, 'admin')
                          ->get('/admin/attendance/' . $attendance->id);
 
-        // ステータス OK
         $response->assertStatus(200);
 
-        // 表示内容の確認（Blade の形式に合わせる）
         $response->assertSee('テスト太郎');
         $response->assertSee('2024年');
         $response->assertSee('1月10日');
@@ -81,7 +74,6 @@ class AttendanceDetailTest extends TestCase
             'note' => '元の備考',
         ]);
 
-        // ★ 休憩データを2件作成（管理者側は必須）
         BreakTime::factory()->create([
             'attendance_id' => $attendance->id,
             'break_in' => '12:00:00',
@@ -94,10 +86,9 @@ class AttendanceDetailTest extends TestCase
             'break_out' => '15:30:00',
         ]);
 
-        // ★ ルートは POST 一択
         $response = $this->actingAs($admin, 'admin')
                         ->post('/admin/attendance/' . $attendance->id, [
-                            'clock_in' => '20:00',   // 出勤 > 退勤
+                            'clock_in' => '20:00',
                             'clock_out' => '10:00',
 
                             'break_start_1' => '12:00',
@@ -108,10 +99,8 @@ class AttendanceDetailTest extends TestCase
                             'note' => 'テスト',
                         ]);
 
-        // バリデーションエラー → 302
         $response->assertStatus(302);
 
-        // 仕様書通りのエラーメッセージ
         $response->assertSessionHasErrors([
             'clock_in' => '出勤時間もしくは退勤時間が不適切な値です',
         ]);
@@ -131,7 +120,6 @@ class AttendanceDetailTest extends TestCase
             'note' => '元の備考',
         ]);
 
-        // ★ 休憩データを2件作成（管理者側は必須）
         BreakTime::factory()->create([
             'attendance_id' => $attendance->id,
             'break_in' => '12:00:00',
@@ -144,13 +132,12 @@ class AttendanceDetailTest extends TestCase
             'break_out' => '15:30:00',
         ]);
 
-        // ★ break_start_1 を退勤時間より後にする
         $response = $this->actingAs($admin, 'admin')
                         ->post('/admin/attendance/' . $attendance->id, [
                             'clock_in' => '09:00',
                             'clock_out' => '18:00',
 
-                            'break_start_1' => '20:00', // ← 退勤より後
+                            'break_start_1' => '20:00',
                             'break_end_1'   => '21:00',
 
                             'break_start_2' => '15:00',
@@ -159,10 +146,8 @@ class AttendanceDetailTest extends TestCase
                             'note' => 'テスト',
                         ]);
 
-        // バリデーションエラー → 302
         $response->assertStatus(302);
 
-        // 仕様書通りのエラーメッセージ
         $response->assertSessionHasErrors([
             'break_start_1' => '休憩時間が不適切な値です',
         ]);
@@ -182,7 +167,6 @@ class AttendanceDetailTest extends TestCase
             'note' => '元の備考',
         ]);
 
-        // ★ 休憩データを2件作成（管理者側は必須）
         BreakTime::factory()->create([
             'attendance_id' => $attendance->id,
             'break_in' => '12:00:00',
@@ -195,7 +179,6 @@ class AttendanceDetailTest extends TestCase
             'break_out' => '15:30:00',
         ]);
 
-        // ★ break_end_1 を退勤時間より後にする
         $response = $this->actingAs($admin, 'admin')
                         ->post('/admin/attendance/' . $attendance->id, [
                             'clock_in' => '09:00',
@@ -210,10 +193,8 @@ class AttendanceDetailTest extends TestCase
                             'note' => 'テスト',
                         ]);
 
-        // バリデーションエラー → 302
         $response->assertStatus(302);
 
-        // 仕様書通りのエラーメッセージ
         $response->assertSessionHasErrors([
             'break_end_1' => '休憩時間もしくは退勤時間が不適切な値です',
         ]);
@@ -233,7 +214,6 @@ class AttendanceDetailTest extends TestCase
             'note' => '元の備考',
         ]);
 
-        // ★ 休憩データを2件作成（管理者側は必須）
         BreakTime::factory()->create([
             'attendance_id' => $attendance->id,
             'break_in' => '12:00:00',
@@ -246,7 +226,6 @@ class AttendanceDetailTest extends TestCase
             'break_out' => '15:30:00',
         ]);
 
-        // ★ note を未入力にする
         $response = $this->actingAs($admin, 'admin')
                         ->post('/admin/attendance/' . $attendance->id, [
                             'clock_in' => '09:00',
@@ -261,10 +240,8 @@ class AttendanceDetailTest extends TestCase
                             'note' => '', // ← 未入力
                         ]);
 
-        // バリデーションエラー → 302
         $response->assertStatus(302);
 
-        // 仕様書通りのエラーメッセージ
         $response->assertSessionHasErrors([
             'note' => '備考を記入してください',
         ]);

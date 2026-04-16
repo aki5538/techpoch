@@ -13,7 +13,6 @@
     <form action="{{ route('register') }}" method="POST" class="register-form">
         @csrf
 
-        {{-- 名前 --}}
         <div class="form-group">
             <label for="name">名前</label>
             <input type="text" name="name" value="{{ old('name') }}">
@@ -23,7 +22,6 @@
             @enderror
         </div>
 
-        {{-- メールアドレス --}}
         <div class="form-group">
             <label>メールアドレス</label>
             <input type="email" name="email" value="{{ old('email') }}">
@@ -33,7 +31,6 @@
             @enderror
         </div>
 
-        {{-- パスワード --}}
         <div class="form-group">
             <label>パスワード</label>
             <input type="password" name="password">
@@ -43,7 +40,6 @@
             @enderror
         </div>
 
-        {{-- パスワード確認 --}}
         <div class="form-group">
             <label>パスワード確認</label>
             <input type="password" name="password_confirmation">

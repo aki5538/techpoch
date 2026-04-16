@@ -34,7 +34,6 @@
                 <h1 class="page-title">申請一覧</h1>
             </div>
 
-            {{-- タブ --}}
             <div class="tabs">
                 <a href="#pending" class="tab active">承認待ち</a>
                 <a href="#approved" class="tab">承認済み</a>
@@ -42,7 +41,6 @@
 
             <div class="request-list-line"></div>
 
-            {{-- 承認待ち --}}
             <div id="pending" class="tab-content active">
                 <div class="request-table-wrapper">
 
@@ -88,7 +86,6 @@
                 </div>
             </div>
 
-            {{-- 承認済み --}}
             <div id="approved" class="tab-content">
                 <div class="request-table-wrapper">
 

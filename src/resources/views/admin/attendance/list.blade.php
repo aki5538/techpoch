@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="{{ asset('css/admin/attendance/list.css') }}">
 @endsection
 
-{{-- ヘッダー（ユーザー側と同じ構成） --}}
 @section('header-menu')
     <nav class="attendance-header-menu">
         <a href="{{ route('admin.attendance.list') }}">勤怠一覧</a>
@@ -29,7 +28,6 @@
 
 <div class="attendance-list-container">
 
-    {{-- ▼ タイトル（ユーザー側と同じ構成） --}}
     <div class="attendance-list-title">
         <div class="attendance-list-title-line"></div>
         <div class="attendance-list-title-text">
@@ -37,8 +35,6 @@
         </div>
     </div>
 
-    {{-- ここから先は今の date-bar / table をそのまま使ってOK --}}
-    {{-- ▼ 日付バー --}}
     <div class="attendance-list-date-bar">
         <div class="date-left">
             <img src="{{ asset('images/admin/attendance/arrow-left.png') }}" class="date-prev-icon">
@@ -64,7 +60,6 @@
         </div>
     </div>
 
-    {{-- ▼ 勤怠一覧テーブル（ここは今のままでOK） --}}
     <div class="attendance-list-table-container">
 
         <div class="attendance-list-table-header">

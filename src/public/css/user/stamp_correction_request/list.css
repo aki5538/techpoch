@@ -1,4 +1,3 @@
-/* 背景 */
 .page-bg {
     width: 100%;
     min-height: auto;
@@ -12,7 +11,6 @@
     margin: 0 auto;
 }
 
-/* ヘッダー右上メニュー */
 .attendance-header-menu {
     display: flex;
     gap: 40px;
@@ -40,7 +38,6 @@
     opacity: 0.7;
 }
 
-/* タイトル */
 .page-title-wrapper {
     display: flex;
     align-items: center;
@@ -64,7 +61,6 @@
     margin-left: 15px;
 }
 
-/* タブ */
 .tabs {
     display: flex;
     gap: 178px;
@@ -93,7 +89,6 @@
     margin-left: 302px;
 }
 
-/* テーブル枠 */
 .request-table-wrapper {
     width: 900px;
     min-height: 400px;
@@ -104,14 +99,12 @@
     padding: 0;
 }
 
-/* テーブル本体 */
 .request-table {
     width: 900px;
     border-collapse: collapse;
     table-layout: fixed; /* ← 最重要 */
 }
 
-/* ヘッダー */
 .request-table thead {
     border-bottom: 3px solid #E1E1E1;
 }
@@ -126,7 +119,6 @@
     padding: 6px 0;
 }
 
-/* 列幅（Figma 値） */
 .request-table th:nth-child(1),
 .request-table td:nth-child(1) { width: 72px; }
 
@@ -145,13 +137,11 @@
 .request-table th:nth-child(6),
 .request-table td:nth-child(6) { width: 35px; }
 
-/* 行 */
 .request-table tbody tr {
     height: 33px;
     border-bottom: 2px solid #E1E1E1;
 }
 
-/* td 共通 */
 .request-table td {
     font-family: 'Inter';
     font-size: 16px;
@@ -160,7 +150,6 @@
     letter-spacing: 0.15em;
 }
 
-/* 詳細だけ黒 */
 .request-table td:nth-child(6) {
     color: #000000;
 }

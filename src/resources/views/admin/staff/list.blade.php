@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="{{ asset('css/admin/staff/list.css') }}">
 @endsection
 
-{{-- ヘッダー（ユーザー側と同じ構成） --}}
 @section('header-menu')
     <nav class="attendance-header-menu">
         <a href="{{ route('admin.attendance.list') }}">勤怠一覧</a>
@@ -29,14 +28,13 @@
 
 <div class="staff-list-container">
 
-    {{-- タイトル --}}
     <div class="page-header">
         <div class="page-bar"></div>
         <h1 class="page-title">スタッフ一覧</h1>
     </div>
-    {{-- スタッフ一覧テーブル --}}
+
     <div class="table-wrapper">
-        {{-- テーブルヘッダー --}}
+
         <table class="staff-table">
             <thead>
                 <tr>
@@ -47,10 +45,8 @@
             </thead>
         </table>
 
-        {{-- Figma の太い区切り線（必須） --}}
         <div class="table-divider"></div>
 
-        {{-- テーブル本体 --}}
         <table class="staff-table">
             <tbody>
                 @foreach ($users as $user)

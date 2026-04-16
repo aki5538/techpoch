@@ -4,7 +4,6 @@
     background-color: #FFFFFF;
 }
 
-/* 会員登録タイトル */
 .title {
     margin-top: 161px;
     margin-left: 684px;
@@ -15,13 +14,11 @@
     color: #000000;
 }
 
-/* form-group 全体 */
 .form-group {
     margin-left: 416px;
     margin-top: 40px;
 }
 
-/* ラベル */
 .form-group label {
     display: block;
     font-family: 'Inter', sans-serif;
@@ -31,7 +28,6 @@
     margin-bottom: 10px;
 }
 
-/* 入力欄 */
 .form-group input {
     width: 675px;
     height: 45px;
@@ -39,7 +35,6 @@
     border-radius: 4px;
 }
 
-/* 登録ボタン */
 .submit-btn {
     width: 680px;
     height: 60px;
@@ -60,7 +55,6 @@
     cursor: pointer;
 }
 
-/* ログインはこちら */
 .login-link {
     margin-left: 670px;
     margin-top: 20px;

@@ -6,21 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StampCorrectionRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
         return [
@@ -41,12 +31,10 @@ class StampCorrectionRequest extends FormRequest
             $clockIn  = $this->clock_in;
             $clockOut = $this->clock_out;
 
-            // 出勤 > 退勤 の場合
             if ($clockIn && $clockOut && $clockIn > $clockOut) {
                 $validator->errors()->add('clock_in', '出勤時間が不適切な値です');
             }
 
-            // 休憩1
             if ($this->break1_in !== null && $this->break1_in !== '') {
                 if ($this->break1_in < $clockIn || $this->break1_in > $clockOut) {
                     $validator->errors()->add('break1_in', '休憩時間が不適切な値です');
@@ -59,7 +47,6 @@ class StampCorrectionRequest extends FormRequest
                 }
             }
 
-            // 休憩2
             if ($this->break2_in !== null && $this->break2_in !== '') {
                 if ($this->break2_in < $clockIn || $this->break2_in > $clockOut) {
                     $validator->errors()->add('break2_in', '休憩時間が不適切な値です');
@@ -81,7 +68,6 @@ class StampCorrectionRequest extends FormRequest
             'clock_out.required' => '退勤時間を入力してください',
             'note.required'      => '備考を記入してください',
 
-            // テスト仕様に合わせる
             'clock_in.date_format'   => '出勤時間が不適切な値です',
             'clock_out.date_format'  => '退勤時間が不適切な値です',
 

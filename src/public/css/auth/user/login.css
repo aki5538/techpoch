@@ -1,11 +1,9 @@
-/* ログイン画面 wrapper（register と同じ） */
 .register-wrapper {
     width: 1512px;
     height: 982px;
     background-color: #FFFFFF;
 }
 
-/* ログインタイトル */
 .page-title {
     margin-top: 161px;
     margin-left: 684px;
@@ -16,13 +14,11 @@
     color: #000000;
 }
 
-/* form-group 全体 */
 .form-group {
     margin-left: 416px;
     margin-top: 40px;
 }
 
-/* ラベル */
 .form-group label {
     display: block;
     font-family: 'Inter', sans-serif;
@@ -32,7 +28,6 @@
     margin-bottom: 10px;
 }
 
-/* 入力欄 */
 .form-group input {
     width: 675px;
     height: 45px;
@@ -40,7 +35,6 @@
     border-radius: 4px;
 }
 
-/* ログインボタン */
 .login-button {
     width: 680px;
     height: 60px;
@@ -61,7 +55,7 @@
     cursor: pointer;
 }
 
-/* 会員登録はこちら */
+
 .register-link {
     margin-left: 670px;
     margin-top: 20px;
@@ -78,7 +72,7 @@
     text-align: center;
 }
 
-/* エラーメッセージ */
+
 .error-message {
     margin-top: 8px;
     font-family: 'Inter', sans-serif;

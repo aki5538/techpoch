@@ -20,6 +20,7 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Auth\UserLoginController;
+use Illuminate\Support\Facades\Auth;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -29,38 +30,30 @@ class FortifyServiceProvider extends ServiceProvider
     {
         config(['auth.defaults.guard' => 'user']);
 
-        // プロフィール更新・パスワード更新・リセット
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
-        // レート制限
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
             return Limit::perMinute(5)->by($throttleKey);
         });
 
-        // 一般ユーザー専用 guard
         config(['fortify.guard' => 'user']);
 
-        // 会員登録画面
         Fortify::registerView(fn() => view('auth.user.register'));
 
         Fortify::createUsersUsing(CreateNewUser::class);
 
-        // 登録後の遷移先
         Fortify::redirects('register', '/email/verify');
 
-        // ログイン画面
         Fortify::loginView(fn() => view('auth.user.login'));
 
-        // ログイン処理を差し替える
         app()->bind(
             AuthenticatedSessionController::class,
             UserLoginController::class
         );
 
-        // メール認証誘導画面
         Fortify::verifyEmailView(fn() => view('auth.user.verify-email'));
         Fortify::authenticateUsing(function ($request) {
             return Auth::guard('user')->getProvider()->retrieveByCredentials([

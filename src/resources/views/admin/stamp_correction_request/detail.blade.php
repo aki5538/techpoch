@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="{{ asset('css/admin/stamp_correction_request/detail.css') }}">
 @endsection
 
-{{-- ヘッダー（ユーザー側と同じ構成） --}}
 @section('header-menu')
     <nav class="attendance-header-menu">
         <a href="{{ route('admin.attendance.list') }}">勤怠一覧</a>
@@ -48,14 +47,12 @@
 
         <div class="detail-box">
 
-            {{-- 名前 --}}
             <div class="row">
                 <div class="label">名前</div>
                 <div class="value text-value">{{ $request->user->name }}</div>
             </div>
             <div class="detail-line-1"></div>
 
-            {{-- 日付 --}}
             <div class="row">
                 <div class="label">日付</div>
                 <div class="value text-value">
@@ -64,7 +61,6 @@
             </div>
             <div class="detail-line-2"></div>
 
-            {{-- 出勤・退勤 --}}
             <div class="row">
                 <div class="label">出勤・退勤</div>
                 <div class="value">
@@ -81,7 +77,6 @@
             </div>
             <div class="detail-line-3"></div>
 
-            {{-- 休憩1 --}}
             <div class="row">
                 <div class="label">休憩</div>
                 <div class="value">
@@ -98,7 +93,6 @@
             </div>
             <div class="detail-line-4"></div>
 
-            {{-- 休憩2 --}}
             <div class="row">
                 <div class="label">休憩2</div>
                 <div class="value">
@@ -115,7 +109,6 @@
             </div>
             <div class="detail-line-5"></div>
 
-            {{-- 備考（申請理由） --}}
             <div class="row">
                 <div class="label">備考</div>
                 <div class="value note-value">
@@ -127,7 +120,6 @@
 
         </div>
 
-        {{-- 承認ボタン --}}
         <form action="{{ route('admin.stamp_correction_request.update', ['attendance_correct_request_id' => $request->id]) }}"
             method="POST">
             @csrf
@@ -135,7 +127,6 @@
                 <span class="detail-edit-button-text">承認</span>
             </button>
         </form>
-
     </div>
 </div>
 

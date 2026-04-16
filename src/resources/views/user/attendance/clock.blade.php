@@ -30,25 +30,20 @@
 
     <div class="attendance-inner">
 
-        {{-- ステータス表示 --}}
         <div class="status-badge">
             <span>{{ $status }}</span>
         </div>
 
-        {{-- 日付表示 --}}
         <div class="attendance-date">
             {{ $today }}
         </div>
 
-        {{-- 時刻表示 --}}
         <div class="attendance-time">
             {{ $now }}
         </div>
 
-        {{-- ボタン出し分け --}}
         <div class="attendance-buttons">
 
-            {{-- 勤務外 → 出勤ボタン --}}
             @if ($status === '勤務外')
                 <form method="POST" action="{{ route('user.clock.in') }}">
                     @csrf
@@ -58,7 +53,6 @@
                 </form>
             @endif
 
-            {{-- 出勤中 → 休憩入／退勤 --}}
             @if ($status === '出勤中')
                 <form method="POST" action="{{ route('user.break.in') }}">
                     @csrf
@@ -75,7 +69,6 @@
                 </form>
             @endif
 
-            {{-- 休憩中 → 休憩戻 --}}
             @if ($status === '休憩中')
                 <form method="POST" action="{{ route('user.break.out') }}">
                     @csrf
@@ -85,7 +78,6 @@
                 </form>
             @endif
 
-            {{-- 退勤済 → メッセージ --}}
             @if ($status === '退勤済')
                 <p class="finished-message">お疲れ様でした。</p>
             @endif

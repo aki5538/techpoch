@@ -7,7 +7,6 @@
     padding-bottom: 100px;
 }
 
-/* ヘッダー右上メニュー */
 .attendance-header-menu {
     display: flex;
     gap: 40px;
@@ -43,7 +42,6 @@
     margin-right: 15px;
 }
 
-/* タイトル */
 .detail-header {
     position: absolute;
     top: 158px;
@@ -58,7 +56,6 @@
     font-size: 30px;
 }
 
-/* ===== 白枠 ===== */
 .detail-box {
     width: 900px;
     background: #fff;
@@ -70,14 +67,12 @@
     min-height: 480px;
 }
 
-/* ===== 行（row） ===== */
 .row {
     display: flex;
     align-items: center;
-    height: 48px; /* Figma 行高さ */
+    height: 48px;
 }
 
-/* ===== ラベル ===== */
 .label {
     width: 120px;
     margin-left: 40px;
@@ -89,18 +84,17 @@
     margin-right: 150px;
 }
 
-/* ===== 値 ===== */
 .time-input {
-    width: 103px;              /* 既存の枠サイズに合わせる */
+    width: 103px;
     height: 28px;
     border: 1px solid #E1E1E1;
     border-radius: 4px;
     padding: 0;
-    text-align: center;        /* ★ 中央寄せ */
+    text-align: center;
     font-family: Inter, sans-serif;
-    font-weight: 700;          /* ★ 太字 */
-    font-size: 16px;           /* ★ Figma と同じ */
-    letter-spacing: 0.15em;    /* ★ Figma と同じ */
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.15em;
     color: #000;
     margin-right: 20px;
 }
@@ -111,16 +105,15 @@
     gap: 20px;
 }
 
-/* 名前・日付など、テキスト専用の値 */
+
 .text-value {
     font-family: Inter, sans-serif;
-    font-weight: 700;       /* 太字 */
+    font-weight: 700;
     font-size: 16px;
     letter-spacing: 0.15em;
     color: #000;
 }
 
-/* ===== 仕切り線 ===== */
 .detail-line-1,
 .detail-line-2,
 .detail-line-3,
@@ -133,7 +126,7 @@
     transform: translateX(-30px);
 }
 
-/* 共通の時間枠 */
+
 .time-input {
     width: 103px;
     height: 28px;
@@ -145,13 +138,11 @@
     margin-right: 20px;
 }
 
-/* ～ の位置 */
 .tilde {
     margin-right: 20px;
     font-weight: 700;
 }
 
-/* ===== 備考 ===== */
 .detail-note-textarea {
     width: 316px;
     height: 72px;
@@ -171,7 +162,6 @@
     margin-top: 5px;
 }
 
-/* ===== 修正ボタン ===== */
 .detail-edit-button {
     width: 130px;
     height: 50px;
@@ -188,7 +178,6 @@
     color: #fff;
 }
 
-/* ===== 承認待ちメッセージ ===== */
 .detail-pending-message {
     font-family: Inter, sans-serif;
     font-weight: 800;
@@ -206,7 +195,6 @@
     margin-left: 40px; 
 }
 
-/* 備考だけ縦積みにする（休憩には絶対当たらない） */
 .note-value {
     display: flex;
     flex-direction: column;

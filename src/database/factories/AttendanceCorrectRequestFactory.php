@@ -10,11 +10,7 @@ use App\Models\User;
 class AttendanceCorrectRequestFactory extends Factory
 {
     protected $model = AttendanceCorrectRequest::class;
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
+
     public function definition()
     {
         return [

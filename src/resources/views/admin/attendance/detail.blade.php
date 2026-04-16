@@ -40,21 +40,17 @@
         <div class="title">勤怠詳細</div>
     </div>
 
-    {{-- ★ 管理者は直接修正するので form はここ --}}
     <form action="{{ route('admin.attendance.update', $attendance->id) }}" method="POST">
         @csrf
 
-        {{-- ★ 白枠（ユーザー側と同じ構造） --}}
         <div class="detail-box {{ $pending ? 'detail-box-pending' : '' }}">
 
-            {{-- 名前 --}}
             <div class="row">
                 <div class="label">名前</div>
                 <div class="value text-value">{{ $attendance->user->name }}</div>
             </div>
             <div class="detail-line-1"></div>
 
-            {{-- 日付 --}}
             <div class="row">
                 <div class="label">日付</div>
                 <div class="value text-value">
@@ -66,7 +62,6 @@
             </div>
             <div class="detail-line-2"></div>
 
-            {{-- 出勤・退勤 --}}
             <div class="row">
                 <div class="label">出勤・退勤</div>
 
@@ -87,12 +82,12 @@
                 </div>
             </div>
 
-            @error('clock_in') <div class="error-message">{{ $message }}</div> @enderror
-            @error('clock_out') <div class="error-message">{{ $message }}</div> @enderror
-
+            @if ($errors->has('clock_in') || $errors->has('clock_out'))
+                <div class="error-message">出勤時間もしくは退勤時間が不適切な値です</div>
+            @endif
+            
             <div class="detail-line-3"></div>
 
-            {{-- 休憩1 --}}
             <div class="row">
                 <div class="label">休憩</div>
                 <div class="value">
@@ -114,12 +109,14 @@
                 </div>
             </div>
 
-            @error('break_start_1') <div class="error-message">{{ $message }}</div> @enderror
-            @error('break_end_1')   <div class="error-message">{{ $message }}</div> @enderror
-
+            @if ($errors->has('break_start_1') || $errors->has('break_end_1'))
+                <div class="error-message">
+                    {{ $errors->first('break_start_1') ?: $errors->first('break_end_1') }}
+                </div>
+            @endif
+            
             <div class="detail-line-4"></div>
 
-            {{-- 休憩2 --}}
             <div class="row">
                 <div class="label">休憩2</div>
                 <div class="value">
@@ -146,7 +143,6 @@
 
             <div class="detail-line-5"></div>
 
-            {{-- 備考 --}}
             <div class="row">
                 <div class="label">備考</div>
                 <div class="value note-value">
@@ -162,12 +158,10 @@
 
         </div>{{-- /detail-box --}}
 
-        {{-- 承認待ち --}}
         @if($pending)
             <div class="detail-pending-message">※ 承認待ちのため修正はできません。</div>
         @endif
 
-        {{-- 修正ボタン（白枠の外） --}}
         @if(!$pending)
             <button type="submit" class="detail-edit-button">
                 <span class="detail-edit-button-text">修正</span>

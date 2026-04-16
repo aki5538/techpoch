@@ -28,16 +28,13 @@
 
 <div class="attendance-list-container">
 
-    {{-- ▼ タイトル（縦線＋勤怠一覧） --}}
     <div class="attendance-list-title">
         <div class="attendance-list-title-line"></div>
         <div class="attendance-list-title-text">勤怠一覧</div>
     </div>
 
-    {{-- 日付バー（←画像 / カレンダー画像 / →画像） --}}
     <div class="attendance-list-date-bar">
 
-        {{-- 左ブロック：← ＋ 前月 --}}
         <div class="date-left">
             <img src="{{ asset('images/user/attendance/arrow-left.png') }}" class="date-prev-icon">
             <a href="{{ route('user.attendance.list', ['month' => $prevMonth]) }}" class="date-prev-text">
@@ -45,13 +42,11 @@
             </a>
         </div>
 
-        {{-- 中央ブロック：カレンダー ＋ 2026/03 --}}
         <div class="date-center">
             <img src="{{ asset('images/user/attendance/calendar.png') }}" class="date-calendar-icon">
             <span class="date-current">{{ $currentMonthLabel }}</span>
         </div>
 
-        {{-- 右ブロック：翌月 ＋ → --}}
         <div class="date-right">
             <a href="{{ route('user.attendance.list', ['month' => $nextMonth]) }}" class="date-next-text">
                 翌月
@@ -60,11 +55,8 @@
         </div>
     </div>
 
-
-    {{-- ▼ 勤怠一覧テーブル --}}
     <div class="attendance-list-table-container">
 
-        {{-- テーブルヘッダー --}}
         <div class="attendance-list-table-header">
             <div class="attendance-list-header-item attendance-list-header-date">日付</div>
             <div class="attendance-list-header-item attendance-list-header-start">出勤</div>
@@ -74,7 +66,6 @@
             <div class="attendance-list-header-item attendance-list-header-detail">詳細</div>
         </div>
 
-        {{-- テーブル行 --}}
         @foreach ($attendances as $attendance)
             <div class="attendance-list-row">
                 <div class="attendance-list-row-item attendance-list-row-date">

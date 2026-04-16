@@ -1,4 +1,3 @@
-/* 画面全体の背景 */
 .attendance-container {
     background-color: #F0EFF2;
     min-height: calc(100vh - 80px);
@@ -15,7 +14,6 @@
     margin-right: 0px;
 }
 
-/* メニュー共通スタイル */
 .attendance-header-menu a,
 .attendance-header-menu button {
     font-family: 'Inter', sans-serif;
@@ -36,8 +34,6 @@
     opacity: 0.7;
 }
 
-
-/* ステータス全体のタグ */
 .status-badge {
     width: 100px;
     height: 40px;
@@ -51,7 +47,6 @@
     margin: 0 auto;
 }
 
-/* ステータス文字 */
 .status-badge span {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
@@ -61,7 +56,6 @@
     line-height: 1;
 }
 
-/* 日付表示 */
 .attendance-date {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
@@ -74,7 +68,6 @@
     text-align: center;
 }
 
-/* 時刻表示 */
 .attendance-time {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
@@ -94,7 +87,6 @@
     gap: 40px;
 }
 
-/* 出勤ボタン */
 .clockin-btn {
     width: 221px;
     height: 77px;
@@ -108,7 +100,6 @@
     align-items: center;
 }
 
-/* 出勤ボタンの文字 */
 .clockin-btn span {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
@@ -118,7 +109,6 @@
     line-height: 1;
 }
 
-/* 出勤後：退勤ボタン（黒） */
 .clockout-btn {
     width: 221px;
     height: 77px;
@@ -141,7 +131,6 @@
     line-height: 1;
 }
 
-/* 出勤後：休憩入ボタン（白） */
 .breakin-btn {
     width: 221px;
     height: 77px;
@@ -164,7 +153,6 @@
     line-height: 1;
 }
 
-/* 休憩中：休憩戻ボタン（白） */
 .breakout-btn {
     width: 221px;
     height: 77px;
@@ -187,7 +175,6 @@
     line-height: 1;
 }
 
-/* 退勤済：メッセージ表示 */
 .finished-message {
     font-family: 'Inter', sans-serif;
     font-weight: 700;

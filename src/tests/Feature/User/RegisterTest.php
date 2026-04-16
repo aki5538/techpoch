@@ -41,7 +41,7 @@ class RegisterTest extends TestCase
         $response = $this->post('/register', [
             'name' => '山田太郎',
             'email' => 'test@example.com',
-            'password' => '1234567', // 7文字（8文字未満）
+            'password' => '1234567',
             'password_confirmation' => '1234567',
         ]);
 
@@ -55,7 +55,7 @@ class RegisterTest extends TestCase
             'name' => '山田太郎',
             'email' => 'test@example.com',
             'password' => 'password',
-            'password_confirmation' => 'different', // ← わざと不一致
+            'password_confirmation' => 'different',
         ]);
 
         $response->assertSessionHasErrors(['password']);
@@ -67,7 +67,7 @@ class RegisterTest extends TestCase
         $response = $this->post('/register', [
             'name' => '山田太郎',
             'email' => 'test@example.com',
-            'password' => '', // ← 未入力
+            'password' => '',
             'password_confirmation' => '',
         ]);
 
@@ -84,7 +84,6 @@ class RegisterTest extends TestCase
             'password_confirmation' => 'password',
         ]);
 
-        // DBに保存されていることを確認
         $this->assertDatabaseHas('users', [
             'email' => 'taro@example.com',
         ]);
